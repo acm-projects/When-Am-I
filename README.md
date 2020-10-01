@@ -1,8 +1,8 @@
-# This-Place-in-History
+# When-Am-I
 Navigate the streets with your cyber historian and discover areas near you that hold historical significance.
 
 #### Overview
-*This Place in History* is a mobile app that uses historical data pulled from the Internet to teach the user a brief history about the place they are standing.
+*When Am I* is a mobile app that uses historical data pulled from the Internet to teach the user a brief history about the place they are standing.
 
 #### Minimum viable product
 
