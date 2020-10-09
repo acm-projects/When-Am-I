@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, TouchableHighlight } from 'react-native';
 
 const {height , width} = Dimensions.get("window");
@@ -19,40 +19,32 @@ const UserPage = () => (
   <View style = {styles.base}>
     <View style = {styles.ProfilePic}>
         <Image source = {require('./assets/logo.jpg')} 
-        style = {{ width: Dimensions.get("window").width/5, height: Dimensions.get("window").width/5, borderRadius: (Dimensions.get("window").width/5)/2 }}/>
+        style = {{ width: Dimensions.get("window").width/6, height: Dimensions.get("window").width/6, borderRadius: (Dimensions.get("window").width/5)/2 }}/>
     </View>
     <View style = {styles.ProfileName}>
        <Text style = {styles.ProfileText}> FirstName LastName </Text>
     </View>
     <View style = {styles.statBox}>
       <Text style = {styles.statBoxText}> Stats n Stuff</Text>
-      <Image source = {require('./assets/badge.png')} 
-        style = {{ width: Dimensions.get("window").width/5, height: Dimensions.get("window").width/5, borderRadius: (Dimensions.get("window").width/5)/2, flexDirection: 'row', justifyContent: 'flex-start' }}/>
+      <View style = {styles.badges}>
+        <Image source = {require('./assets/badge.png')} 
+          style = {{ width: Dimensions.get("window").width/5.5, height: Dimensions.get("window").width/5, borderRadius: (Dimensions.get("window").width/5)/2, flexDirection: 'row', justifyContent: 'flex-start' }}/>
+      </View>
       <Text style = {styles.numVisited}> Visited 12 / 15000 </Text>
     </View>
     <View style = {styles.preVisitedBox}>
       <Text style = {styles.preVisitedBoxText}> Previously Visited </Text>
-      <TouchableHighlight style={styles.button}>
-        <View style={styles.column}>
-          <Text style={styles.buttonSiteText}> siteName </Text>
-          <Text style={styles.buttonInfoText}> City, State </Text>
-        </View>
-      </TouchableHighlight>
-      <TouchableHighlight style={styles.button}>
-        <View style={styles.column}>
-          <Text style={styles.buttonSiteText}> siteName </Text>
-          <Text style={styles.buttonInfoText}> City, State </Text>
-        </View>
-      </TouchableHighlight>
-      <TouchableHighlight style={styles.button}>
-        <View style={styles.column}>
-          <Text style={styles.buttonSiteText}> siteName </Text>
-          <Text style={styles.buttonInfoText}> City, State </Text>
-        </View>
-      </TouchableHighlight>
       
+      <TouchableHighlight style={styles.button}>
+        <View style={styles.column}>
+          <Text style={styles.buttonSiteText}> siteName </Text>
+          <Text style={styles.buttonInfoText}> City, State </Text>
+        </View>
+      </TouchableHighlight>
+
     </View>
   </View>
+  
 )
 
 
@@ -61,22 +53,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#30475E',
     flexDirection: 'column',
-    //alignItems: 'center',
-    //justifyContent: 'center',
   },
   ProfilePic:{
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    marginTop: Dimensions.get("window").width/9,
-    marginLeft: (Dimensions.get("window").width/5)/7,
+    flex: 1,
+    marginTop: Dimensions.get("window").width/10,
+    marginLeft: (Dimensions.get("window").width/5)/4,
   },
   ProfileName: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     marginLeft: (Dimensions.get("window").width/5) + 10,
-    marginTop: -Dimensions.get("window").width/6,
+    marginTop: -Dimensions.get("window").width/8,
 
   },
   ProfileText: {
@@ -87,21 +75,32 @@ const styles = StyleSheet.create({
     textShadowRadius : 10
   },
   statBox: {
-    width: (Dimensions.get("window").width),
-    height:  (Dimensions.get("window").height/3.5),
+    flex: 4,
     borderRadius: 50,
     marginTop: (Dimensions.get("window").width/10),
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F0ECE3',
   },
+  badges: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  numVisited: {
+    flex: 1, 
+    textAlign: 'center',
+    fontSize: 25,
+    justifyContent: 'center',
+    fontStyle: 'italic',
+    color: '#30475E',
+  },
   statBoxText: {
+    flex: 1,
     color: '#30475E',
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 30,
     fontWeight: 'bold',
-    marginTop: -(Dimensions.get("window").height)/12,
   },
   preVisitedBoxText: {  
     color: '#30475E',
@@ -112,13 +111,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   preVisitedBox: {
-    width: (Dimensions.get("window").width),
-    height: (Dimensions.get("window").height/1.7)-50,
+    flex: 6,
+
     borderRadius: 50,
     marginTop: (Dimensions.get("window").height)/50,
-    marginBottom: 10,
-    //justifyContent: 'center',
-    //alignItems: 'center',
+    marginBottom: (Dimensions.get("window").height)/50,
     backgroundColor: '#F0ECE3',
   },
   buttonSiteText: {
@@ -141,14 +138,6 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     backgroundColor: '#CBAF87',
   },
-  numVisited: {
-    textAlign: 'center',
-    fontSize: 25,
-    justifyContent: 'center',
-    fontStyle: 'italic',
-    color: '#30475E',
-    padding: (Dimensions.get("window").width/10),
-    marginBottom: ((Dimensions.get("window").height/10) - (Dimensions.get("window").height/3.5))/2 ,
-  }
 })
+
 export default UserPage
