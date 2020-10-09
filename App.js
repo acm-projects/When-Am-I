@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, TouchableHighlight, ScrollView } from 'react-native';
 
 const {height , width} = Dimensions.get("window");
 /*
@@ -27,26 +27,62 @@ const UserPage = () => (
     <View style = {styles.statBox}>
       <Text style = {styles.statBoxText}> Stats n Stuff</Text>
       <View style = {styles.badges}>
-        <Image source = {require('./assets/badge.png')} 
+        <Image source = {require('./assets/badge.png')}   
           style = {{ width: Dimensions.get("window").width/5.5, height: Dimensions.get("window").width/5, borderRadius: (Dimensions.get("window").width/5)/2, flexDirection: 'row', justifyContent: 'flex-start' }}/>
       </View>
       <Text style = {styles.numVisited}> Visited 12 / 15000 </Text>
     </View>
     <View style = {styles.preVisitedBox}>
       <Text style = {styles.preVisitedBoxText}> Previously Visited </Text>
-      
-      <TouchableHighlight style={styles.button}>
-        <View style={styles.column}>
-          <Text style={styles.buttonSiteText}> siteName </Text>
-          <Text style={styles.buttonInfoText}> City, State </Text>
+      <ScrollView>
+      <View style = {styles.preVisitedBox}>
+        <TouchableHighlight style={styles.button}>
+          <View style={styles.column}>
+            <Text style={styles.buttonSiteText}> siteName </Text>
+            <Text style={styles.buttonInfoText}> City, State </Text>
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.button}>
+          <View style={styles.column}>
+            <Text style={styles.buttonSiteText}> siteName </Text>
+            <Text style={styles.buttonInfoText}> City, State </Text>
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.button}>
+          <View style={styles.column}>
+            <Text style={styles.buttonSiteText}> siteName </Text>
+            <Text style={styles.buttonInfoText}> City, State </Text>
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.button}>
+          <View style={styles.column}>
+            <Text style={styles.buttonSiteText}> siteName </Text>
+            <Text style={styles.buttonInfoText}> City, State </Text>
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.button}>
+          <View style={styles.column}>
+            <Text style={styles.buttonSiteText}> siteName </Text>
+            <Text style={styles.buttonInfoText}> City, State </Text>
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.button}>
+          <View style={styles.column}>
+            <Text style={styles.buttonSiteText}> siteName </Text>
+            <Text style={styles.buttonInfoText}> City, State </Text>
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.button}>
+          <View style={styles.column}>
+            <Text style={styles.buttonSiteText}> siteName </Text>
+            <Text style={styles.buttonInfoText}> City, State </Text>
+          </View>
+        </TouchableHighlight>
         </View>
-      </TouchableHighlight>
-
+      </ScrollView>
     </View>
   </View>
-  
 )
-
 
 const styles = StyleSheet.create({ 
   base: {
@@ -65,7 +101,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginLeft: (Dimensions.get("window").width/5) + 10,
     marginTop: -Dimensions.get("window").width/8,
-
   },
   ProfileText: {
     color: '#fff',
@@ -88,9 +123,8 @@ const styles = StyleSheet.create({
   },
   numVisited: {
     flex: 1, 
-    textAlign: 'center',
+    marginTop: (Dimensions.get("window").width/8),
     fontSize: 25,
-    justifyContent: 'center',
     fontStyle: 'italic',
     color: '#30475E',
   },
@@ -112,10 +146,9 @@ const styles = StyleSheet.create({
   },
   preVisitedBox: {
     flex: 6,
-
     borderRadius: 50,
     marginTop: (Dimensions.get("window").height)/50,
-    marginBottom: (Dimensions.get("window").height)/50,
+    marginBottom: (Dimensions.get("window").height)/100,
     backgroundColor: '#F0ECE3',
   },
   buttonSiteText: {
@@ -131,6 +164,7 @@ const styles = StyleSheet.create({
     color: '#30475E',
   },
   button: {
+    flex:1,
     margin: 10,
     padding: 10,
     borderWidth: 2,
