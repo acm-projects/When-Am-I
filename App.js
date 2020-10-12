@@ -2,10 +2,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, TouchableHighlight, ScrollView, Platform } from 'react-native';
-import PrevioslyVisited from './src/components/VisitedButton';
-import UserPage from './src/UserPage';
+import UserPage from './app/screens/UserPage';
 
-const {height , width} = Dimensions.get("window");
 
 const App = () => (
   <View style = {styles.base}>
