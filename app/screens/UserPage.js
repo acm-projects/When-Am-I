@@ -16,18 +16,40 @@ const UserPage = () => (
        <Text style = {styles.ProfileText}> FirstName LastName </Text>
     </View>
     <View style = {styles.statBox}>
-      <Text style = {styles.statBoxText}> Stats n Stuff</Text>
-      <View style = {styles.badges}>
-        <Image source = {require('../assets/badge.png')}   
-          style = {{ width: Dimensions.get("window").width/5.5, height: Dimensions.get("window").width/5, borderRadius: (Dimensions.get("window").width/5)/2, flexDirection: 'row', justifyContent: 'flex-start' }}/>
-      </View>
-      <Text style = {styles.numVisited}> Visited 12 / 15000 </Text>
+      <Text style = {styles.BoxText}> Stats n Stuff</Text>
+      <ScrollView>
+        <View style = {styles.statBoxStats}>
+          <Text style = {styles.numVisited}> Visited 12 / 15000 Total </Text>
+          <Text style = {styles.numVisited}> Visited 1 / 150  Civil War Locations</Text>
+          <Text style = {styles.numVisited}> Visited 10 / 15 State Courts</Text>
+          <Text style = {styles.numVisited}> Visited 2 / 100 Confederate Memorials</Text>
+          <Text style = {styles.numVisited}> Visited 120 / 1300 Plantations </Text>
+          <Text style = {styles.numVisited}> Visited 120 / 1300 Rodeos </Text>
+          <Text style = {styles.numVisited}> Visited 12 / 15000 Total </Text>
+          <Text style = {styles.numVisited}> Visited 1 / 150  Civil War Locations</Text>
+          <Text style = {styles.numVisited}> Visited 10 / 15 State Courts</Text>
+          <Text style = {styles.numVisited}> Visited 2 / 100 Confederate Memorials</Text>
+          <Text style = {styles.numVisited}> Visited 120 / 1300 Plantations </Text>
+          <Text style = {styles.numVisited}> Visited 120 / 1300 Rodeos </Text>          
+          <Text style = {styles.numVisited}> Visited 12 / 15000 Total </Text>
+          <Text style = {styles.numVisited}> Visited 1 / 150  Civil War Locations</Text>
+          <Text style = {styles.numVisited}> Visited 10 / 15 State Courts</Text>
+          <Text style = {styles.numVisited}> Visited 2 / 100 Confederate Memorials</Text>
+          <Text style = {styles.numVisited}> Visited 120 / 1300 Plantations </Text>
+          <Text style = {styles.numVisited}> Visited 120 / 1300 Rodeos </Text>          
+          <Text style = {styles.numVisited}> Visited 12 / 15000 Total </Text>
+          <Text style = {styles.numVisited}> Visited 1 / 150  Civil War Locations</Text>
+          <Text style = {styles.numVisited}> Visited 10 / 15 State Courts</Text>
+          <Text style = {styles.numVisited}> Visited 2 / 100 Confederate Memorials</Text>
+          <Text style = {styles.numVisited}> Visited 120 / 1300 Plantations </Text>
+          <Text style = {styles.numVisited}> Visited 120 / 1300 Rodeos </Text>
+         </View>
+      </ScrollView>
     </View>
     <View style = {styles.preVisitedBox}>
-      <Text style = {styles.preVisitedBoxText}> Previously Visited </Text>
+      <Text style = {styles.BoxText}> Previously Visited </Text>
       <ScrollView>
         <View style = {styles.preVisitedBox}>
-          <PrevioslyVisited/>
           <PrevioslyVisited/>
           <PrevioslyVisited/>
           <PrevioslyVisited/>
@@ -67,32 +89,24 @@ const styles = StyleSheet.create({
   },
   statBox: {
     flex: 4,
-    borderRadius: 50,
-    marginTop: (Dimensions.get("window").width/10),
+    borderRadius: 35,
+    marginTop: (Dimensions.get("window").width/100),
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F0ECE3',
   },
-  badges: {
-    flex: 1,
-    alignItems: 'center',
+  statBoxStats: {
+    alignItems: 'flex-start',
+    backgroundColor: '#F0ECE3',
   },
   numVisited: {
-    flex: 1, 
-    marginTop: (Dimensions.get("window").width/8),
-    fontSize: 25,
+    padding: 5,
+    fontSize: 15,
+    fontWeight: 'bold',
     fontStyle: 'italic',
     color: '#30475E',
   },
-  statBoxText: {
-    flex: 1,
-    color: '#30475E',
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontSize: 30,
-    fontWeight: 'bold',
-  },
-  preVisitedBoxText: {  
+  BoxText: {
     color: '#30475E',
     fontSize: 30,
     fontWeight: 'bold',
@@ -131,3 +145,11 @@ const styles = StyleSheet.create({
 })
 
 export default UserPage
+
+/*
+// FOR BADGE ICON IMPLEMENTATION
+<View style = {styles.badges}>
+<Image source = {require('../assets/badge.png')}   
+  style = {{ width: Dimensions.get("window").width/5.5, height: Dimensions.get("window").width/5, borderRadius: (Dimensions.get("window").width/5)/2, flexDirection: 'row', justifyContent: 'flex-start' }}/>
+</View>
+*/
