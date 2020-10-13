@@ -8,6 +8,7 @@ const {height , width} = Dimensions.get("window");
 
 const UserPage = () => (
     <>
+    <View style = {styles.base}>
     <View style = {styles.ProfilePic}>
         <Image source = {require('../assets/logo.jpg')} 
         style = {{ width: Dimensions.get("window").width/6, height: Dimensions.get("window").width/6, borderRadius: (Dimensions.get("window").width/5)/2 }}/>
@@ -57,6 +58,7 @@ const UserPage = () => (
           <PrevioslyVisited/>
         </View>
       </ScrollView>
+  </View>
   </View>
   </>
   
