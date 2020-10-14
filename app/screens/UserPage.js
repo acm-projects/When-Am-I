@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   ProfilePic:{
     flex: 1,
-    marginTop: Dimensions.get("window").width/10,
+    marginTop: Dimensions.get("window").width/20,
     marginLeft: (Dimensions.get("window").width/5)/4,
   },
   ProfileName: {
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   statBox: {
     flex: 4,
     borderRadius: 35,
-    marginTop: (Dimensions.get("window").width/100),
+    marginTop: (Dimensions.get("window").width/50),
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F0ECE3',
@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
     flex: 6,
     borderRadius: 50,
     marginTop: (Dimensions.get("window").height)/50,
-    marginBottom: (Dimensions.get("window").height)/100,
     backgroundColor: '#F0ECE3',
   },
   buttonSiteText: {
