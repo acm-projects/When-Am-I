@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
 export default UserPage
 
 /*
-// FOR BADGE ICON IMPLEMENTATION
+// FOR BADGE IMPLEMENTATION
 <View style = {styles.badges}>
 <Image source = {require('../assets/badge.png')}   
   style = {{ width: Dimensions.get("window").width/5.5, height: Dimensions.get("window").width/5, borderRadius: (Dimensions.get("window").width/5)/2, flexDirection: 'row', justifyContent: 'flex-start' }}/>
