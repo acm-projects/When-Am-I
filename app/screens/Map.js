@@ -1,14 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, View } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
-const Map= () => (
-    <View style={styles.container}>
-      <Text>Map!</Text>
-      <StatusBar style="auto" />
-    </View>
-)
 
+
+
+
+class Map extends React.Component {
+  render() {
+    return (
+      <MapView
+         style={{ flex: 1 }}
+         provider={PROVIDER_GOOGLE}
+         showsUserLocation
+         initialRegion={{
+         latitude: 37.78825,
+         longitude: -122.4324,
+         latitudeDelta: 0.0922,
+         longitudeDelta: 0.0421}}
+      />
+    );
+  }
+}
+/*
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -17,5 +31,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 })
-
+*/
 export default Map;

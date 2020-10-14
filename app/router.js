@@ -50,7 +50,7 @@ export default function MyTabs() {
                 options={{
                 tabBarLabel: 'Map',
                 tabBarIcon: ({ color, size }) => (
-                    <MaterialCommunityIcons name="map-marker" color={color} size={size} />
+                    <MaterialCommunityIcons name="map-marker-radius" color={color} size={size} />
                 ),
                 }}
             />
