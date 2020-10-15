@@ -50,12 +50,58 @@ const LocationPage = ( ) => (
         </TouchableHighlight>
         </View>
         </View>
-        <View style={styles.reviewBox}>
-            <Text style = {styles.MilesAwayText}>2.5 Miles Away</Text>
         </View>
         
-       </View>
+        <View style={styles.reviewBox}>
+        <View style={{flexDirection:"row"}}> 
+        <Image source = {require('./assets/temppfp.png')} 
+        style = {{ 
+          borderRadius: 60,
+          width: Dimensions.get("window").width/11, 
+          height: Dimensions.get("window").width/11, 
+          marginTop: Dimensions.get("window").height/50,
+          marginLeft: (Dimensions.get("window").height)/40,
+          }}/>
+            <Text style = {styles.UsernameText}>ThisIsAUsername1</Text>
+            <Text style = {styles.StarsText}>4.5/5</Text>
+        </View>
+        <Text style = {styles.ReviewText}>   Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt.</Text>
+        </View>
+
+        <View style={styles.reviewBox}>
+        <View style={{flexDirection:"row"}}> 
+        <Image source = {require('./assets/temppfp.png')} 
+        style = {{ 
+          borderRadius: 60,
+          width: Dimensions.get("window").width/11, 
+          height: Dimensions.get("window").width/11, 
+          marginTop: Dimensions.get("window").height/50,
+          marginLeft: (Dimensions.get("window").height)/40,
+          }}/>
+            <Text style = {styles.UsernameText}>ThisIsAUsername2</Text>
+            <Text style = {styles.StarsText}>4.5/5</Text>
+        </View>
+        <Text style = {styles.ReviewText}>   Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt.</Text>
+        </View>
+
+        <View style={styles.reviewBox}>
+        <View style={{flexDirection:"row"}}> 
+        <Image source = {require('./assets/temppfp.png')} 
+        style = {{ 
+          borderRadius: 60,
+          width: Dimensions.get("window").width/11, 
+          height: Dimensions.get("window").width/11, 
+          marginTop: Dimensions.get("window").height/50,
+          marginLeft: (Dimensions.get("window").height)/40,
+          }}/>
+            <Text style = {styles.UsernameText}>ThisIsAUsername3</Text>
+            <Text style = {styles.StarsText}>4.5/5</Text>
+        </View>
+        <Text style = {styles.ReviewText}>   Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt.</Text>
+        </View>
+        
       </View>
+      
   </ScrollView>
   </View>
 )
@@ -72,20 +118,20 @@ const styles = StyleSheet.create({
     width: (Dimensions.get("window").width)*(12/13),
     height: (Dimensions.get("window").height)*(1.5),
     marginTop: (Dimensions.get("window").height)/60,
-    backgroundColor: '#E7DEC8',
+    backgroundColor: '#F0ECE3',
     alignItems: 'center',
     justifyContent: 'center',
   },
   reviewBox: {
-    flex: 4,
+    //flex: 4,
     borderRadius: 45,
-    width: (Dimensions.get("window").width)*(11/13),
+    width: (Dimensions.get("window").width)*(10.8/13),
     //height: (Dimensions.get("window").height)/80,
-    marginTop: (Dimensions.get("window").height)/30,
-    marginBottom: (Dimensions.get("window").height)/1.8,
+    marginTop: (Dimensions.get("window").height)/50,
+    marginBottom: (Dimensions.get("window").height)/80,
     backgroundColor: '#cbaf87',
-    alignItems: 'center',
-    justifyContent: 'center',
+    //alignItems: 'center',
+    //justifyContent: 'center',
   },
   button: {
     //flex:1,
@@ -135,15 +181,41 @@ const styles = StyleSheet.create({
   DescriptionText: {
     color: '#30475E',
     fontSize: (Dimensions.get("window").width)/22,
-    marginTop: (Dimensions.get("window").height)/20,
+    marginTop: (Dimensions.get("window").height)/35,
     textAlign: 'left'
     //fontFamily: "BanglaSangamMN",
   },
   TagText: {
     color: '#F0ECE3',
     fontSize: (Dimensions.get("window").width)/22,
-    marginTop: (Dimensions.get("window").height)/120,
+    marginTop: (Dimensions.get("window").height)/85,
     textAlign: 'center'
+    //fontFamily: "BanglaSangamMN",
+  },
+  UsernameText: {
+    color: '#30475E',
+    fontSize: (Dimensions.get("window").width)/18,
+    marginTop: (Dimensions.get("window").height)/40,
+    marginLeft: (Dimensions.get("window").height)/90,
+    textAlign: 'left'
+    //fontFamily: "BanglaSangamMN",
+  },
+  StarsText: {
+    color: '#30475E',
+    fontSize: (Dimensions.get("window").width)/20,
+    marginTop: (Dimensions.get("window").height)/40,
+    marginLeft: (Dimensions.get("window").height)/50,
+    textAlign: 'left'
+    //fontFamily: "BanglaSangamMN",
+  },
+  ReviewText: {
+    color: '#30475E',
+    fontSize: (Dimensions.get("window").width)/22,
+    marginTop: (Dimensions.get("window").height)/80,
+    marginLeft: (Dimensions.get("window").width)/15,
+    marginRight: (Dimensions.get("window").width)/30,
+    marginBottom: (Dimensions.get("window").height)/40,
+    textAlign: 'left'
     //fontFamily: "BanglaSangamMN",
   },
 });
