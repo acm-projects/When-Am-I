@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import React, { Component } from 'react';
 import UserPage from './screens/UserPage';
 import Map from './screens/Map';
-import Event from './screens/EventPage';
+import LocationPage from './screens/EventPage';
 
 
 function MapScreen() {
@@ -15,7 +15,7 @@ function MapScreen() {
 }
 function EventScreen() {
     return (
-      <Event/>
+      <LocationPage/>
     )
 }
 
