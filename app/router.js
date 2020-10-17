@@ -1,12 +1,11 @@
 import 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import React, { Component } from 'react';
 import UserPage from './screens/UserPage';
 import Map from './screens/Map';
 import LocationPage from './screens/EventPage';
-
 
 function MapScreen() {
     return (
