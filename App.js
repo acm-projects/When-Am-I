@@ -7,10 +7,13 @@ import UserPage from './app/screens/UserPage';
 import Map from './app/screens/Map';
 import MyTabs from './app/router';
 import SplashScreen from 'react-native-splash-screen'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 export default function App() {
   return (
-    <MyTabs/>
+
+      <MyTabs/>
+
   );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View , TextInput} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
+import { SafeAreaView } from 'react-native-safe-area-context';
  
 export default class Map extends React.Component {
   onRegionChange(region) {
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     right:0,
     bottom:0,
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
   },
   map: {
     position:'absolute',
