@@ -5,7 +5,17 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const {height , width} = Dimensions.get("window");
 
+/*not in use right now, trying to make dummy data dynamic
+class LocationName extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {name: "Dummy name"};
+  }
+}
+*/
+
 const LocationPage = ( ) => (
+  <View style={styles.backgroundColor}>
   <ScrollView>
     <SafeAreaView>
       <View style={styles.backgroundColor}>
@@ -96,6 +106,7 @@ const LocationPage = ( ) => (
       </View>
     </SafeAreaView>
   </ScrollView>
+  </View>
 )
 const styles = StyleSheet.create({
   backgroundColor: {
@@ -105,6 +116,8 @@ const styles = StyleSheet.create({
   },
   outerBox: {
     borderRadius: 45,
+    width: (Dimensions.get("window").width)*(12/13),
+    alignSelf: 'center',
     marginTop: (Dimensions.get("window").height)/60,
     backgroundColor: '#F0ECE3',
     alignItems: 'center',
