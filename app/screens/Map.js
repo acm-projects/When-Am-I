@@ -1,61 +1,112 @@
-import React from 'react';
-import { StyleSheet, Text, View , TextInput, PermissionsAndroid} from 'react-native';
-import MapView, {Marker, AnimatedRegion } from 'react-native-maps';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import MapView, { AnimatedRegion } from 'react-native-maps';
-import Geolocation from '@react-native-community/geolocation';
+import React from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Platform,
+  PermissionsAndroid
+} from "react-native";
+import MapView, {
+  Marker,
+  AnimatedRegion,
 
-export default class Map extends React.Component {
-  onRegionChange(region) {
-    this.setState({ region });
+  PROVIDER_GOOGLE
+} from "react-native-maps";
+
+// const LATITUDE = 29.95539;
+// const LONGITUDE = 78.07513;
+const LATITUDE_DELTA = 0.009;
+const LONGITUDE_DELTA = 0.009;
+const LATITUDE = 37.78825;
+const LONGITUDE = -122.4324;
+
+class Map extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      routeCoordinates: [],
+      distanceTravelled: 0,
+      prevLatLng: {},
+      coordinate: new AnimatedRegion({
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+        latitudeDelta: 0,
+        longitudeDelta: 0
+      })
+    };
   }
+
   
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID);
+  }
+
+  getMapRegion = () => ({
+    latitude: this.state.latitude,
+    longitude: this.state.longitude,
+    latitudeDelta: LATITUDE_DELTA,
+    longitudeDelta: LONGITUDE_DELTA
+  });
+
+
   render() {
-    var mapStyle=[{"elementType": "geometry", "stylers": [{"color": "#242f3e"}]},{"elementType": "labels.text.fill","stylers": [{"color": "#746855"}]},{"elementType": "labels.text.stroke","stylers": [{"color": "#242f3e"}]},{"featureType": "administrative.locality","elementType": "labels.text.fill","stylers": [{"color": "#d59563"}]},{"featureType": "poi","elementType": "labels.text.fill","stylers": [{"color": "#d59563"}]},{"featureType": "poi.park","elementType": "geometry","stylers": [{"color": "#263c3f"}]},{"featureType": "poi.park","elementType": "labels.text.fill","stylers": [{"color": "#6b9a76"}]},{"featureType": "road","elementType": "geometry","stylers": [{"color": "#38414e"}]},{"featureType": "road","elementType": "geometry.stroke","stylers": [{"color": "#212a37"}]},{"featureType": "road","elementType": "labels.text.fill","stylers": [{"color": "#9ca5b3"}]},{"featureType": "road.highway","elementType": "geometry","stylers": [{"color": "#746855"}]},{"featureType": "road.highway","elementType": "geometry.stroke","stylers": [{"color": "#1f2835"}]},{"featureType": "road.highway","elementType": "labels.text.fill","stylers": [{"color": "#f3d19c"}]},{"featureType": "transit","elementType": "geometry","stylers": [{"color": "#2f3948"}]},{"featureType": "transit.station","elementType": "labels.text.fill","stylers": [{"color": "#d59563"}]},{"featureType": "water","elementType": "geometry","stylers": [{"color": "#17263c"}]},{"featureType": "water","elementType": "labels.text.fill","stylers": [{"color": "#515c6d"}]},{"featureType": "water","elementType": "labels.text.stroke","stylers": [{"color": "#17263c"}]}];
     return (
       <View style={styles.container}>
         <MapView
-        style={styles.map}
-        region={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421
-    }}
-    
-          customMapStyle={mapStyle}
+          style={styles.map}
+          provider={PROVIDER_GOOGLE}
+          showUserLocation
+          followUserLocation
+          loadingEnabled
+          region={this.getMapRegion()}
         >
-          <Marker
-            draggable
-            coordinate={{
-              latitude: 37.78825,
-              longitude: -122.4324,
+          <Marker.Animated
+            ref={marker => {
+              this.marker = marker;
             }}
-            onDragEnd={(e) => alert(JSON.stringify(e.nativeEvent.coordinate))}
-            title={'Test Marker'}
-            description={'This is a description of the marker'}
+            coordinate={this.state.coordinate}
           />
         </MapView>
       </View>
     );
   }
 }
- 
+
 const styles = StyleSheet.create({
   container: {
-    position:'absolute',
-    top:0,
-    left:0,
-    right:0,
-    bottom:0,
-    alignItems: 'center',
-    justifyContent: 'center',
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: "flex-end",
+    alignItems: "center"
   },
   map: {
-    position:'absolute',
-    top:0,
-    left:0,
-    right:0,
-    bottom:0,
+    ...StyleSheet.absoluteFillObject
   },
+  bubble: {
+    flex: 1,
+    backgroundColor: "rgba(255,255,255,0.7)",
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 20
+  },
+  latlng: {
+    width: 200,
+    alignItems: "stretch"
+  },
+  button: {
+    width: 80,
+    paddingHorizontal: 12,
+    alignItems: "center",
+    marginHorizontal: 10
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    marginVertical: 20,
+    backgroundColor: "transparent"
+  }
 });
+
+export default Map;
