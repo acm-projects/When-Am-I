@@ -16,47 +16,63 @@ class LocationName extends React.Component {
 
 const LocationPage = ( ) => (
   <View style={styles.backgroundColor}>
-  <ScrollView>
-    <SafeAreaView>
-      <View style={styles.backgroundColor}>
-      <Image source = {require('../assets/logo.jpg')} 
-        style = {{ 
-          width: Dimensions.get("window").width/6, 
-          height: Dimensions.get("window").width/6, 
-          padding: Dimensions.get("window").width/12,
-          borderRadius: (Dimensions.get("window").width/5)/2,
-          alignSelf: 'center',
-            }}/>
-        <View style={styles.outerBox}>
-          <View style={styles.outerBoxText}>
-            <Text style = {styles.HeaderText}>Location Name</Text>
-            <Text style = {styles.SubHeaderText}>Location Address     XX/XX/XXXX</Text>
-            <Text style = {styles.MilesAwayText}>2.5 Miles Away</Text>
-            <Text style = {styles.DescriptionText}>   Historical Event/Place Description. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt, odio lacus consequat mauris, quis imperdiet metus quam sed velit.</Text>
-            <View style={{flexDirection:"row"}}>
+    <ScrollView>
+      <SafeAreaView>
+        <View style={styles.backgroundColor}>
+        <Image source = {require('../assets/logo.jpg')} 
+          style = {{ 
+            width: Dimensions.get("window").width/6, 
+            height: Dimensions.get("window").width/6, 
+            padding: Dimensions.get("window").width/12,
+            borderRadius: (Dimensions.get("window").width/5)/2,
+            alignSelf: 'center',
+              }}/>
+          <View style={styles.outerBox}>
+            <View style={styles.outerBoxText}>
+              <Text style = {styles.HeaderText}>Location Name</Text>
+              <Text style = {styles.SubHeaderText}>Location Address     XX/XX/XXXX</Text>
+              <Text style = {styles.MilesAwayText}>2.5 Miles Away</Text>
+              <Text style = {styles.DescriptionText}>   Historical Event/Place Description. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt, odio lacus consequat mauris, quis imperdiet metus quam sed velit.</Text>
+              <View style={{flexDirection:"row"}}>
+                <TouchableHighlight style={styles.button}>
+                  <View style={styles.row}>
+                    <Text style={styles.TagText}>Science</Text>
+                  </View>
+                </TouchableHighlight>
+              <View style = {{marginLeft:(Dimensions.get("window").width)/40}}>
+                <TouchableHighlight style={styles.button}>
+                  <View style={styles.row}>
+                    <Text style={styles.TagText}>1920's</Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
+              <View style = {{marginLeft:(Dimensions.get("window").width)/40}}>
               <TouchableHighlight style={styles.button}>
                 <View style={styles.row}>
-                  <Text style={styles.TagText}>Science</Text>
-                </View>
-              </TouchableHighlight>
-            <View style = {{marginLeft:(Dimensions.get("window").width)/40}}>
-              <TouchableHighlight style={styles.button}>
-                <View style={styles.row}>
-                  <Text style={styles.TagText}>1920's</Text>
+                  <Text style={styles.TagText}>Family</Text>
                 </View>
               </TouchableHighlight>
             </View>
-            <View style = {{marginLeft:(Dimensions.get("window").width)/40}}>
-            <TouchableHighlight style={styles.button}>
-              <View style={styles.row}>
-                <Text style={styles.TagText}>Family</Text>
-              </View>
-            </TouchableHighlight>
           </View>
-        </View>
-        <View style={styles.reviewBox}>
-          <View style={{flexDirection:"row"}}> 
-            <Image source = {require('../assets/logo.jpg')}
+          <View style={styles.reviewBox}>
+            <View style={{flexDirection:"row"}}> 
+              <Image source = {require('../assets/logo.jpg')}
+                style = {{ 
+                  borderRadius: 60,
+                  width: Dimensions.get("window").width/11, 
+                  height: Dimensions.get("window").width/11, 
+                  marginTop: Dimensions.get("window").height/50,
+                  marginLeft: (Dimensions.get("window").height)/40,
+                  }}/>
+                    <Text style = {styles.UsernameText}>ThisIsAUsername1</Text>
+                    <Text style = {styles.StarsText}>4.5/5</Text>
+                </View>
+                <Text style = {styles.ReviewText}>   Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt.</Text>
+              </View>
+
+              <View style={styles.reviewBox}>
+              <View style={{flexDirection:"row"}}> 
+              <Image source = {require('../assets/logo.jpg')} 
               style = {{ 
                 borderRadius: 60,
                 width: Dimensions.get("window").width/11, 
@@ -64,48 +80,32 @@ const LocationPage = ( ) => (
                 marginTop: Dimensions.get("window").height/50,
                 marginLeft: (Dimensions.get("window").height)/40,
                 }}/>
-                  <Text style = {styles.UsernameText}>ThisIsAUsername1</Text>
+                  <Text style = {styles.UsernameText}>ThisIsAUsername2</Text>
                   <Text style = {styles.StarsText}>4.5/5</Text>
               </View>
               <Text style = {styles.ReviewText}>   Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt.</Text>
-            </View>
+              </View>
 
-            <View style={styles.reviewBox}>
-            <View style={{flexDirection:"row"}}> 
-            <Image source = {require('../assets/logo.jpg')} 
-            style = {{ 
-              borderRadius: 60,
-              width: Dimensions.get("window").width/11, 
-              height: Dimensions.get("window").width/11, 
-              marginTop: Dimensions.get("window").height/50,
-              marginLeft: (Dimensions.get("window").height)/40,
-              }}/>
-                <Text style = {styles.UsernameText}>ThisIsAUsername2</Text>
-                <Text style = {styles.StarsText}>4.5/5</Text>
-            </View>
-            <Text style = {styles.ReviewText}>   Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt.</Text>
-            </View>
-
-            <View style={styles.reviewBox}>
-            <View style={{flexDirection:"row"}}> 
-            <Image source = {require('../assets/logo.jpg')} 
-            style = {{ 
-              borderRadius: 60,
-              width: Dimensions.get("window").width/11, 
-              height: Dimensions.get("window").width/11, 
-              marginTop: Dimensions.get("window").height/50,
-              marginLeft: (Dimensions.get("window").height)/40,
-              }}/>
-                <Text style = {styles.UsernameText}>ThisIsAUsername3</Text>
-                <Text style = {styles.StarsText}>4.5/5</Text>
-            </View>
-            <Text style = {styles.ReviewText}>   Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt.</Text>
+              <View style={styles.reviewBox}>
+              <View style={{flexDirection:"row"}}> 
+              <Image source = {require('../assets/logo.jpg')} 
+              style = {{ 
+                borderRadius: 60,
+                width: Dimensions.get("window").width/11, 
+                height: Dimensions.get("window").width/11, 
+                marginTop: Dimensions.get("window").height/50,
+                marginLeft: (Dimensions.get("window").height)/40,
+                }}/>
+                  <Text style = {styles.UsernameText}>ThisIsAUsername3</Text>
+                  <Text style = {styles.StarsText}>4.5/5</Text>
+              </View>
+              <Text style = {styles.ReviewText}>   Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt.</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    </SafeAreaView>
-  </ScrollView>
+      </SafeAreaView>
+    </ScrollView>
   </View>
 )
 const styles = StyleSheet.create({
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   },
   outerBox: {
     borderRadius: 45,
-    width: (Dimensions.get("window").width)*(12/13),
+    width: (Dimensions.get("window").width),
     alignSelf: 'center',
     marginTop: (Dimensions.get("window").height)/60,
     backgroundColor: '#F0ECE3',
