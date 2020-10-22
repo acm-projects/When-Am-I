@@ -8,45 +8,45 @@ import PrevioslyVisited from '../components/VisitedButton';
 const {height , width} = Dimensions.get("window");
 
 const UserPage = () => (
-<ScrollView>
-  <SafeAreaView>
-      <View style = {styles.base}>
-      <View style = {styles.ProfilePic}>
-          <Image source = {require('../assets/logo.jpg')} 
-          style = {{ width: Dimensions.get("window").width/6, height: Dimensions.get("window").width/6, borderRadius: (Dimensions.get("window").width/5)/2 }}/>
+<View style = {styles.base}>
+  <ScrollView>
+    <SafeAreaView>
+        <View style = {styles.ProfilePic}>
+            <Image source = {require('../assets/logo.jpg')} 
+            style = {{ width: Dimensions.get("window").width/6, height: Dimensions.get("window").width/6, borderRadius: (Dimensions.get("window").width/5)/2 }}/>
+        </View>
+        <View style = {styles.ProfileName}>
+          <Text style = {styles.ProfileText}> FirstName LastName </Text>
+        </View>
+        <View style = {styles.statBox}>
+          <Text style = {styles.BoxText}> Stats n Stuff</Text>
+          <ScrollView>
+            <View style = {styles.statBoxStats}>
+              <Text style = {styles.numVisited}> Visited 12 / 15000 Total </Text>
+              <Text style = {styles.numVisited}> Visited 1 / 150  Civil War Locations</Text>
+              <Text style = {styles.numVisited}> Visited 10 / 15 State Courts</Text>
+              <Text style = {styles.numVisited}> Visited 2 / 100 Confederate Memorials</Text>
+              <Text style = {styles.numVisited}> Visited 120 / 1300 Plantations </Text>
+              <Text style = {styles.numVisited}> Visited 120 / 1300 Rodeos </Text>
+              <Text style = {styles.numVisited}> Visited 12 / 15000 Total </Text>
+            </View>
+          </ScrollView>
+        </View>
+        <View style = {styles.preVisitedBox}>
+          <Text style = {styles.BoxText}> Previously Visited </Text>
+          <ScrollView>
+            <View style = {styles.preVisitedBox}>
+              <PrevioslyVisited/>
+              <PrevioslyVisited/>
+              <PrevioslyVisited/>
+              <PrevioslyVisited/>
+              <PrevioslyVisited/>
+            </View>
+          </ScrollView>
       </View>
-      <View style = {styles.ProfileName}>
-        <Text style = {styles.ProfileText}> FirstName LastName </Text>
-      </View>
-      <View style = {styles.statBox}>
-        <Text style = {styles.BoxText}> Stats n Stuff</Text>
-        <ScrollView>
-          <View style = {styles.statBoxStats}>
-            <Text style = {styles.numVisited}> Visited 12 / 15000 Total </Text>
-            <Text style = {styles.numVisited}> Visited 1 / 150  Civil War Locations</Text>
-            <Text style = {styles.numVisited}> Visited 10 / 15 State Courts</Text>
-            <Text style = {styles.numVisited}> Visited 2 / 100 Confederate Memorials</Text>
-            <Text style = {styles.numVisited}> Visited 120 / 1300 Plantations </Text>
-            <Text style = {styles.numVisited}> Visited 120 / 1300 Rodeos </Text>
-            <Text style = {styles.numVisited}> Visited 12 / 15000 Total </Text>
-          </View>
-        </ScrollView>
-      </View>
-      <View style = {styles.preVisitedBox}>
-        <Text style = {styles.BoxText}> Previously Visited </Text>
-        <ScrollView>
-          <View style = {styles.preVisitedBox}>
-            <PrevioslyVisited/>
-            <PrevioslyVisited/>
-            <PrevioslyVisited/>
-            <PrevioslyVisited/>
-            <PrevioslyVisited/>
-          </View>
-        </ScrollView>
-    </View>
-    </View>
-  </SafeAreaView>
-</ScrollView>
+    </SafeAreaView>
+  </ScrollView>
+</View>
 )
 
 const styles = StyleSheet.create({ 
