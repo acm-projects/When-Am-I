@@ -33,7 +33,8 @@
     "react-native-splash-screen": "^3.2.0",
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.13.12",
-    "react-scripts": "^3.4.4"
+    "react-scripts": "^3.4.4",
+    "utm-latlng": "^1.0.6"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

@@ -10,22 +10,26 @@ import {
 import MapView, {
   Marker,
   AnimatedRegion,
-
   PROVIDER_GOOGLE
 } from "react-native-maps";
+import {queryCoord} from '../components/firebase'
 
 // const LATITUDE = 29.95539;
 // const LONGITUDE = 78.07513;
-const LATITUDE_DELTA = 0.009;
-const LONGITUDE_DELTA = 0.009;
-const LATITUDE = 37.78825;
-const LONGITUDE = -122.4324;
+const LATITUDE_DELTA = 14;
+const LONGITUDE_DELTA = 14;
+const LATITUDE = 31.000000;
+const LONGITUDE = -100.000000;
+
+var utmObj = require('utm-latlng');
+var utm = new utmObj(); 
 
 class Map extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      list: {},
       latitude: LATITUDE,
       longitude: LONGITUDE,
       routeCoordinates: [],
@@ -44,6 +48,9 @@ class Map extends React.Component {
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
   }
+  componentDidMount() {
+    queryCoord(3366465, 563099, 1, this);   // utm east/north coord to search and radius from that coord
+  }
 
   getMapRegion = () => ({
     latitude: this.state.latitude,
@@ -52,30 +59,30 @@ class Map extends React.Component {
     longitudeDelta: LONGITUDE_DELTA
   });
 
-
   render() {
     return (
       <View style={styles.container}>
         <MapView
           style={styles.map}
+          mapType= "mutedStandard"
           provider={PROVIDER_GOOGLE}
-          showUserLocation
+          showsMyLocationButton={true}
           followUserLocation
           loadingEnabled
           region={this.getMapRegion()}
         >
-          <Marker.Animated
-            ref={marker => {
-              this.marker = marker;
-            }}
-            coordinate={this.state.coordinate}
-          />
+        <Marker
+            coordinate={{
+              latitude: 32.779167,
+              longitude: -96.808891,
+            }}s
+            />
         </MapView>
       </View>
     );
   }
 }
-
+// {console.log(utm.convertUtmToLatLng(this.state.list.utm_east, this.state.list.utm_north, this.state.list.utm_zone, 'S'))}
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
