@@ -2,6 +2,7 @@ import React from "react";
 import {
   StyleSheet,
   View,
+  Image,
   Text,
   TouchableOpacity,
   Platform,
@@ -10,17 +11,20 @@ import {
 import MapView, {
   Marker,
   AnimatedRegion,
-  PROVIDER_GOOGLE
+  PROVIDER_GOOGLE,
+  Geojson,
+  Polyline,
 } from "react-native-maps";
 import {queryCoord} from '../components/firebase'
-
+const pin = require('../assets/pin.png');
 // const LATITUDE = 29.95539;
 // const LONGITUDE = 78.07513;
 const LATITUDE_DELTA = 14;
 const LONGITUDE_DELTA = 14;
 const LATITUDE = 31.000000;
 const LONGITUDE = -100.000000;
-
+const mapStyle = require('../components/mapStyle.json');
+const txBorder = require('../components/TXborderCoord.json')
 var utmObj = require('utm-latlng');
 var utm = new utmObj(); 
 
@@ -58,25 +62,32 @@ class Map extends React.Component {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA
   });
-
   render() {
     return (
       <View style={styles.container}>
         <MapView
           style={styles.map}
-          mapType= "mutedStandard"
           provider={PROVIDER_GOOGLE}
+          showsUserLocation={true}
           showsMyLocationButton={true}
           followUserLocation
           loadingEnabled
           region={this.getMapRegion()}
-        >
-        <Marker
-            coordinate={{
-              latitude: 32.779167,
-              longitude: -96.808891,
-            }}s
-            />
+          customMapStyle={mapStyle}
+        >        
+          <MapView.Marker
+          
+              coordinate={{
+                latitude: 32.779167,
+                longitude: -96.808891,
+              }}
+          >
+            <Image
+              source={require('../assets/pin.png')}
+              style={{width: 25, height: 25}}
+              resizeMode="contain">
+            </Image>
+          </MapView.Marker>
         </MapView>
       </View>
     );
