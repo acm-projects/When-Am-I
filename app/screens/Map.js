@@ -28,12 +28,13 @@ const txBorder = require('../components/TXborderCoord.json')
 var utmObj = require('utm-latlng');
 var utm = new utmObj(); 
 
+
 class Map extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      list: {},
+      list: [],
       latitude: LATITUDE,
       longitude: LONGITUDE,
       routeCoordinates: [],
@@ -53,7 +54,7 @@ class Map extends React.Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
   componentDidMount() {
-    queryCoord(3366465, 563099, 1, this);   // utm east/north coord to search and radius from that coord
+    queryCoord(3366465, 563099, 100000, this);   // utm east/north coord to search and radius from that coord
   }
 
   getMapRegion = () => ({
@@ -74,26 +75,27 @@ class Map extends React.Component {
           loadingEnabled
           region={this.getMapRegion()}
           customMapStyle={mapStyle}
-        >        
-          <MapView.Marker
-          
-              coordinate={{
-                latitude: 32.779167,
-                longitude: -96.808891,
-              }}
-          >
-            <Image
+        >     
+          {this.state.list.map((marker, index) => (
+            
+            <Marker
+            key={index}
+            coordinate={{latitude: utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S').lat,longitude: utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S').lng}}
+            title={marker.title}
+            >
+              {console.log(marker.title)}
+              <Image
               source={require('../assets/pin.png')}
               style={{width: 25, height: 25}}
               resizeMode="contain">
             </Image>
-          </MapView.Marker>
+            </Marker>
+          ))}   
         </MapView>
       </View>
     );
   }
 }
-// {console.log(utm.convertUtmToLatLng(this.state.list.utm_east, this.state.list.utm_north, this.state.list.utm_zone, 'S'))}
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
