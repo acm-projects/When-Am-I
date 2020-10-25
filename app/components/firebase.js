@@ -37,7 +37,7 @@ export default class RealtimeMarker extends Component {
     }
 
     componentDidMount() {
-        queryCoord(3366465, 563099, 1000, this);   // utm east/north coord to search and radius from that coord
+        queryCoord(563099, 3366465, 1000, this);   // utm east/north coord to search and radius from that coord
     }
     
     render() {

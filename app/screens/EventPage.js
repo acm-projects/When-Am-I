@@ -3,18 +3,29 @@ import React from 'react';
 import { render } from 'react-dom';
 import { StyleSheet, Text, View, Dimensions, Image, ScrollView, TouchableHighlight, Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import {queryCoord} from '../components/firebase'
 
 const {height , width} = Dimensions.get("window");
 
 
 class LocationPage extends React.Component{
-  state = {
-    name: "Dummy name",
-    date: "AB/CD/EFGH",
-    address: "abc123 Lane",
-    description: "Historical Event/Place Description. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt, odio lacus consequat mauris, quis imperdiet metus quam sed velit.",
-    milesAway: "4.2",
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID);
+  }
+  componentDidMount() {
+    queryCoord(3366465, 563099, 10, this);   // utm east/north coord to search and radius from that coord
+  }
 
+  
+  state = {
+    list: {},
+/*
+    name: this.state.list.title,
+    date: "AB/CD/EFGH_HC",
+    address: this.state.list.address,
+    description: this.state.list.markertext,
+    milesAway: "4.2 HARCODE",
+*/
     //array of location tags
     tags:['Civil War', 'Family', '1800s',],
     
@@ -23,6 +34,7 @@ class LocationPage extends React.Component{
       {username: 'username1', rating: 4, reviewText: "Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt."},
       {username: 'username2', rating: 3, reviewText: "Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt.Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt."},
       {username: 'username3', rating: 4.5, reviewText: "Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel."}],
+      
   }
 
   //this is where we can refresh the page with new data from database
@@ -74,10 +86,17 @@ class LocationPage extends React.Component{
             <View style = {styles.outerBoxText}>
 
               {/*Base screen, with title, address, distance, and description*/}
-              <Text style = {styles.HeaderText}>{this.state.name}</Text>
-              <Text style = {styles.SubHeaderText}>{this.state.address}     {this.state.date}</Text>
+              <Text style = {styles.HeaderText}>{this.state.list.title}</Text>
+              <Text style = {styles.SubHeaderText}>
+                {(() => {
+                  switch (this.state.list.address) {
+                    case "": return;
+                    default: return (this.state.list.address);
+                  }
+                })}
+                </Text>
               <Text style = {styles.MilesAwayText}>{this.state.milesAway} Miles Away</Text>
-              <Text style = {styles.DescriptionText}>{this.state.description}</Text>
+              <Text style = {styles.DescriptionText}>{this.state.list.markertext}</Text>
 
               {/*Rendering the tags, currently set to only display 3 tags */}
               <View style={styles.tagsBox}>
