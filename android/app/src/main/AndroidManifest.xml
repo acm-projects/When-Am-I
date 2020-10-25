@@ -31,7 +31,7 @@
   >
   <application>
    <meta-data
-      android:name="com.google.android.geo.API_KEY"
+      android:name="com.google.android.geo.AIzaSyA_yC0cEVEyj5vnymobYTTWjiMsKi_N618"
       android:value="AIzaSyA_yC0cEVEyj5vnymobYTTWjiMsKi_N618"/>
   </application>
     <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="YOUR-APP-URL-HERE"/>
