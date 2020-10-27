@@ -6,15 +6,19 @@ import {
   Dimensions,
   Text,
   TouchableOpacity,
+  TouchableHighlight,
   Platform,
   PermissionsAndroid
 } from "react-native";
 import MapView from "react-native-map-clustering";
-import {
+import { StackNavigator } from 'react-navigation';
+import { NavigationContainer } from '@react-navigation/native';
+import LocationPage from './EventPage';
+import  {
   Marker,
   AnimatedRegion,
   PROVIDER_GOOGLE,
-  Geojson,
+  Callout,
 } from "react-native-maps";
 import {queryCoord} from '../components/firebase'
 
@@ -54,7 +58,7 @@ class Map extends React.Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
   componentDidMount() {
-    queryCoord(3366465, 563099, 1000000000000000000, this);   // utm east/north coord to search and radius from that coord
+    queryCoord(3366465, 563099, 10000000, this);   // utm east/north coord to search and radius from that coord
   }
 
   getMapRegion = () => ({
@@ -64,6 +68,7 @@ class Map extends React.Component {
     longitudeDelta: LONGITUDE_DELTA
   });
 
+  
   render() {
     return (
       <View style={styles.container}>
@@ -71,11 +76,11 @@ class Map extends React.Component {
           showsUserLocation={true}
           showsMyLocationButton={true}
           clusterColor={"#CBAF87"}
+          spiralEnabled={false}
           followUserLocation={true}
           loadingEnabled
           initialRegion={this.getMapRegion()}
           customMapStyle={mapStyle}
-          showsPointsOfInterest={false}
           style={styles.map}
           provider={PROVIDER_GOOGLE}
           
@@ -85,10 +90,11 @@ class Map extends React.Component {
             <Marker
             key={index}
             coordinate={{latitude: utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S').lat,longitude: utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S').lng}}
+            tracksViewChanges={true}
+            onCalloutPress
             title={marker.title}
-            tracksViewChanges={false}
+            onCalloutPress={this.markerClick}
             >
-              {console.log(marker.title)}
               <Image
               source={require('../assets/pin.png')}
               style={{width: 25, height: 25}}
