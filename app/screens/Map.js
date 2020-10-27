@@ -54,7 +54,7 @@ class Map extends React.Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
   componentDidMount() {
-    queryCoord(3366465, 563099, 100000, this);   // utm east/north coord to search and radius from that coord
+    queryCoord(709074, 3652450, 1000000, this);   // utm east/north coord to search and radius from that coord
   }
 
   getMapRegion = () => ({
@@ -76,21 +76,22 @@ class Map extends React.Component {
           region={this.getMapRegion()}
           customMapStyle={mapStyle}
         >     
-          {this.state.list.map((marker, index) => (
-            
-            <Marker
-            key={index}
-            coordinate={{latitude: utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S').lat,longitude: utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S').lng}}
-            title={marker.title}
-            >
-              {console.log(marker.title)}
-              <Image
-              source={require('../assets/pin.png')}
-              style={{width: 25, height: 25}}
-              resizeMode="contain">
-            </Image>
-            </Marker>
-          ))}   
+          {this.state.list.map((marker, index) => {
+            let coord = utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S')
+            return(
+              <Marker
+              key={index}
+              coordinate={{latitude: coord.lat,longitude: coord.lng}}
+              title={marker.title}
+              >
+                <Image
+                source={require('../assets/pin.png')}
+                style={{width: 25, height: 25}}
+                resizeMode="contain">
+              </Image>
+              </Marker>
+            )}
+          )}   
         </MapView>
       </View>
     );
