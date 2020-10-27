@@ -3,28 +3,29 @@ import {
   StyleSheet,
   View,
   Image,
+  Dimensions,
   Text,
   TouchableOpacity,
   Platform,
   PermissionsAndroid
 } from "react-native";
-import MapView, {
+import MapView from "react-native-map-clustering";
+import {
   Marker,
   AnimatedRegion,
   PROVIDER_GOOGLE,
   Geojson,
-  Polyline,
 } from "react-native-maps";
 import {queryCoord} from '../components/firebase'
+
+const {height , width} = Dimensions.get("window");
 const pin = require('../assets/pin.png');
-// const LATITUDE = 29.95539;
-// const LONGITUDE = 78.07513;
-const LATITUDE_DELTA = 14;
-const LONGITUDE_DELTA = 14;
+const ASPECT_RATIO = width / height
+const LATITUDE_DELTA = 24;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const LATITUDE = 31.000000;
 const LONGITUDE = -100.000000;
 const mapStyle = require('../components/mapStyle.json');
-const txBorder = require('../components/TXborderCoord.json')
 var utmObj = require('utm-latlng');
 var utm = new utmObj(); 
 
@@ -38,7 +39,6 @@ class Map extends React.Component {
       latitude: LATITUDE,
       longitude: LONGITUDE,
       routeCoordinates: [],
-      distanceTravelled: 0,
       prevLatLng: {},
       coordinate: new AnimatedRegion({
         latitude: LATITUDE,
@@ -54,7 +54,7 @@ class Map extends React.Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
   componentDidMount() {
-    queryCoord(709074, 3652450, 1000000, this);   // utm east/north coord to search and radius from that coord
+    queryCoord(3366465, 563099, 1000000000000000000, this);   // utm east/north coord to search and radius from that coord
   }
 
   getMapRegion = () => ({
@@ -63,18 +63,22 @@ class Map extends React.Component {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA
   });
+
   render() {
     return (
       <View style={styles.container}>
         <MapView
-          style={styles.map}
-          provider={PROVIDER_GOOGLE}
           showsUserLocation={true}
           showsMyLocationButton={true}
-          followUserLocation
+          clusterColor={"#CBAF87"}
+          followUserLocation={true}
           loadingEnabled
-          region={this.getMapRegion()}
+          initialRegion={this.getMapRegion()}
           customMapStyle={mapStyle}
+          showsPointsOfInterest={false}
+          style={styles.map}
+          provider={PROVIDER_GOOGLE}
+          
         >     
           {this.state.list.map((marker, index) => {
             let coord = utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S')
