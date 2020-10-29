@@ -21,7 +21,7 @@ import  {
   Callout,
 } from "react-native-maps";
 import {queryCoord} from '../components/firebase'
-
+import { createStackNavigator } from '@react-navigation/stack';
 const {height , width} = Dimensions.get("window");
 const pin = require('../assets/pin.png');
 const ASPECT_RATIO = width / height
@@ -30,6 +30,8 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const LATITUDE = 31.000000;
 const LONGITUDE = -100.000000;
 const mapStyle = require('../components/mapStyle.json');
+const Stack = createStackNavigator();
+
 var utmObj = require('utm-latlng');
 var utm = new utmObj(); 
 
@@ -53,12 +55,12 @@ class Map extends React.Component {
     };
   }
 
-  
+
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
   }
   componentDidMount() {
-    queryCoord(3366465, 563099, 10000000, this);   // utm east/north coord to search and radius from that coord
+    queryCoord(3366465, 563099, 100000000000000000000000, this);   // utm east/north coord to search and radius from that coord
   }
 
   getMapRegion = () => ({
@@ -73,12 +75,14 @@ class Map extends React.Component {
     return (
       <View style={styles.container}>
         <MapView
+          loadingEnabled={true}
+          loadingIndicatorColor={'#CBAF87'}
+          loadingBackgroundColor={"#30475E"}
           showsUserLocation={true}
           showsMyLocationButton={true}
           clusterColor={"#CBAF87"}
           spiralEnabled={false}
           followUserLocation={true}
-          loadingEnabled
           initialRegion={this.getMapRegion()}
           customMapStyle={mapStyle}
           style={styles.map}
@@ -91,9 +95,9 @@ class Map extends React.Component {
             key={index}
             coordinate={{latitude: utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S').lat,longitude: utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S').lng}}
             tracksViewChanges={true}
-            onCalloutPress
             title={marker.title}
-            onCalloutPress={this.markerClick}
+            onPress={() => this.props.navigation.navigate(LocationPage, {marker})
+            }
             >
               <Image
               source={require('../assets/pin.png')}
