@@ -1,6 +1,3 @@
-  
-import React, { Component } from 'react';
-import { Text } from 'react-native';
 const firebase = require("firebase");
 
 firebase.initializeApp({
@@ -18,6 +15,7 @@ var db = firebase.database();
 
 export function queryCoord(northCoord, eastCoord, radius, ref) {
     db.ref('/').once('value').then((snapshot) => {
+        let newList = [];
         snapshot.forEach((snap) => {
             var obj = snap.val();
             var north = obj.utm_north;  // Marker's coordinates
@@ -25,11 +23,11 @@ export function queryCoord(northCoord, eastCoord, radius, ref) {
 
             // If marker is in the search radius, add its name to the list, -1 to search all
             if(radius==-1 || (Math.abs(eastCoord-east) <= radius && Math.abs(northCoord-north) <= radius)) { 
-                ref.setState({ list: {...obj} });
+                newList = [...newList, obj];
+                // ref.setState({ list: newList });
             }
         });
-    });
-}
+        ref.setState({ list: newList });
 
 export default class RealtimeMarker extends Component {
     state = {
@@ -48,3 +46,4 @@ export default class RealtimeMarker extends Component {
         );
     }
 } 
+
