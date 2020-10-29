@@ -6,18 +6,22 @@ import {
   Dimensions,
   Text,
   TouchableOpacity,
+  TouchableHighlight,
   Platform,
   PermissionsAndroid
 } from "react-native";
 import MapView from "react-native-map-clustering";
-import {
+import { StackNavigator } from 'react-navigation';
+import { NavigationContainer } from '@react-navigation/native';
+import LocationPage from './EventPage';
+import  {
   Marker,
   AnimatedRegion,
   PROVIDER_GOOGLE,
-  Geojson,
+  Callout,
 } from "react-native-maps";
 import {queryCoord} from '../components/firebase'
-
+import { createStackNavigator } from '@react-navigation/stack';
 const {height , width} = Dimensions.get("window");
 const pin = require('../assets/pin.png');
 const ASPECT_RATIO = width / height
@@ -26,6 +30,8 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const LATITUDE = 31.000000;
 const LONGITUDE = -100.000000;
 const mapStyle = require('../components/mapStyle.json');
+const Stack = createStackNavigator();
+
 var utmObj = require('utm-latlng');
 var utm = new utmObj(); 
 
@@ -49,12 +55,12 @@ class Map extends React.Component {
     };
   }
 
-  
+
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
   }
   componentDidMount() {
-    queryCoord.bind(this)(669185, 3423501, -1, this);   // utm east/north coord to search and radius from that coord
+    queryCoord.bind(this)(3366465, 3423501, -1, this);   // utm east/north coord to search and radius from that coord
   }
 
   getMapRegion = () => ({
@@ -64,18 +70,21 @@ class Map extends React.Component {
     longitudeDelta: LONGITUDE_DELTA
   });
 
+  
   render() {
     return (
       <View style={styles.container}>
         <MapView
+          loadingEnabled={true}
+          loadingIndicatorColor={'#CBAF87'}
+          loadingBackgroundColor={"#30475E"}
           showsUserLocation={true}
           showsMyLocationButton={true}
           clusterColor={"#CBAF87"}
+          spiralEnabled={false}
           followUserLocation={true}
-          loadingEnabled
           initialRegion={this.getMapRegion()}
           customMapStyle={mapStyle}
-          showsPointsOfInterest={false}
           style={styles.map}
           provider={PROVIDER_GOOGLE}
           
@@ -87,7 +96,9 @@ class Map extends React.Component {
               key={index}
               coordinate={{latitude: coord.lat,longitude: coord.lng}}
               title={marker.title}
-              onPress={()=>console.log(marker)}>
+              onPress={() => this.props.navigation.navigate(LocationPage, {marker})
+              }
+              >
                 <Image
                 source={require('../assets/pin.png')}
                 style={{width: 25, height: 25}}
