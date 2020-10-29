@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   Platform,
-  PermissionsAndroid
 } from "react-native";
 import MapView from "react-native-map-clustering";
 import { StackNavigator } from 'react-navigation';
@@ -21,7 +20,9 @@ import  {
   Callout,
 } from "react-native-maps";
 import {queryCoord} from '../components/firebase'
+import * as Permissions from 'expo-permissions';
 import { createStackNavigator } from '@react-navigation/stack';
+import * as Location from 'expo-location';
 const {height , width} = Dimensions.get("window");
 const pin = require('../assets/pin.png');
 const ASPECT_RATIO = width / height
@@ -31,7 +32,6 @@ const LATITUDE = 31.000000;
 const LONGITUDE = -100.000000;
 const mapStyle = require('../components/mapStyle.json');
 const Stack = createStackNavigator();
-
 var utmObj = require('utm-latlng');
 var utm = new utmObj(); 
 
@@ -56,11 +56,17 @@ class Map extends React.Component {
   }
 
 
+
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
+    this.getLocationAsync();
   }
   componentDidMount() {
     queryCoord.bind(this)(3366465, 3423501, -1, this);   // utm east/north coord to search and radius from that coord
+  }
+
+  getLocationAsync = async () => {
+    await Permissions.askAsync(Permissions.LOCATION);
   }
 
   getMapRegion = () => ({
@@ -70,7 +76,6 @@ class Map extends React.Component {
     longitudeDelta: LONGITUDE_DELTA
   });
 
-  
   render() {
     return (
       <View style={styles.container}>
@@ -87,7 +92,8 @@ class Map extends React.Component {
           customMapStyle={mapStyle}
           style={styles.map}
           provider={PROVIDER_GOOGLE}
-          
+          onPress={this.props.handlePress}
+
         >     
           {this.state.list.map((marker, index) => {
             let coord = utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S')
