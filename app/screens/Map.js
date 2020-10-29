@@ -60,7 +60,7 @@ class Map extends React.Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
   componentDidMount() {
-    queryCoord(3366465, 563099, 100000000000000000000000, this);   // utm east/north coord to search and radius from that coord
+    queryCoord.bind(this)(3366465, 3423501, -1, this);   // utm east/north coord to search and radius from that coord
   }
 
   getMapRegion = () => ({
@@ -89,23 +89,24 @@ class Map extends React.Component {
           provider={PROVIDER_GOOGLE}
           
         >     
-          {this.state.list.map((marker, index) => (
-            
-            <Marker
-            key={index}
-            coordinate={{latitude: utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S').lat,longitude: utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S').lng}}
-            tracksViewChanges={true}
-            title={marker.title}
-            onPress={() => this.props.navigation.navigate(LocationPage, {marker})
-            }
-            >
-              <Image
-              source={require('../assets/pin.png')}
-              style={{width: 25, height: 25}}
-              resizeMode="contain">
-            </Image>
-            </Marker>
-          ))}   
+          {this.state.list.map((marker, index) => {
+            let coord = utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S')
+            return(
+              <Marker
+              key={index}
+              coordinate={{latitude: coord.lat,longitude: coord.lng}}
+              title={marker.title}
+              onPress={() => this.props.navigation.navigate(LocationPage, {marker})
+              }
+              >
+                <Image
+                source={require('../assets/pin.png')}
+                style={{width: 25, height: 25}}
+                resizeMode="contain">
+              </Image>
+              </Marker>
+            )}
+          )}  
         </MapView>
       </View>
     );
