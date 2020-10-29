@@ -63,6 +63,18 @@
     ]
   },
   {
+    "featureType": "administrative.neighborhood",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#000000"
+      },
+      {
+        "weight": 0.5
+      }
+    ]
+  },
+  {
     "featureType": "administrative.province",
     "stylers": [
       {
@@ -105,10 +117,10 @@
     "elementType": "labels.text.stroke",
     "stylers": [
       {
-        "color": "#ffffff"
+        "color": "#000000"
       },
       {
-        "weight": 2
+        "weight": 4
       }
     ]
   },
@@ -117,6 +129,14 @@
     "stylers": [
       {
         "color": "#30475e"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "stylers": [
+      {
+        "visibility": "off"
       }
     ]
   },
@@ -221,6 +241,14 @@
   },
   {
     "featureType": "transit",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
     "elementType": "geometry",
     "stylers": [
       {
@@ -230,10 +258,42 @@
   },
   {
     "featureType": "transit.station",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.station",
     "elementType": "labels.text.fill",
     "stylers": [
       {
         "color": "#d59563"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.station.airport",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.station.bus",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.station.rail",
+    "stylers": [
+      {
+        "visibility": "off"
       }
     ]
   },

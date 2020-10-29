@@ -6,6 +6,8 @@ import React, { Component } from 'react';
 import UserPage from './screens/UserPage';
 import Map from './screens/Map';
 import LocationPage from './screens/EventPage';
+import Search from './screens/Splash';
+import SplashScreen from 'react-native-splash-screen';
 
 function MapScreen() {
     return (
@@ -40,6 +42,16 @@ export default function MyTabs() {
                 tabBarLabel: 'User Page',
                 tabBarIcon: ({ color, size }) => (
                     <MaterialCommunityIcons name="account-circle-outline" color={color} size={size} />
+                ),
+                }}
+            />
+            <Tab.Screen 
+                name="Splash"
+                component={Search}
+                options={{
+                tabBarLabel: 'Search page',
+                tabBarIcon: ({ color, size }) => (
+                    <MaterialCommunityIcons name="magnify" color={color} size={size} />
                 ),
                 }}
             />
