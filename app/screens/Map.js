@@ -3,58 +3,94 @@ import {
   StyleSheet,
   View,
   Image,
+  Button,
+  Dimensions,
   Text,
+  Alert,
   TouchableOpacity,
+  TouchableHighlight,
   Platform,
-  PermissionsAndroid
 } from "react-native";
-import MapView, {
+import MapView from "react-native-map-clustering";
+import { StackNavigator } from 'react-navigation';
+import { NavigationContainer } from '@react-navigation/native';
+import LocationPage from './EventPage';
+import  {
   Marker,
   AnimatedRegion,
   PROVIDER_GOOGLE,
-  Geojson,
-  Polyline,
+  Callout,
 } from "react-native-maps";
 import {queryCoord} from '../components/firebase'
+import { decode } from "@mapbox/polyline";
+import * as Permissions from 'expo-permissions';
+import { createStackNavigator } from '@react-navigation/stack';
+import * as Location from 'expo-location';
+const {height , width} = Dimensions.get("window");
 const pin = require('../assets/pin.png');
-// const LATITUDE = 29.95539;
-// const LONGITUDE = 78.07513;
-const LATITUDE_DELTA = 14;
-const LONGITUDE_DELTA = 14;
+const ASPECT_RATIO = width / height
+const LATITUDE_DELTA = 24;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const LATITUDE = 31.000000;
 const LONGITUDE = -100.000000;
 const mapStyle = require('../components/mapStyle.json');
-const txBorder = require('../components/TXborderCoord.json')
+const Stack = createStackNavigator();
 var utmObj = require('utm-latlng');
 var utm = new utmObj(); 
 
-
 class Map extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      list: [],
+  async getCurrentLocation() {
+    navigator.geolocation.getCurrentPosition(
+        position => {
+        let region = {
+                latitude: parseFloat(position.coords.latitude),
+                longitude: parseFloat(position.coords.longitude),
+                latitudeDelta: 5,
+                longitudeDelta: 5
+            };
+            this.setState({
+                initialRegion: region
+            });
+        },
+        error => console.log(error),
+        {
+            enableHighAccuracy: true,
+            timeout: 20000,
+            maximumAge: 1000
+        }
+    );
+}
+constructor(props) {
+  super(props);
+
+  this.state = {
+    list: [],
+    latitude: LATITUDE,
+    longitude: LONGITUDE,
+    routeCoordinates: [],
+    prevLatLng: {},
+    coordinate: new AnimatedRegion({
       latitude: LATITUDE,
       longitude: LONGITUDE,
-      routeCoordinates: [],
-      distanceTravelled: 0,
-      prevLatLng: {},
-      coordinate: new AnimatedRegion({
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: 0,
-        longitudeDelta: 0
-      })
-    };
-  }
+      latitudeDelta: 0,
+      longitudeDelta: 0
+    })
+  };
+}
 
-  
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
+    this.getLocationAsync();
   }
   componentDidMount() {
-    queryCoord(3366465, 563099, 100000, this);   // utm east/north coord to search and radius from that coord
+    queryCoord.bind(this)(3366465, 3423501, -1, this);   // utm east/north coord to search and radius from that coord
+    this.getCurrentLocation();
+
+  }
+
+  getLocationAsync = async () => {
+    await Permissions.askAsync(Permissions.LOCATION);
   }
 
   getMapRegion = () => ({
@@ -63,34 +99,69 @@ class Map extends React.Component {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA
   });
+  
   render() {
     return (
       <View style={styles.container}>
         <MapView
-          style={styles.map}
-          provider={PROVIDER_GOOGLE}
+          loadingEnabled={true}
+          loadingIndicatorColor={'#CBAF87'}
+          loadingBackgroundColor={"#30475E"}
           showsUserLocation={true}
           showsMyLocationButton={true}
-          followUserLocation
-          loadingEnabled
-          region={this.getMapRegion()}
+          clusterColor={"#CBAF87"}
+          followUserLocation={false}
+          initialRegion={this.getMapRegion()}
           customMapStyle={mapStyle}
-        >     
-          {this.state.list.map((marker, index) => (
-            
-            <Marker
-            key={index}
-            coordinate={{latitude: utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S').lat,longitude: utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S').lng}}
-            title={marker.title}
-            >
-              {console.log(marker.title)}
-              <Image
-              source={require('../assets/pin.png')}
-              style={{width: 25, height: 25}}
-              resizeMode="contain">
-            </Image>
-            </Marker>
-          ))}   
+          style={styles.map}
+          provider={PROVIDER_GOOGLE}
+          onPress={this.props.handlePress}
+        > 
+          {this.state.list.map((marker, index) => {
+            let coord = utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S')
+            return(
+              <Marker
+                key={index}
+                coordinate={{latitude: coord.lat, longitude: coord.lng}}
+                title={marker.title}
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                  }}                
+                >
+                <Image
+                  source={require('../assets/pin.png')}
+                  style={{width: 25, height: 25}}
+                  resizeMode="contain">
+                </Image>
+
+                <Callout style={{flex:1, position:'relative'}} onPress={
+                  () => {
+                  Alert.alert(
+                    marker.title,
+                    marker.address,
+                    [
+                      {
+                        text: "Details",
+                        onPress: () => console.log("Ask me later pressed")
+                      },
+                      { text: "Directions", onPress: () => console.log("OK Pressed") },
+                      {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel"
+                      },
+                    ],
+                    { cancelable: false }
+                  )
+                }}>
+                  <View style={{flex:1, padding:0}}>
+                  </View>
+                </Callout>
+              </Marker>
+            )}
+          )}  
         </MapView>
       </View>
     );
