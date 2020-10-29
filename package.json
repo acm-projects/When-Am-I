@@ -38,6 +38,7 @@
     "react-native-svg": "12.1.0",
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.13.12",
+    "react-navigation": "^4.4.3",
     "react-scripts": "^3.4.4",
     "utm-latlng": "^1.0.6"
   },
