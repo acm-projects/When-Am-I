@@ -54,7 +54,7 @@ class Map extends React.Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
   componentDidMount() {
-    queryCoord(3366465, 563099, 1000000000000000000, this);   // utm east/north coord to search and radius from that coord
+    queryCoord.bind(this)(669185, 3423501, -1, this);   // utm east/north coord to search and radius from that coord
   }
 
   getMapRegion = () => ({
@@ -87,7 +87,7 @@ class Map extends React.Component {
               key={index}
               coordinate={{latitude: coord.lat,longitude: coord.lng}}
               title={marker.title}
-              >
+              onPress={()=>console.log(marker)}>
                 <Image
                 source={require('../assets/pin.png')}
                 style={{width: 25, height: 25}}
@@ -95,7 +95,7 @@ class Map extends React.Component {
               </Image>
               </Marker>
             )}
-          )}   
+          )}  
         </MapView>
       </View>
     );
