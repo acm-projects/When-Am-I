@@ -29,5 +29,21 @@ export function queryCoord(northCoord, eastCoord, radius, ref) {
         });
         ref.setState({ list: newList });
 
-    });
-}
+export default class RealtimeMarker extends Component {
+    state = {
+        list: {}
+    }
+
+    componentDidMount() {
+        queryCoord(563099, 3366465, 1000, this);   // utm east/north coord to search and radius from that coord
+    }
+    
+    render() {
+        return(
+        <>
+            {console.log(this.state.list.utm_east)}
+        </>
+        );
+    }
+} 
+
