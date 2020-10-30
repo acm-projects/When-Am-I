@@ -11,6 +11,7 @@ import Search from './screens/Splash';
 import SplashScreen from 'react-native-splash-screen';
 import { createStackNavigator } from '@react-navigation/stack';
 
+
 function MapScreen() {
     return (
       <Map/>

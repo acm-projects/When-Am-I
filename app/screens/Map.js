@@ -17,6 +17,9 @@ import myStackNavigator from '../router';
 import LocationPage from './EventPage';
 import { createStackNavigator } from 'react-navigation';
 import { showLocation } from 'react-native-map-link'
+import { StackNavigator } from 'react-navigation';
+import { NavigationContainer } from '@react-navigation/native';
+import LocationPage from './EventPage';
 import  {
   Marker,
   AnimatedRegion,
@@ -26,6 +29,7 @@ import  {
 import {queryCoord} from '../components/firebase'
 import { decode } from "@mapbox/polyline";
 import * as Permissions from 'expo-permissions';
+import { createStackNavigator } from '@react-navigation/stack';
 import * as Location from 'expo-location';
 const {height , width} = Dimensions.get("window");
 const pin = require('../assets/pin.png');
@@ -80,7 +84,6 @@ constructor(props) {
 }
 
 
-
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
     this.getLocationAsync();
@@ -88,7 +91,6 @@ constructor(props) {
   componentDidMount() {
     queryCoord.bind(this)(3366465, 3423501, -1, this);   // utm east/north coord to search and radius from that coord
     this.getCurrentLocation();
-
   }
 
   getLocationAsync = async () => {
@@ -119,6 +121,7 @@ constructor(props) {
           provider={PROVIDER_GOOGLE}
           onPress={this.props.handlePress}
         > 
+
           {this.state.list.map((marker, index) => {
             let coord = utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S')
             return(
