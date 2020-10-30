@@ -12,9 +12,11 @@ import {
   Platform,
 } from "react-native";
 import MapView from "react-native-map-clustering";
-import { StackNavigator } from 'react-navigation';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation  } from '@react-navigation/native';
+import myStackNavigator from '../router';
 import LocationPage from './EventPage';
+import { createStackNavigator } from 'react-navigation';
+import { showLocation } from 'react-native-map-link'
 import  {
   Marker,
   AnimatedRegion,
@@ -24,7 +26,6 @@ import  {
 import {queryCoord} from '../components/firebase'
 import { decode } from "@mapbox/polyline";
 import * as Permissions from 'expo-permissions';
-import { createStackNavigator } from '@react-navigation/stack';
 import * as Location from 'expo-location';
 const {height , width} = Dimensions.get("window");
 const pin = require('../assets/pin.png');
@@ -34,7 +35,6 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const LATITUDE = 31.000000;
 const LONGITUDE = -100.000000;
 const mapStyle = require('../components/mapStyle.json');
-const Stack = createStackNavigator();
 var utmObj = require('utm-latlng');
 var utm = new utmObj(); 
 
@@ -79,6 +79,8 @@ constructor(props) {
   };
 }
 
+
+
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
     this.getLocationAsync();
@@ -99,7 +101,7 @@ constructor(props) {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA
   });
-  
+
   render() {
     return (
       <View style={styles.container}>
@@ -142,14 +144,22 @@ constructor(props) {
                     marker.title,
                     marker.address,
                     [
-                      {
-                        text: "Details",
-                        onPress: () => console.log("Ask me later pressed")
+                      { text: "Details",
+                        onPress: () => {
+                          this.props.navigation.navigate('EventPage')
+                        }
                       },
-                      { text: "Directions", onPress: () => console.log("OK Pressed") },
+                      { text: "Directions", onPress: () => {
+                        showLocation({
+                          latitude: coord.lat,
+                          longitude: coord.lng,
+                          googleForceLatLon: true,
+                          title: (marker.title),
+                      })
+                      } 
+                    },
                       {
                         text: "Cancel",
-                        onPress: () => console.log("Cancel Pressed"),
                         style: "cancel"
                       },
                     ],
