@@ -3,13 +3,20 @@ import {
   StyleSheet,
   View,
   Image,
+  Button,
   Dimensions,
   Text,
+  Alert,
   TouchableOpacity,
   TouchableHighlight,
   Platform,
 } from "react-native";
 import MapView from "react-native-map-clustering";
+import { NavigationContainer, useNavigation  } from '@react-navigation/native';
+import myStackNavigator from '../router';
+import LocationPage from './EventPage';
+import { createStackNavigator } from 'react-navigation';
+import { showLocation } from 'react-native-map-link'
 import { StackNavigator } from 'react-navigation';
 import { NavigationContainer } from '@react-navigation/native';
 import LocationPage from './EventPage';
@@ -20,6 +27,7 @@ import  {
   Callout,
 } from "react-native-maps";
 import {queryCoord} from '../components/firebase'
+import { decode } from "@mapbox/polyline";
 import * as Permissions from 'expo-permissions';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as Location from 'expo-location';
@@ -31,30 +39,49 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const LATITUDE = 31.000000;
 const LONGITUDE = -100.000000;
 const mapStyle = require('../components/mapStyle.json');
-const Stack = createStackNavigator();
 var utmObj = require('utm-latlng');
 var utm = new utmObj(); 
 
-
 class Map extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      list: [],
+  async getCurrentLocation() {
+    navigator.geolocation.getCurrentPosition(
+        position => {
+        let region = {
+                latitude: parseFloat(position.coords.latitude),
+                longitude: parseFloat(position.coords.longitude),
+                latitudeDelta: 5,
+                longitudeDelta: 5
+            };
+            this.setState({
+                initialRegion: region
+            });
+        },
+        error => console.log(error),
+        {
+            enableHighAccuracy: true,
+            timeout: 20000,
+            maximumAge: 1000
+        }
+    );
+}
+constructor(props) {
+  super(props);
+
+  this.state = {
+    list: [],
+    latitude: LATITUDE,
+    longitude: LONGITUDE,
+    routeCoordinates: [],
+    prevLatLng: {},
+    coordinate: new AnimatedRegion({
       latitude: LATITUDE,
       longitude: LONGITUDE,
-      routeCoordinates: [],
-      prevLatLng: {},
-      coordinate: new AnimatedRegion({
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: 0,
-        longitudeDelta: 0
-      })
-    };
-  }
-
+      latitudeDelta: 0,
+      longitudeDelta: 0
+    })
+  };
+}
 
 
   componentWillUnmount() {
@@ -63,6 +90,7 @@ class Map extends React.Component {
   }
   componentDidMount() {
     queryCoord.bind(this)(3366465, 3423501, -1, this);   // utm east/north coord to search and radius from that coord
+    this.getCurrentLocation();
   }
 
   getLocationAsync = async () => {
@@ -86,30 +114,64 @@ class Map extends React.Component {
           showsUserLocation={true}
           showsMyLocationButton={true}
           clusterColor={"#CBAF87"}
-          spiralEnabled={false}
-          followUserLocation={true}
+          followUserLocation={false}
           initialRegion={this.getMapRegion()}
           customMapStyle={mapStyle}
           style={styles.map}
           provider={PROVIDER_GOOGLE}
           onPress={this.props.handlePress}
+        > 
 
-        >     
           {this.state.list.map((marker, index) => {
             let coord = utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S')
             return(
               <Marker
-              key={index}
-              coordinate={{latitude: coord.lat,longitude: coord.lng}}
-              title={marker.title}
-              onPress={() => this.props.navigation.navigate(LocationPage, {marker})
-              }
-              >
+                key={index}
+                coordinate={{latitude: coord.lat, longitude: coord.lng}}
+                title={marker.title}
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                  }}                
+                >
                 <Image
-                source={require('../assets/pin.png')}
-                style={{width: 25, height: 25}}
-                resizeMode="contain">
-              </Image>
+                  source={require('../assets/pin.png')}
+                  style={{width: 25, height: 25}}
+                  resizeMode="contain">
+                </Image>
+
+                <Callout style={{flex:1, position:'relative'}} onPress={
+                  () => {
+                  Alert.alert(
+                    marker.title,
+                    marker.address,
+                    [
+                      { text: "Details",
+                        onPress: () => {
+                          this.props.navigation.navigate('EventPage')
+                        }
+                      },
+                      { text: "Directions", onPress: () => {
+                        showLocation({
+                          latitude: coord.lat,
+                          longitude: coord.lng,
+                          googleForceLatLon: true,
+                          title: (marker.title),
+                      })
+                      } 
+                    },
+                      {
+                        text: "Cancel",
+                        style: "cancel"
+                      },
+                    ],
+                    { cancelable: false }
+                  )
+                }}>
+                  <View style={{flex:1, padding:0}}>
+                  </View>
+                </Callout>
               </Marker>
             )}
           )}  
