@@ -11,7 +11,6 @@ const Item = ({ item, onPress, style }) => (
 class SearchPage extends React.Component {
   state = {
     search: '',
-    tags: ['Civil War', 'Texas Revolution', 'Presidents', 'Tags!', 'More History', 'ABC123'],
     data: [
       {
         id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -32,13 +31,13 @@ class SearchPage extends React.Component {
       
     ],
       selectedId: '',
+      text: 'recents',
   };
 
   updateSearch = (search) => {
     this.setState({ 
       //set data to results from searched string here?
       search,
-      tags: ['Civil War', 'Texas Revolution', 'Presidents', 'Tags!', 'More History', 'ABC123'],
       data: [
       {
         id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -71,6 +70,47 @@ class SearchPage extends React.Component {
       
       ],
       selectedId: '',
+      text: 'results for "' + search + '"',
+    });
+  };
+
+  updateSearchFromTag = (tag) => {
+    this.setState({ 
+      //set data to results from searched tag here?
+      search: tag,
+      data: [
+      {
+        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+        title: 'First Location',
+      },
+      {
+        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+        title: 'Second Location',
+      },
+      {
+        id: '58694a0f-3da1-471f-bd96-145571e29d72',
+        title: 'Third Location. Making this really long to see what happens when I do',
+      },
+      {
+        id: '3ac68afc-c605-48d3-a4f8-fbdasdfsdaf',
+        title: 'Fourth Location',
+      },
+      {
+        id: '3ac68afc-c605-48d3-a4f8-fbd91aadaqwe',
+        title: 'FFFFFFFFFFFFFifth Location',
+      },
+      {
+        id: '3ac68afc-c605-48d3-a4f8-fbd91qwqqqq',
+        title: '6 Location',
+      },
+      {
+        id: '3ac68afc-c605-48d3-a4f8-fbd9njkkj',
+        title: 'Seven Location',
+      },
+      
+      ],
+      selectedId: '',
+      text: 'results for ' + tag,
     });
   };
 
@@ -78,7 +118,6 @@ class SearchPage extends React.Component {
     this.setState({ 
       //set data to results from searched string here?
       search: '',
-      tags: ['Civil War', 'Texas Revolution', 'Presidents', 'Tags!', 'More History', 'ABC123'],
       data: [
         {
           id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -99,6 +138,7 @@ class SearchPage extends React.Component {
         
       ],
       selectedId: '',
+      text: 'recents'
     });
   };
 
@@ -113,6 +153,7 @@ class SearchPage extends React.Component {
 
   render() {
     const { search } = this.state;
+    const tags= ['Civil War', 'Texas Revolution', 'Presidents', 'Tags!', 'More History', 'ABC123'];
 
     return (
       <View style = {styles.back}>
@@ -144,39 +185,39 @@ class SearchPage extends React.Component {
 
           <View style={styles.tagsBox}>
 
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={this.updateSearch}> 
+                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[0])}> 
                   <View style={styles.button}>
-                  <Text style={styles.TagText}>{this.state.tags[0]}</Text>
+                  <Text style={styles.TagText}>{tags[0]}</Text>
                   </View>
                 </TouchableHighlight>
                 
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={this.updateSearch}> 
+                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[1])}> 
                   <View style={styles.button}>
-                  <Text style={styles.TagText}>{this.state.tags[1]}</Text>
+                  <Text style={styles.TagText}>{tags[1]}</Text>
                   </View>
                 </TouchableHighlight>
 
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={this.updateSearch}> 
+                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[2])}> 
                   <View style={styles.button}>
-                  <Text style={styles.TagText}>{this.state.tags[2]}</Text>
+                  <Text style={styles.TagText}>{tags[2]}</Text>
                   </View>
                 </TouchableHighlight>
 
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={this.updateSearch}> 
+                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[3])}> 
                   <View style={styles.button}>
-                  <Text style={styles.TagText}>{this.state.tags[3]}</Text>
+                  <Text style={styles.TagText}>{tags[3]}</Text>
                   </View>
                 </TouchableHighlight>
 
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={this.updateSearch}> 
+                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[4])}> 
                   <View style={styles.button}>
-                  <Text style={styles.TagText}>{this.state.tags[4]}</Text>
+                  <Text style={styles.TagText}>{tags[4]}</Text>
                   </View>
                 </TouchableHighlight>
 
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={this.updateSearch}> 
+                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[5])}> 
                   <View style={styles.button}>
-                  <Text style={styles.TagText}>{this.state.tags[5]}</Text>
+                  <Text style={styles.TagText}>{tags[5]}</Text>
                   </View>
                 </TouchableHighlight>
 
@@ -189,7 +230,7 @@ class SearchPage extends React.Component {
         fontSize: 30,
         textAlign: 'left',
         marginHorizontal: 15
-      }}>results</Text>
+      }}>{this.state.text}</Text>
         
         <FlatList
           data={this.state.data}
