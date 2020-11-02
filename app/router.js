@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import UserPage from './screens/UserPage';
 import Map from './screens/Map';
 import LocationPage from './screens/EventPage';
-import Search from './screens/Splash';
+import SearchPage from './screens/SearchPage';
 import SplashScreen from 'react-native-splash-screen';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -50,7 +50,7 @@ export default function MyTabs() {
             />
             <Tab.Screen 
                 name="Splash"
-                component={Search}
+                component={SearchPage}
                 options={{
                 tabBarLabel: 'Search page',
                 tabBarIcon: ({ color, size }) => (
