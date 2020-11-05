@@ -18,8 +18,6 @@ import LocationPage from './EventPage';
 import { createStackNavigator } from 'react-navigation';
 import { showLocation } from 'react-native-map-link'
 import { StackNavigator } from 'react-navigation';
-import { NavigationContainer } from '@react-navigation/native';
-import LocationPage from './EventPage';
 import  {
   Marker,
   AnimatedRegion,
@@ -29,7 +27,6 @@ import  {
 import {queryCoord} from '../components/firebase'
 import { decode } from "@mapbox/polyline";
 import * as Permissions from 'expo-permissions';
-import { createStackNavigator } from '@react-navigation/stack';
 import * as Location from 'expo-location';
 const {height , width} = Dimensions.get("window");
 const pin = require('../assets/pin.png');

@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
+    color: '#30475E',
   },
   back:{
     flex: 1,

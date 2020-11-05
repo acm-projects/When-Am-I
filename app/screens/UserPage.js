@@ -19,29 +19,29 @@ const UserPage = () => (
           <Text style = {styles.ProfileText}> FirstName LastName </Text>
         </View>
         <View style = {styles.statBox}>
-          <Text style = {styles.BoxText}> Stats n Stuff</Text>
+          <Text style = {styles.BoxText}>User Statistics</Text>
           <ScrollView>
-            <View style = {styles.statBoxStats}>
-              <Text style = {styles.numVisited}> Visited 12 / 15000 Total </Text>
-              <Text style = {styles.numVisited}> Visited 1 / 150  Civil War Locations</Text>
-              <Text style = {styles.numVisited}> Visited 10 / 15 State Courts</Text>
-              <Text style = {styles.numVisited}> Visited 2 / 100 Confederate Memorials</Text>
-              <Text style = {styles.numVisited}> Visited 120 / 1300 Plantations </Text>
-              <Text style = {styles.numVisited}> Visited 120 / 1300 Rodeos </Text>
-              <Text style = {styles.numVisited}> Visited 12 / 15000 Total </Text>
-            </View>
+            
+              <Text style = {styles.numVisited}>Visited 12 / 15000 Total</Text>
+              <Text style = {styles.numVisited}>Visited 1 / 150  Civil War Locations</Text>
+              <Text style = {styles.numVisited}>Visited 10 / 15 State Courts</Text>
+              <Text style = {styles.numVisited}>Visited 2 / 100 Confederate Memorials</Text>
+              <Text style = {styles.numVisited}>Visited 120 / 1300 Plantations</Text>
+              <Text style = {styles.numVisited}>Visited 120 / 1300 Rodeos</Text>
+              <Text style = {styles.numVisited}>Visited 12 / 15000 Total</Text>
+            
           </ScrollView>
         </View>
         <View style = {styles.preVisitedBox}>
           <Text style = {styles.BoxText}> Previously Visited </Text>
           <ScrollView>
-            <View style = {styles.preVisitedBox}>
+            
               <PrevioslyVisited/>
               <PrevioslyVisited/>
               <PrevioslyVisited/>
               <PrevioslyVisited/>
               <PrevioslyVisited/>
-            </View>
+            
           </ScrollView>
       </View>
     </SafeAreaView>
@@ -70,18 +70,18 @@ const styles = StyleSheet.create({
   },
   ProfileText: {
     color: '#fff',
-    fontSize: (Dimensions.get("window").width/5)/3,
-    textShadowColor: '#CBAF87',
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius : 10
+    fontSize: (Dimensions.get("window").width/13),
   },
   statBox: {
     flex: 4,
     borderRadius: 35,
-    marginTop: (Dimensions.get("window").width/50),
+    marginTop: (Dimensions.get("window").width/20),
+    width: (Dimensions.get("window").width*(12/13)),
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
     backgroundColor: '#F0ECE3',
+    paddingBottom: 15,
   },
   statBoxStats: {
     alignItems: 'flex-start',
@@ -89,24 +89,28 @@ const styles = StyleSheet.create({
   },
   numVisited: {
     padding: 5,
-    fontSize: 15,
+    fontSize: 20,
     fontWeight: 'bold',
     fontStyle: 'italic',
     color: '#30475E',
+    textAlign: 'center',
   },
   BoxText: {
     color: '#30475E',
     fontSize: 30,
     fontWeight: 'bold',
-    marginTop: -(Dimensions.get("window").height)/200,
+    //marginTop: -(Dimensions.get("window").height)/200,
     textAlign: 'center',
-    marginTop: 5,
+    marginTop: 10,
   },
   preVisitedBox: {
     flex: 6,
-    borderRadius: 50,
+    borderRadius: 40,
     marginTop: (Dimensions.get("window").height)/50,
+    width: (Dimensions.get("window").width*(12/13)),
     backgroundColor: '#F0ECE3',
+    alignSelf: 'center',
+    paddingBottom: 15,
   },
   buttonSiteText: {
     textAlign: 'left',
