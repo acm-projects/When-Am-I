@@ -6,8 +6,8 @@ const PrevioslyVisited = () => {
     return(
         <TouchableHighlight style={styles.button}>
         <View style={styles.column}>
-          <Text style={styles.buttonSiteText}> siteName </Text>
-          <Text style={styles.buttonInfoText}> City, State </Text>
+          <Text style={styles.buttonSiteText}> Name of Historical Site </Text>
+          <Text style={styles.buttonInfoText}> The City, Texas </Text>
         </View>
       </TouchableHighlight>
     );
@@ -16,14 +16,13 @@ const PrevioslyVisited = () => {
 
 const styles = StyleSheet.create({ 
     buttonSiteText: {
-      textAlign: 'left',
+      textAlign: 'center',
       fontSize: 25,
       color: '#30475E',
     },
     buttonInfoText:{
-      textAlign: 'left',
+      textAlign: 'center',
       fontSize: 20,
-      marginLeft: 15,
       fontStyle: 'italic',
       color: '#30475E',
     },
@@ -31,10 +30,14 @@ const styles = StyleSheet.create({
       flex:1,
       margin: 10,
       padding: 10,
-      borderWidth: 2,
-      borderRadius: 40,
+      borderRadius: 25,
       alignSelf: "stretch",
+      alignContent: 'center',
       backgroundColor: '#CBAF87',
+      shadowColor: '#000000',
+    shadowOpacity: 0.4,
+    shadowOffset: {width: 0, height: 4},
+    shadowRadius: 4,
     },
   })
 
