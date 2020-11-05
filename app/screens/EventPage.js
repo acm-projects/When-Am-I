@@ -13,7 +13,7 @@ class LocationPage extends React.Component{
     navigator.geolocation.clearWatch(this.watchID);
   }
   componentDidMount() {
-    queryCoord(3366465, 563099, 10, this);   // utm east/north coord to search and radius from that coord
+    queryCoord.bind(this)(3366465, 563099, 10);   // utm east/north coord to search and radius from that coord
   }
 
   
@@ -88,12 +88,7 @@ class LocationPage extends React.Component{
               {/*Base screen, with title, address, distance, and description*/}
               <Text style = {styles.HeaderText}>{this.state.list.title}</Text>
               <Text style = {styles.SubHeaderText}>
-                {(() => {
-                  switch (this.state.list.address) {
-                    case "": return;
-                    default: return (this.state.list.address);
-                  }
-                })}
+                {this.state.list.address==null ? "" : this.state.list.address}
                 </Text>
               <Text style = {styles.MilesAwayText}>{this.state.milesAway} Miles Away</Text>
               <Text style = {styles.DescriptionText}>{this.state.list.markertext}</Text>
