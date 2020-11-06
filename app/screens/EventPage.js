@@ -4,20 +4,16 @@ import { render } from 'react-dom';
 import { StyleSheet, Text, View, Dimensions, Image, ScrollView, TouchableHighlight, Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {queryCoord} from '../components/firebase'
+import { visit } from '../components/UserData'
 
 const {height , width} = Dimensions.get("window");
 
-class LocationPage extends React.Component{
+class LocationPage extends React.Component {
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
   }
-  componentDidMount() {
-    queryCoord.bind(this)(3366465, 563099, 10);   // utm east/north coord to search and radius from that coord
-  }
-
   
   state = {
-    list: {},
     //array of location tags
     tags:['Civil War', 'Family', '1800s',],
     
@@ -30,12 +26,11 @@ class LocationPage extends React.Component{
   }
 
   render (){
+    if(this.props.route.params) { // Only render the event page if a marker has been picked
     const { markerInfo } = this.props.route.params;
     return (
       <View style={styles.backgroundColor}>
-
         <ScrollView>
-
           <SafeAreaView>
 
           <Image source = {require('../assets/logo.jpg')} 
@@ -47,7 +42,7 @@ class LocationPage extends React.Component{
             alignSelf: 'center',
               }}
           />
-          
+          <Button title="Visit" onPress={()=>visit(markerInfo)} />
           <View style={styles.outerBox}>
             <View style = {styles.outerBoxText}>
 
@@ -131,6 +126,32 @@ class LocationPage extends React.Component{
         </ScrollView>
       </View>
     );
+  }
+  else {
+    return (
+      <View style={styles.backgroundColor}>
+      <ScrollView>
+      <SafeAreaView>
+        <Image source = {require('../assets/logo.jpg')} 
+        style = {{ 
+          width: Dimensions.get("window").width/6, 
+          height: Dimensions.get("window").width/6, 
+          padding: Dimensions.get("window").width/12,
+          borderRadius: (Dimensions.get("window").width/5)/2,
+          alignSelf: 'center',
+            }}
+        />
+        <View style={styles.outerBox}>
+          <View style = {styles.outerBoxText}>
+
+            {/*Base screen, with title, address, distance, and description*/}
+            <Text style = {styles.HeaderText}>Choose a marker from the map.</Text>
+          </View>
+        </View>
+      </SafeAreaView>
+      </ScrollView>
+      </View>
+    )}
   }
 }
 

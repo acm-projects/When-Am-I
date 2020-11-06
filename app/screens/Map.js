@@ -74,7 +74,7 @@ constructor(props) {
     this.getLocationAsync();
   }
   componentDidMount() {
-    queryCoord.bind(this)(3366465, 3423501, -1, this);   // utm east/north coord to search and radius from that coord
+    queryCoord.bind(this)(336646, 3423501, -1, this);   // utm east/north coord to search and radius from that coord
     this.getCurrentLocation();
   }
 
