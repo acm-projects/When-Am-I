@@ -7,7 +7,6 @@ import {
   Alert,
 } from "react-native";
 import MapView from "react-native-map-clustering";
-import { showLocation } from 'react-native-map-link'
 import  {
   Marker,
   AnimatedRegion,
@@ -128,31 +127,7 @@ constructor(props) {
 
                 <Callout style={{flex:1, position:'relative'}} onPress={
                   () => {
-                  Alert.alert(
-                    marker.title,
-                    marker.address,
-                    [
-                      { text: "Details",
-                        onPress: () => {
-                          this.props.navigation.navigate('EventPage', {markerInfo: marker})
-                        }
-                      },
-                      { text: "Directions", onPress: () => {
-                        showLocation({
-                          latitude: coord.lat,
-                          longitude: coord.lng,
-                          googleForceLatLon: true,
-                          title: (marker.title),
-                      })
-                      } 
-                    },
-                      {
-                        text: "Cancel",
-                        style: "cancel"
-                      },
-                    ],
-                    { cancelable: false }
-                  )
+                    this.props.navigation.navigate('Details', {markerInfo: marker})
                 }}>
                   <View style={{flex:1, padding:0}}>
                   </View>

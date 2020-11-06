@@ -72,6 +72,16 @@ export default class LoginPage extends Component {
         >
           <Text style={styles1.buttonText}> Register </Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          title={'Skip'}
+          style={styles1.logButton}
+          onPress={()=>
+            this.props.navigation.navigate('Map')
+
+          }
+        >
+          <Text style={styles1.buttonText}> Register </Text>
+        </TouchableOpacity>
         </View>
       </View>
       

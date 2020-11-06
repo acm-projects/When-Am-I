@@ -5,7 +5,9 @@ import { StyleSheet, Text, View, Dimensions, Image, ScrollView, TouchableHighlig
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {queryCoord} from '../components/firebase'
 import { visit } from '../components/UserData'
-
+import { showLocation } from 'react-native-map-link'
+var utmObj = require('utm-latlng');
+var utm = new utmObj(); 
 const {height , width} = Dimensions.get("window");
 
 class LocationPage extends React.Component {
@@ -28,6 +30,8 @@ class LocationPage extends React.Component {
   render (){
     if(this.props.route.params) { // Only render the event page if a marker has been picked
     const { markerInfo } = this.props.route.params;
+    let coord = utm.convertUtmToLatLng(markerInfo.utm_east, markerInfo.utm_north, markerInfo.utm_zone, 'S')
+
     return (
       <View style={styles.backgroundColor}>
         <ScrollView>
@@ -42,7 +46,14 @@ class LocationPage extends React.Component {
             alignSelf: 'center',
               }}
           />
-          <Button title="Visit" onPress={()=>visit(markerInfo)} />
+          <Button title="Go There!" onPress={()=>{
+            showLocation({
+              latitude: coord.lat,
+              longitude: coord.lng,
+              googleForceLatLon: true,
+              title: (markerInfo.title),
+          })
+          }} />
           <View style={styles.outerBox}>
             <View style = {styles.outerBoxText}>
 
@@ -145,7 +156,7 @@ class LocationPage extends React.Component {
           <View style = {styles.outerBoxText}>
 
             {/*Base screen, with title, address, distance, and description*/}
-            <Text style = {styles.HeaderText}>Choose a marker from the map.</Text>
+            <Text style = {styles.HeaderText}>Choose a marker from the map to view details about the location</Text>
           </View>
         </View>
       </SafeAreaView>
