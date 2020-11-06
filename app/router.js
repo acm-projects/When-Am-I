@@ -8,27 +8,6 @@ import Map from './screens/Map';
 import LocationPage from './screens/EventPage';
 import SearchPage from './screens/SearchPage';
 import SplashScreen from 'react-native-splash-screen';
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from '@react-navigation/stack';
-
-
-const EventStack = createStackNavigator();
-
-export function EventStackNavigator(){
-  return(
-    <EventStack.Navigator>
-      {console.log("hi")}
-      <EventStack.Screen name = 'Map' component = {Map}/>
-      <EventStack.Screen name='EventPage' component={LocationPage} />
-    </EventStack.Navigator>
-  )
-}
-
-function MapScreen() {
-    return (
-      <Map/>
-    )
-}
 
 
 const Tab = createBottomTabNavigator();
