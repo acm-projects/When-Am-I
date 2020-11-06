@@ -3,21 +3,11 @@ import {
   StyleSheet,
   View,
   Image,
-  Button,
   Dimensions,
-  Text,
   Alert,
-  TouchableOpacity,
-  TouchableHighlight,
-  Platform,
 } from "react-native";
 import MapView from "react-native-map-clustering";
-import { NavigationContainer, useNavigation  } from '@react-navigation/native';
-import myStackNavigator from '../router';
-import LocationPage from './EventPage';
-import { createStackNavigator } from 'react-navigation';
 import { showLocation } from 'react-native-map-link'
-import { StackNavigator } from 'react-navigation';
 import  {
   Marker,
   AnimatedRegion,
@@ -25,9 +15,7 @@ import  {
   Callout,
 } from "react-native-maps";
 import {queryCoord} from '../components/firebase'
-import { decode } from "@mapbox/polyline";
 import * as Permissions from 'expo-permissions';
-import * as Location from 'expo-location';
 const {height , width} = Dimensions.get("window");
 const pin = require('../assets/pin.png');
 const ASPECT_RATIO = width / height
@@ -146,7 +134,7 @@ constructor(props) {
                     [
                       { text: "Details",
                         onPress: () => {
-                          this.props.navigation.navigate('EventPage')
+                          this.props.navigation.navigate('EventPage', {markerInfo: marker})
                         }
                       },
                       { text: "Directions", onPress: () => {
