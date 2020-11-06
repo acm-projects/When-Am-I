@@ -2,12 +2,12 @@ import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, TouchableHighlight, ScrollView, Platform } from 'react-native';
 
-const PrevioslyVisited = () => {
+const PreviouslyVisited = (props) => {
     return(
         <TouchableHighlight style={styles.button}>
         <View style={styles.column}>
-          <Text style={styles.buttonSiteText}> Name of Historical Site </Text>
-          <Text style={styles.buttonInfoText}> The City, Texas </Text>
+          <Text style={styles.buttonSiteText}>{props.title}</Text>
+          <Text style={styles.buttonInfoText}>{props.city}</Text>
         </View>
       </TouchableHighlight>
     );
@@ -41,4 +41,4 @@ const styles = StyleSheet.create({
     },
   })
 
-export default PrevioslyVisited;
+export default PreviouslyVisited;

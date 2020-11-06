@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { StyleSheet, Text, Button, View, Image, Dimensions, TouchableHighlight, ScrollView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import PrevioslyVisited from '../components/VisitedButton';
+import PreviouslyVisited from '../components/VisitedButton';
 import { auth, signOut } from '../components/UserAuth'
 import { firebase } from '../components/firebase'
 
@@ -66,15 +66,15 @@ class UserPage extends Component {
               </View>
               <View style = {styles.preVisitedBox}>
                 <Text style = {styles.BoxText}> Previously Visited </Text>
-                <ScrollView>
-                  
-                    <PrevioslyVisited/>
-                    <PrevioslyVisited/>
-                    <PrevioslyVisited/>
-                    <PrevioslyVisited/>
-                    <PrevioslyVisited/>
-                  
-                </ScrollView>
+                {this.state.visited==null ? 
+                  <PreviouslyVisited title="Visit some markers!" />
+                : <ScrollView>
+                  {this.state.visited.map((marker) => {
+                    return(
+                      <PreviouslyVisited title={marker.title} city={marker.city} />
+                    )}
+                  )}
+                  </ScrollView>}
             </View>
           </SafeAreaView>
         </ScrollView>
