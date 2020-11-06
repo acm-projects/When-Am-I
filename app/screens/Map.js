@@ -108,11 +108,10 @@ constructor(props) {
         > 
 
           {this.state.list.map((marker, index) => {
-            let coord = utm.convertUtmToLatLng(marker.utm_east, marker.utm_north, marker.utm_zone, 'S')
             return(
               <Marker
                 key={index}
-                coordinate={{latitude: coord.lat, longitude: coord.lng}}
+                coordinate={{latitude: marker.latitude, longitude: marker.longitude}}
                 title={marker.title}
                 style={{
                   flex: 1,

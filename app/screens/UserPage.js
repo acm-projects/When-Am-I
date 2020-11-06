@@ -54,7 +54,7 @@ class UserPage extends Component {
                 <Text style = {styles.BoxText}>User Statistics</Text>
                 <ScrollView>
                   
-                    <Text style = {styles.numVisited}>Visited {this.state.visited==null ? 0 : this.state.visited.length} / 16734 Total</Text>
+                    <Text style = {styles.numVisited}>Visited {this.state.visited==null ? 0 : this.state.visited.length} / 12941 Total</Text>
                     <Text style = {styles.numVisited}>Visited 1 / 150  Civil War Locations</Text>
                     <Text style = {styles.numVisited}>Visited 10 / 15 State Courts</Text>
                     <Text style = {styles.numVisited}>Visited 2 / 100 Confederate Memorials</Text>
