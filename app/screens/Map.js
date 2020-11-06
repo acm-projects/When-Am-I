@@ -12,7 +12,7 @@ import {
   Platform,
 } from "react-native";
 import MapView from "react-native-map-clustering";
-import { NavigationContainer, useNavigation  } from '@react-navigation/native';
+import { useNavigation  } from '@react-navigation/native';
 import myStackNavigator from '../router';
 import LocationPage from './EventPage';
 import { createStackNavigator } from 'react-navigation';
@@ -146,7 +146,7 @@ constructor(props) {
                     [
                       { text: "Details",
                         onPress: () => {
-                          this.props.navigation.navigate('EventPage')
+                          this.props.navigation.navigate('EventPage', {markerInfo: marker})
                         }
                       },
                       { text: "Directions", onPress: () => {
