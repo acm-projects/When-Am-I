@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StackNavigator } from 'react-navigation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import React, { Component } from 'react';
@@ -9,21 +8,29 @@ import Map from './screens/Map';
 import LocationPage from './screens/EventPage';
 import SearchPage from './screens/SearchPage';
 import SplashScreen from 'react-native-splash-screen';
+import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from '@react-navigation/stack';
 
+
+const EventStack = createStackNavigator();
+
+export function EventStackNavigator(){
+  return(
+    <EventStack.Navigator>
+      {console.log("hi")}
+      <EventStack.Screen name = 'Map' component = {Map}/>
+      <EventStack.Screen name='EventPage' component={LocationPage} />
+    </EventStack.Navigator>
+  )
+}
 
 function MapScreen() {
     return (
       <Map/>
     )
 }
-function EventScreen() {
-    return (
-      <LocationPage/>
-    )
-}
 
-const Stack = createStackNavigator();
+
 const Tab = createBottomTabNavigator();
 
 export default function MyTabs() {
@@ -60,7 +67,7 @@ export default function MyTabs() {
             />
         <Tab.Screen
                 name="Map"
-                component={MapScreen}
+                component={Map}
                 options={{
                 tabBarLabel: 'Map',
                 tabBarIcon: ({ color, size }) => (
@@ -70,7 +77,7 @@ export default function MyTabs() {
             />
         <Tab.Screen
                 name="EventPage"
-                component={EventScreen}
+                component={LocationPage}
                 options={{
                 tabBarLabel: 'Event',
                 tabBarIcon: ({ color, size }) => (
@@ -81,17 +88,5 @@ export default function MyTabs() {
         </Tab.Navigator>
     </NavigationContainer>
   );
-}
 
-
-
-
-export function myStackNavigator () {
-  return (
-    <Stack.Navigator initialRouteName="Map" component={MapScreen}>
-      <Stack.Screen name="EventPage" component={EventScreen} />
-      <Stack.Screen name="Map" component={MapScreen} />
-      <Stack.Screen name="Splash" component={Search} />
-    </Stack.Navigator>
-  );
 }

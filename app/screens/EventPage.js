@@ -7,7 +7,6 @@ import {queryCoord} from '../components/firebase'
 
 const {height , width} = Dimensions.get("window");
 
-
 class LocationPage extends React.Component{
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
@@ -19,13 +18,6 @@ class LocationPage extends React.Component{
   
   state = {
     list: {},
-/*
-    name: this.state.list.title,
-    date: "AB/CD/EFGH_HC",
-    address: this.state.list.address,
-    description: this.state.list.markertext,
-    milesAway: "4.2 HARCODE",
-*/
     //array of location tags
     tags:['Civil War', 'Family', '1800s',],
     
@@ -37,40 +29,14 @@ class LocationPage extends React.Component{
       
   }
 
-  //this is where we can refresh the page with new data from database
-  getNewLocation = () =>{
-    this.setState({
-      name: "New name",
-      date: "12/34/5678",
-      address: "123new street",
-      description: "this is a new (longer)! description lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt, odio lacus consequat mauris, quis imperdiet metus quam sed velitlorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt, odio lacus consequat mauris, quis imperdiet metus quam sed velit.",
-      milesAway: "Now 2!",
-
-      tags:['Presidents', 'Applebees', 'Mango',],
-      
-      reviews:[
-        {username: 'username4', rating: 1, reviewText: "Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt.Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt."},
-        {username: 'username5', rating: 2, reviewText: "Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt."},
-        {username: 'username6', rating: 5, reviewText: "Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel."}],
-
-      
-    });
-    }
-
   render (){
+    const { markerInfo } = this.props.route.params;
     return (
       <View style={styles.backgroundColor}>
 
         <ScrollView>
 
           <SafeAreaView>
-
-          <Button
-          onPress = {this.getNewLocation}
-          title = "Show New Location"
-          color = '#F0ECE3'
-          alignSelf = 'center'
-          />
 
           <Image source = {require('../assets/logo.jpg')} 
           style = {{ 
@@ -86,26 +52,23 @@ class LocationPage extends React.Component{
             <View style = {styles.outerBoxText}>
 
               {/*Base screen, with title, address, distance, and description*/}
-              <Text style = {styles.HeaderText}>{this.state.list.title}</Text>
-              <Text style = {styles.SubHeaderText}>
-                {this.state.list.address==null ? "" : this.state.list.address}
-                </Text>
-              <Text style = {styles.MilesAwayText}>{this.state.milesAway} Miles Away</Text>
-              <Text style = {styles.DescriptionText}>{this.state.list.markertext}</Text>
+              <Text style = {styles.HeaderText}>{markerInfo.title}</Text>
+            <Text style = {styles.SubHeaderText}> {markerInfo.city} { ", Texas" }</Text>
+              <Text style = {styles.DescriptionText}>{markerInfo.markertext}</Text>
 
               {/*Rendering the tags, currently set to only display 3 tags */}
               <View style={styles.tagsBox}>
 
                 <TouchableHighlight style={styles.button}>
-                  <Text style={styles.TagText}>{this.state.tags[0]}</Text>
+                  <Text style={styles.TagText}>{markerInfo.code}</Text>
                 </TouchableHighlight>
 
                 <TouchableHighlight style={styles.button}>
-                  <Text style={styles.TagText}>{this.state.tags[1]}</Text>
+                  <Text style={styles.TagText}>{markerInfo.code}</Text>
                 </TouchableHighlight>
 
                 <TouchableHighlight style={styles.button}>
-                  <Text style={styles.TagText}>{this.state.tags[2]}</Text>
+                  <Text style={styles.TagText}>{markerInfo.code}</Text>
                 </TouchableHighlight>
 
               </View>
@@ -241,9 +204,9 @@ const styles = StyleSheet.create({
   },
   HeaderText: {
     color: '#30475E',
-    fontSize: (Dimensions.get("window").width)/9,
-    marginTop: (Dimensions.get("window").height)/40,
-    alignSelf: 'center',
+    fontSize: (Dimensions.get("window").width)/10,
+    marginTop: (Dimensions.get("window").height)/45,
+    textAlign: 'center',
     //fontFamily: "BanglaSangamMN",
   },
   SubHeaderText: {
@@ -251,6 +214,7 @@ const styles = StyleSheet.create({
     fontSize: (Dimensions.get("window").width)/20,
     marginTop: (Dimensions.get("window").height)/70,
     textAlign: 'center'
+    
     //fontFamily: "BanglaSangamMN",
   },
   MilesAwayText: {
@@ -269,7 +233,7 @@ const styles = StyleSheet.create({
   },
   TagText: {
     color: '#F0ECE3',
-    fontSize: (Dimensions.get("window").width)/23,
+    fontSize: (Dimensions.get("window").width)/30,
     marginTop: (Dimensions.get("window").height)/85,
     textAlign: 'center'
     //fontFamily: "BanglaSangamMN",
