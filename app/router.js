@@ -8,6 +8,7 @@ import UserPage from './screens/UserPage';
 import Map from './screens/Map';
 import LocationPage from './screens/EventPage';
 import SearchPage from './screens/SearchPage';
+import LoginPage from './screens/LoginPage';
 import SplashScreen from 'react-native-splash-screen';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -38,6 +39,16 @@ export default function MyTabs() {
                 inactiveBackgroundColor: 'black',
             }}
             >
+          <Tab.Screen 
+            name="LoginPage"
+            component={LoginPage}
+            options={{
+            tabBarLabel: 'User Page',
+            tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="account-circle-outline" color={color} size={size} />
+            ),
+            }}
+        />
          <Tab.Screen 
                 name="UserPage"
                 component={UserPage}

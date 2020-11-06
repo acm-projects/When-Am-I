@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React, { Component, useState} from 'react';
 import { TouchableOpacity, Image, Dimensions, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight } from 'react-native';
-
-import { Component } from 'react';
 import { Alert, Button,} from 'react-native';
 import { TextInput } from 'react-native-paper';
+import { signIn, signUp } from '../components/UserAuth'
 
 const {height , width} = Dimensions.get("window");
 
@@ -12,8 +11,8 @@ export default class LoginPage extends Component {
     super(props);
     
     this.state = {
-      username: '',
-      password: '',
+      username: "",
+      password: "",
     };
   }
 
@@ -26,18 +25,6 @@ export default class LoginPage extends Component {
                alert();
            }
  
-  }
-  
-  onLogin() {
-    const { username, password } = this.state;
-
-    Alert.alert('Credentials', `${username} + ${password}`);
-  }
-
-  onRegister() {
-    const { username, password } = this.state;
-
-    Alert.alert('Credentials', `${username} + ${password}`);
   }
 
   render() {
@@ -73,7 +60,7 @@ export default class LoginPage extends Component {
         <TouchableOpacity
           title={'Login'}
           style={styles1.logButton}
-          onPress={this.onRegister.bind(this)}
+          onPress={()=>signIn.bind(this)(this.state.username,this.state.password)}
         >
         <Text style={styles1.buttonText}> Login </Text>
         </TouchableOpacity>
@@ -81,7 +68,7 @@ export default class LoginPage extends Component {
         <TouchableOpacity
           title={'Register'}
           style={styles1.logButton}
-          onPress={this.onLogin.bind(this)}
+          onPress={()=>signUp.bind(this)(this.state.username,this.state.password)}
         >
           <Text style={styles1.buttonText}> Register </Text>
         </TouchableOpacity>

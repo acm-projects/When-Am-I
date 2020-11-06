@@ -1,4 +1,6 @@
 const firebase = require("firebase");
+export { firebase }
+
 try {
     firebase.initializeApp({
         apiKey: "AIzaSyAyLXoloras4WyizpQY_ldCYoj452wqdPo",

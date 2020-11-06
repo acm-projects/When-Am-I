@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import { StyleSheet, Text, View, Dimensions, Image, ScrollView, TouchableHighlight, Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {queryCoord} from '../components/firebase'
+import { visit } from '../components/UserData'
 
 const {height , width} = Dimensions.get("window");
 
@@ -18,6 +19,7 @@ class LocationPage extends React.Component{
 
   
   state = {
+    markerId: 32,
     list: {},
 /*
     name: this.state.list.title,
@@ -64,7 +66,7 @@ class LocationPage extends React.Component{
         <ScrollView>
 
           <SafeAreaView>
-
+          <Button title="Visit Location" onPress={()=>visit.bind(this)(this.state.markerId)} />
           <Button
           onPress = {this.getNewLocation}
           title = "Show New Location"
