@@ -54,13 +54,14 @@ export function queryKeyword(indexName) {
         });
         this.setState({ list: newList });
         });
+        
     }
     
     //search for keyword
     //var index = queryKeyword.bind(this)(indexname, this);
     //console.log(index);
 
-    export function queryKeyword(code) {
+    export function queryCode(code) {
         db.ref('/').once('value').then((snapshot) => {
             let newList = [];
             snapshot.forEach((snap) => {
@@ -74,5 +75,6 @@ export function queryKeyword(indexName) {
             });
             this.setState({ list: newList });
             });
+            
         }
 

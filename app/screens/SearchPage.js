@@ -1,32 +1,41 @@
 import React, {useState} from 'react';
-import { TouchableOpacity, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight } from 'react-native';
+import { TouchableOpacity, Image, Dimensions, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight } from 'react-native';
 import { SearchBar, ListItem, List } from 'react-native-elements';
+import {queryCoord} from '../components/firebase'
+import {queryKeyword} from '../components/firebase'
+import {queryCode} from '../components/firebase'
+
+/*
+<FlatList
+data={this.state.data}
+renderItem={this.renderItem}
+keyExtractor={(item) => item.indexname}
+extraData={this.state.selectedId}
+/>
+*/
 
 const Item = ({ item, onPress, style }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
-    <Text style={styles.title}>{item.title}</Text>
+    <Text style={styles.title}>{item.indexname}</Text>
   </TouchableOpacity>
 );
 
 class SearchPage extends React.Component {
   state = {
     search: '',
+
     data: [
       {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Recent Location',
+        indexname: 'First Recent Location',
       },
       {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Recent Location',
+        indexname: 'Second Recent Location',
       },
       {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Third Recent Location. Making this really long to see what happens when I do',
+        indexname: 'Third Recent Location. Making this really long to see what happens when I do',
       },
       {
-        id: '3ac68afc-c605-48d3-a4f8-fbdasdfsdaf',
-        title: 'Fourth Recent Location',
+        indexname: 'Fourth Recent Location',
       },
       
     ],
@@ -35,43 +44,46 @@ class SearchPage extends React.Component {
   };
 
   updateSearch = (search) => {
-    this.setState({ 
-      //set data to results from searched string here?
+    //if (queryKeyword.bind(this)(search, this).length()){
+      this.setState({ 
+        //set data to results from searched string here?
+        search: search,
+        selectedId: '',
+        text: 'press enter to search for "' + search + '"',
+      });
+    //}
+  };
+
+  querySearch = (search) => {
+
+    this.setState({
       search,
-      data: [
-      {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Location',
-      },
-      {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Location',
-      },
-      {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Third Location. Making this really long to see what happens when I do',
-      },
-      {
-        id: '3ac68afc-c605-48d3-a4f8-fbdasdfsdaf',
-        title: 'Fourth Location',
-      },
-      {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aadaqwe',
-        title: 'FFFFFFFFFFFFFifth Location',
-      },
-      {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91qwqqqq',
-        title: '6 Location',
-      },
-      {
-        id: '3ac68afc-c605-48d3-a4f8-fbd9njkkj',
-        title: 'Seven Location',
-      },
-      
-      ],
-      selectedId: '',
-      text: 'results for "' + search + '"',
+      text: 'results for "' + this.state.search + '"',
     });
+
+    queryKeyword.bind(this)(search, this);
+
+    /*
+    console.log(this.state.list);
+    this.state.list.map(x => x.indexname);
+    console.log(this.state.list.join(' '));
+
+    
+    {this.state.list.map((listItem) => {
+      return(
+        <Text>{listItem.indexname}</Text>
+      )
+    })}
+
+   if (!(this.state.list === undefined)){
+    this.state.data = [{indexname: this.state.search + ' '}];
+    let result = this.state.list.map((ListItem) => {ListItem.indexname});
+    console.log(result[0]);
+  }else{
+    this.state.data = [{indexname: this.state.search + ' was not found'}]
+    
+  }
+  */
   };
 
   updateSearchFromTag = (tag) => {
@@ -80,32 +92,25 @@ class SearchPage extends React.Component {
       search: tag,
       data: [
       {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Location',
+        indexname: 'First Location',
       },
       {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Location',
+        indexname: 'Second Location',
       },
       {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Third Location. Making this really long to see what happens when I do',
+        indexname: 'Third Location. Making this really long to see what happens when I do',
       },
       {
-        id: '3ac68afc-c605-48d3-a4f8-fbdasdfsdaf',
-        title: 'Fourth Location',
+        indexname: 'Fourth Location',
       },
       {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aadaqwe',
-        title: 'FFFFFFFFFFFFFifth Location',
+        indexname: 'FFFFFFFFFFFFFifth Location',
       },
       {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91qwqqqq',
-        title: '6 Location',
+        indexname: '6 Location',
       },
       {
-        id: '3ac68afc-c605-48d3-a4f8-fbd9njkkj',
-        title: 'Seven Location',
+        indexname: 'Seven Location',
       },
       
       ],
@@ -120,20 +125,16 @@ class SearchPage extends React.Component {
       search: '',
       data: [
         {
-          id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-          title: 'First Recent Location',
+          indexname: 'First Recent Location',
         },
         {
-          id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-          title: 'Second Recent Location',
+          indexname: 'Second Recent Location',
         },
         {
-          id: '58694a0f-3da1-471f-bd96-145571e29d72',
-          title: 'Third Recent Location. Making this really long to see what happens when I do',
+          indexname: 'Third Recent Location. Making this really long to see what happens when I do',
         },
         {
-          id: '3ac68afc-c605-48d3-a4f8-fbdasdfsdaf',
-          title: 'Fourth Recent Location',
+          indexname: 'Fourth Recent Location',
         },
         
       ],
@@ -146,7 +147,9 @@ class SearchPage extends React.Component {
     return (
       <Item
         item={item}
-        onPress={() => this.state.selectedId = item.id }
+        onPress={() => this.state.selectedId = item.indexname }
+
+        
       />
     );
   };
@@ -154,6 +157,11 @@ class SearchPage extends React.Component {
   render() {
     const { search } = this.state;
     const tags= ['Civil War', 'Texas Revolution', 'Presidents', 'Tags!', 'More History', 'ABC123'];
+    console.log(this.state.list);
+    if (!(this.state.list === undefined)){
+      console.log(this.state.list[0])
+    }
+    
 
     return (
       <View style = {styles.back}>
@@ -163,6 +171,7 @@ class SearchPage extends React.Component {
       <SearchBar
         placeholder="Search"
         onChangeText={this.updateSearch}
+        onSubmitEditing={this.querySearch}
         onClear={this.resetSearch}
         value={search}
         containerStyle={{backgroundColor: '#F0ECE3', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
@@ -231,13 +240,14 @@ class SearchPage extends React.Component {
         textAlign: 'left',
         marginHorizontal: 15
       }}>{this.state.text}</Text>
-        
-        <FlatList
-          data={this.state.data}
-          renderItem={this.renderItem}
-          keyExtractor={(item) => item.id}
-          extraData={this.state.selectedId}
-        />
+
+
+<FlatList
+data={this.state.data}
+renderItem={this.renderItem}
+keyExtractor={(item) => item.indexname}
+extraData={this.state.selectedId}
+/>
 
       </SafeAreaView>
       </View>
