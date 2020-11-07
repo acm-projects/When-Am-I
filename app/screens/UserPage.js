@@ -1,12 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { StyleSheet, Text, Button, View, Image, Dimensions, TouchableHighlight, ScrollView, Platform } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Image, Dimensions, TouchableHighlight, ScrollView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PreviouslyVisited from '../components/VisitedButton';
 import { auth, signOut } from '../components/UserAuth'
 import { firebase } from '../components/firebase'
 
-const {height , width} = Dimensions.get("window");
 
 class UserPage extends Component {
 
@@ -23,7 +21,11 @@ class UserPage extends Component {
         this.setState({uid:userAuth.uid})
         firebase.firestore().collection("users").doc(userAuth.uid) // When the user's data updates, reset the state variables
         .onSnapshot((doc) => {
-          this.setState({visited:doc.data().visited})
+          let data = doc.data()
+          this.setState({
+            name: data.name,
+            visited:data.visited
+          })
         });
       }
       else // If user logged out
@@ -46,11 +48,17 @@ class UserPage extends Component {
                   <Image source = {require('../assets/logo.jpg')} 
                   style = {{ width: Dimensions.get("window").width/6, height: Dimensions.get("window").width/6, borderRadius: (Dimensions.get("window").width/5)/2 }}/>
               </View>
+
               <View style = {styles.ProfileName}>
-                <Text style = {styles.ProfileText}> FirstName LastName </Text>
-                <Button title="Sign Out" onPress={()=>
-                  signOut.bind(this)()} />
+                <Text style = {styles.ProfileText}>{this.state.name}</Text>
               </View>
+
+              <View style= {{alignSelf: 'center'}}>
+                <TouchableOpacity style={styles.logButton} onPress={()=>signOut.bind(this)()}>
+                  <Text>Sign Out</Text>  
+                </TouchableOpacity> 
+              </View>
+
               <View style = {styles.statBox}>
                 <Text style = {styles.BoxText}>User Statistics</Text>
                 <ScrollView>
@@ -65,20 +73,20 @@ class UserPage extends Component {
                   
                 </ScrollView>
               </View>
+              
               <View style = {styles.preVisitedBox}>
+
                 <Text style = {styles.BoxText}> Previously Visited </Text>
-                {this.state.visited==null ? 
+                {this.state.visited==null || this.state.visited.length==0 ? 
                   <PreviouslyVisited title="Visit some markers!" />
                 : <ScrollView>
                   {this.state.visited.map((marker) => {
                     return(
-                      <PreviouslyVisited title={marker.title} city={marker.city} onPress={
-                        () => {
-                          this.props.navigation.navigate('EventPage', {markerInfo: marker})
-                      }}/>
+                      <PreviouslyVisited key={marker.firebaseid} title={marker.title} city={marker.city} />
                     )}
                   )}
                   </ScrollView>}
+
             </View>
           </SafeAreaView>
         </ScrollView>
@@ -108,7 +116,7 @@ const styles = StyleSheet.create({
   },
   ProfileText: {
     color: '#fff',
-    fontSize: (Dimensions.get("window").width/13),
+    fontSize: (Dimensions.get("window").width/15),
   },
   statBox: {
     flex: 4,
@@ -170,6 +178,18 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     alignSelf: "stretch",
     backgroundColor: '#CBAF87',
+  },
+  logButton: {
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: '#cbaf87',
+    borderRadius: 30,
+    shadowColor: '#000000',
+    shadowOpacity: 0.4,
+    marginHorizontal: 15,
+    paddingHorizontal: 15,
+    shadowOffset: {width: 0, height: 4},
+    shadowRadius: 4,
   },
 })
 

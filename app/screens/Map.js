@@ -1,18 +1,7 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Image,
-  Dimensions,
-  Alert,
-} from "react-native";
+import { StyleSheet, View, Image, Dimensions } from "react-native";
 import MapView from "react-native-map-clustering";
-import  {
-  Marker,
-  AnimatedRegion,
-  PROVIDER_GOOGLE,
-  Callout,
-} from "react-native-maps";
+import { Marker, AnimatedRegion, PROVIDER_GOOGLE, Callout } from "react-native-maps";
 import {queryCoord} from '../components/firebase'
 import * as Permissions from 'expo-permissions';
 import { visit } from '../components/UserData'
@@ -25,8 +14,6 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const LATITUDE = 31.000000;
 const LONGITUDE = -100.000000;
 const mapStyle = require('../components/mapStyle.json');
-var utmObj = require('utm-latlng');
-var utm = new utmObj(); 
 
 class Map extends React.Component {
 
@@ -76,7 +63,7 @@ constructor(props) {
     this.getLocationAsync();
   }
   componentDidMount() {
-    queryCoord.bind(this)(336646, 3423501, -1, this);   // utm east/north coord to search and radius from that coord
+    queryCoord.bind(this)(32.750323, -96.811523, 3, this);   // Search for markers around a lat/lng point, radius is in miles
     this.getCurrentLocation();
   }
 
@@ -135,7 +122,7 @@ constructor(props) {
                 >
                 <Image
                   source={require('../assets/pin.png')}
-                  style={{width: 25, height: 25}}
+                  style={{width: 30, height: 30}}
                   resizeMode="contain">
                 </Image>
 

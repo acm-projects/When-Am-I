@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, Dimensions, TouchableHighlight, ScrollVi
 
 const PreviouslyVisited = (props) => {
     return(
-        <TouchableHighlight style={styles.button}>
+        <TouchableHighlight style={styles.button} >
         <View style={styles.column}>
           <Text style={styles.buttonSiteText}>{props.title}</Text>
           <Text style={styles.buttonInfoText}>{props.city}</Text>
