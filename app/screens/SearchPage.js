@@ -43,6 +43,11 @@ class SearchPage extends React.Component {
       text: 'recents',
   };
 
+  componentDidMount() 
+  {
+    queryKeyword.bind(this)(this.state.search);
+  }
+
   updateSearch = (search) => {
     //if (queryKeyword.bind(this)(search, this).length()){
       this.setState({ 
@@ -61,7 +66,7 @@ class SearchPage extends React.Component {
       text: 'results for "' + this.state.search + '"',
     });
 
-    queryKeyword.bind(this)(search, this);
+    // queryKeyword.bind(this)(search, this);
 
     /*
     console.log(this.state.list);
@@ -158,7 +163,7 @@ class SearchPage extends React.Component {
     const { search } = this.state;
     const tags= ['Civil War', 'Texas Revolution', 'Presidents', 'Tags!', 'More History', 'ABC123'];
     console.log(this.state.list);
-    if (!(this.state.list === undefined)){
+    if (!this.state.list === []){
       console.log(this.state.list[0])
     }
     
