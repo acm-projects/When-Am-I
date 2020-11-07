@@ -48,13 +48,14 @@ class UserPage extends Component {
               </View>
               <View style = {styles.ProfileName}>
                 <Text style = {styles.ProfileText}> FirstName LastName </Text>
-                <Button title="Sign Out" onPress={()=>signOut.bind(this)()} />
+                <Button title="Sign Out" onPress={()=>
+                  signOut.bind(this)()} />
               </View>
               <View style = {styles.statBox}>
                 <Text style = {styles.BoxText}>User Statistics</Text>
                 <ScrollView>
                   
-                    <Text style = {styles.numVisited}>Visited {this.state.visited==null ? 0 : this.state.visited.length} / 16734 Total</Text>
+                    <Text style = {styles.numVisited}>Visited {this.state.visited==null ? 0 : this.state.visited.length} / 12941 Total</Text>
                     <Text style = {styles.numVisited}>Visited 1 / 150  Civil War Locations</Text>
                     <Text style = {styles.numVisited}>Visited 10 / 15 State Courts</Text>
                     <Text style = {styles.numVisited}>Visited 2 / 100 Confederate Memorials</Text>
@@ -71,7 +72,10 @@ class UserPage extends Component {
                 : <ScrollView>
                   {this.state.visited.map((marker) => {
                     return(
-                      <PreviouslyVisited title={marker.title} city={marker.city} />
+                      <PreviouslyVisited title={marker.title} city={marker.city} onPress={
+                        () => {
+                          this.props.navigation.navigate('EventPage', {markerInfo: marker})
+                      }}/>
                     )}
                   )}
                   </ScrollView>}

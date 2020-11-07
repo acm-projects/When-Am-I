@@ -23,7 +23,7 @@ export default class LoginPage extends Component {
            }
            else{
                alert();
-           }
+           } 
  
   }
 
@@ -31,21 +31,20 @@ export default class LoginPage extends Component {
     return (
       
       <View style={styles1.container}>
-        <View style = {{flexDirection: 'row', padding: 10, alignContent: 'center'}}>
-        <Image source = {require('../assets/logo.jpg')} 
-            style = {{ width: (Dimensions.get("window").width/6) -25, height: (Dimensions.get("window").width/6)-21, borderRadius: 200 }}/>
-      <Text style={styles1.inputext}>When Am I</Text>
-      </View>
-      
+        <View>
+         <Image source = {require('../assets/logo.jpg')} 
+              style = {{ width: (Dimensions.get("window").width/2.5) -25, height: (Dimensions.get("window").width/2.5)-21, borderRadius: 200 }}/>
+         </View>
+          <View style = {{flexDirection: 'row', padding: 10, alignContent: 'center'}}>
+            <Text style={styles1.inputext}>When Am I ?</Text>
+          </View>      
         <TextInput
           value={this.state.username}
-          
           onChangeText={(username) => this.setState({ username })}
            label='Email'
           style={styles1.input}
           underlineColorAndroid={'transparent'}
           theme={{colors: '#30475E'}}
-
         />
         <TextInput
           value={this.state.password}
@@ -60,7 +59,7 @@ export default class LoginPage extends Component {
         <TouchableOpacity
           title={'Login'}
           style={styles1.logButton}
-          onPress={()=>signIn.bind(this)(this.state.username,this.state.password)}
+          onPress={()=>signIn.bind(this)(this.state.username,this.state.password)(this.props.navigation.navigate('Map'))}
         >
         <Text style={styles1.buttonText}> Login </Text>
         </TouchableOpacity>
@@ -68,19 +67,19 @@ export default class LoginPage extends Component {
         <TouchableOpacity
           title={'Register'}
           style={styles1.logButton}
-          onPress={()=>signUp.bind(this)(this.state.username,this.state.password)}
+          onPress={()=>signUp.bind(this)(this.state.username,this.state.password)(this.props.navigation.navigate('Map')) }
         >
           <Text style={styles1.buttonText}> Register </Text>
         </TouchableOpacity>
+        </View>
+        <View>
         <TouchableOpacity
           title={'Skip'}
           style={styles1.logButton}
           onPress={()=>
             this.props.navigation.navigate('Map')
-
-          }
-        >
-          <Text style={styles1.buttonText}> Register </Text>
+          }>
+          <Text style={styles1.buttonText2}> Skip </Text>
         </TouchableOpacity>
         </View>
       </View>
@@ -119,6 +118,11 @@ const styles1 = StyleSheet.create({
     color: '#30475E',
     fontSize: 25,
     fontWeight: 'bold',
+    alignSelf: 'center',
+  },
+  buttonText2: {
+    color: '#30475E',
+    fontSize: 20,
     alignSelf: 'center',
   },
   inputext: {
