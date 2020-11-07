@@ -38,3 +38,41 @@ export function queryCoord(eastCoord, northCoord, radius) {
         this.setState({ list: newList });
     });
 }
+
+//Keyword in indexname query
+export function queryKeyword(indexName) {
+    db.ref('/').once('value').then((snapshot) => {
+        let newList = [];
+        snapshot.forEach((snap) => {
+            var obj = snap.val();
+    //var indexname = snapsjot.child("indexname").val();
+            var indexName = obj.indexname;
+    
+            if(indexName == obj) {
+                newList = [...newList, obj];
+            }
+        });
+        this.setState({ list: newList });
+        });
+    }
+    
+    //search for keyword
+    //var index = queryKeyword.bind(this)(indexname, this);
+    //console.log(index);
+
+    export function queryKeyword(code) {
+        db.ref('/').once('value').then((snapshot) => {
+            let newList = [];
+            snapshot.forEach((snap) => {
+                var obj = snap.val();
+        //var indexname = snapsjot.child("indexname").val();
+                var code = obj.code;
+        
+                if(code == obj) {
+                    newList = [...newList, obj];
+                }
+            });
+            this.setState({ list: newList });
+            });
+        }
+
