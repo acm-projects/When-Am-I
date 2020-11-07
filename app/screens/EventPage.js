@@ -54,7 +54,7 @@ class LocationPage extends React.Component {
                   title: (markerInfo.title),
                 })
               }}>
-                <Text>Go There!</Text>  
+                <Text>GO THERE!</Text>  
               </TouchableOpacity> 
             </View>
               
@@ -295,14 +295,16 @@ const styles = StyleSheet.create({
   logButton: {
     padding: 10,
     marginBottom: 10,
+    fontWeight: 'bold',
     backgroundColor: '#cbaf87',
-    borderRadius: 30,
-    shadowColor: '#000000',
-    shadowOpacity: 0.4,
+    borderColor: 'black',
+    borderRadius: 50,
+    shadowColor: '#30475E',
     marginHorizontal: 15,
     paddingHorizontal: 15,
-    shadowOffset: {width: 0, height: 4},
+    shadowOffset: {width: 5, height: 5},
     shadowRadius: 4,
+    alignItems: 'center',
   },
 });
 

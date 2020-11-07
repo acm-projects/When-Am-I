@@ -31,27 +31,15 @@ function MyStack() {
                options={{
                 title: "",
                 headerStyle: {
-                    height: APPBAR_HEIGHT,
-                    backgroundColor: '#30475E',
+                    height: 0,
                 },
-                headerTitleStyle: {
-                    alignSelf: 'center',
-                    textAlign: 'center'
-                  },
-                headerTintColor: '#F0ECE3',
               }}/>    
         <Stack.Screen name="Map" component={Map} 
                options={{
                 title: "",
                 headerStyle: {
-                    height: APPBAR_HEIGHT,
-                    backgroundColor: '#30475E',
+                    height: 0,
                 },
-                headerTitleStyle: {
-                    alignSelf: 'center',
-                    textAlign: 'center'
-                  },
-                headerTintColor: '#F0ECE3',
               }}/>    
         <Stack.Screen name="Details" component={LocationPage}
                 options={{
