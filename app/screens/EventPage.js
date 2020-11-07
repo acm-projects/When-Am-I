@@ -46,23 +46,26 @@ class LocationPage extends React.Component {
             alignSelf: 'center',
               }}
           />
-          <Button title="Go There!" onPress={()=>{
-            showLocation({
-              latitude: coord.lat,
-              longitude: coord.lng,
-              googleForceLatLon: true,
-              title: (markerInfo.title),
-          })
-          }} />
           <View style={styles.outerBox}>
             <View style = {styles.outerBoxText}>
 
               {/*Base screen, with title, address, distance, and description*/}
               <Text style = {styles.HeaderText}>{markerInfo.title}</Text>
             <Text style = {styles.SubHeaderText}> {markerInfo.city} { ", Texas" }</Text>
+            <View style = {{padding: 15}}>
+              <Button title="Go There!" color="#30475E"  onPress={()=>{
+                showLocation({
+                  latitude: coord.lat,
+                  longitude: coord.lng,
+                  googleForceLatLon: true,
+                  title: (markerInfo.title),
+              })
+              }} />
+            </View>
               <Text style = {styles.DescriptionText}>{markerInfo.markertext}</Text>
 
               {/*Rendering the tags, currently set to only display 3 tags */}
+              {
               <View style={styles.tagsBox}>
 
                 <TouchableHighlight style={styles.button}>
@@ -78,6 +81,7 @@ class LocationPage extends React.Component {
                 </TouchableHighlight>
 
               </View>
+            }
 
               {/*Show first 3 reviews, then a button to get next three reviews*/}
               <View style={styles.reviewBox}>

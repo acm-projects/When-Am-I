@@ -136,7 +136,7 @@ constructor(props) {
                 >
                 <Image
                   source={require('../assets/pin.png')}
-                  style={{width: 25, height: 25}}
+                  style={{width: 30, height: 30}}
                   resizeMode="contain">
                 </Image>
 
