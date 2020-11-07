@@ -7,7 +7,6 @@ import {
   Alert,
 } from "react-native";
 import MapView from "react-native-map-clustering";
-import { showLocation } from 'react-native-map-link'
 import  {
   Marker,
   AnimatedRegion,
@@ -16,6 +15,8 @@ import  {
 } from "react-native-maps";
 import {queryCoord} from '../components/firebase'
 import * as Permissions from 'expo-permissions';
+import { visit } from '../components/UserData'
+
 const {height , width} = Dimensions.get("window");
 const pin = require('../assets/pin.png');
 const ASPECT_RATIO = width / height
@@ -59,6 +60,7 @@ constructor(props) {
     longitude: LONGITUDE,
     routeCoordinates: [],
     prevLatLng: {},
+    tracksViewChanges: false,
     coordinate: new AnimatedRegion({
       latitude: LATITUDE,
       longitude: LONGITUDE,
@@ -81,6 +83,17 @@ constructor(props) {
   getLocationAsync = async () => {
     await Permissions.askAsync(Permissions.LOCATION);
   }
+  componentDidUpdate(prevProps) {
+    if (prevProps.coordinate !== this.props.coordinate // set true only when props changed
+        || prevProps.value !== this.props.value 
+        || prevProps.level !== this.props.level) {
+        this.setState({tracksViewChanges: true})
+    } else if (this.state.tracksViewChanges) {
+       // set to false immediately after rendering with tracksViewChanges is true
+        this.setState({tracksViewChanges: false})
+    }
+}
+
 
   getMapRegion = () => ({
     latitude: this.state.latitude,
@@ -104,6 +117,7 @@ constructor(props) {
           customMapStyle={mapStyle}
           style={styles.map}
           provider={PROVIDER_GOOGLE}
+          tracksViewChanges={this.state.tracksViewChanges}
           onPress={this.props.handlePress}
         > 
 
@@ -127,31 +141,8 @@ constructor(props) {
 
                 <Callout style={{flex:1, position:'relative'}} onPress={
                   () => {
-                  Alert.alert(
-                    marker.title,
-                    marker.address,
-                    [
-                      { text: "Details",
-                        onPress: () => {
-                          this.props.navigation.navigate('EventPage', {markerInfo: marker})
-                        }
-                      },
-                      { text: "Directions", onPress: () => {
-                        showLocation({
-                          latitude: coord.lat,
-                          longitude: coord.lng,
-                          googleForceLatLon: true,
-                          title: (marker.title),
-                      })
-                      } 
-                    },
-                      {
-                        text: "Cancel",
-                        style: "cancel"
-                      },
-                    ],
-                    { cancelable: false }
-                  )
+                    visit(marker)
+                    this.props.navigation.navigate('Details', {markerInfo: marker})
                 }}>
                   <View style={{flex:1, padding:0}}>
                   </View>
