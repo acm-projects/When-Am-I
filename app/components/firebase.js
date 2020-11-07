@@ -22,16 +22,18 @@ try {
   
 var db = firebase.database();
 
-export function queryCoord(eastCoord, northCoord, radius) {
+export function queryCoord(latitudeSearch, longitudeSearch, radius) {
+    let latRadius = 0.01449275362*radius
+    let lngRadius = 0.01694915254*radius
     db.ref('/').once('value').then((snapshot) => {
         let newList = [];
         snapshot.forEach((snap) => {
             var obj = snap.val();
-            var east = obj.utm_east;    // Marker's coordinates
-            var north = obj.utm_north;  
+            var lat = obj.latitude;    // Marker's coordinates
+            var lng = obj.longitude;  
 
             // If marker is in the search radius, add its name to the list, -1 to search all
-            if(radius==-1 || (Math.abs(eastCoord-east) <= radius && Math.abs(northCoord-north) <= radius)) { 
+            if(radius==-1 || (Math.abs(latitudeSearch-lat) <= latRadius && Math.abs(longitudeSearch-lng) <= lngRadius)) { 
                 newList = [...newList, obj];
             }
         });

@@ -1,14 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { render } from 'react-dom';
-import { StyleSheet, Text, View, Dimensions, Image, ScrollView, TouchableHighlight, Button } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, ScrollView, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {queryCoord} from '../components/firebase'
-import { visit } from '../components/UserData'
 import { showLocation } from 'react-native-map-link'
-var utmObj = require('utm-latlng');
-var utm = new utmObj(); 
-const {height , width} = Dimensions.get("window");
 
 class LocationPage extends React.Component {
   componentWillUnmount() {
@@ -30,7 +23,6 @@ class LocationPage extends React.Component {
   render (){
     if(this.props.route.params) { // Only render the event page if a marker has been picked
     const { markerInfo } = this.props.route.params;
-    let coord = utm.convertUtmToLatLng(markerInfo.utm_east, markerInfo.utm_north, markerInfo.utm_zone, 'S')
 
     return (
       <View style={styles.backgroundColor}>
@@ -52,92 +44,92 @@ class LocationPage extends React.Component {
               {/*Base screen, with title, address, distance, and description*/}
               <Text style = {styles.HeaderText}>{markerInfo.title}</Text>
             <Text style = {styles.SubHeaderText}> {markerInfo.city} { ", Texas" }</Text>
+            
             <View style = {{padding: 15}}>
-              <Button title="Go There!" color="#30475E"  onPress={()=>{
+              <TouchableOpacity style={styles.logButton} onPress={()=>{
                 showLocation({
-                  latitude: coord.lat,
-                  longitude: coord.lng,
+                  latitude: markerInfo.latitude,
+                  longitude: markerInfo.longitude,
                   googleForceLatLon: true,
                   title: (markerInfo.title),
-              })
-              }} />
+                })
+              }}>
+                <Text>Go There!</Text>  
+              </TouchableOpacity> 
             </View>
-              <Text style = {styles.DescriptionText}>{markerInfo.markertext}</Text>
+              
+            <Text style = {styles.DescriptionText}>{markerInfo.markertext}</Text>
 
-              {/*Rendering the tags, currently set to only display 3 tags */}
-              {
-              <View style={styles.tagsBox}>
+            {/*Rendering the tags, currently set to only display 3 tags */}
+            <View style={styles.tagsBox}>
 
-                <TouchableHighlight style={styles.button}>
-                  <Text style={styles.TagText}>{markerInfo.code}</Text>
-                </TouchableHighlight>
+              <TouchableHighlight style={styles.button}>
+                <Text style={styles.TagText}>{markerInfo.code}</Text>
+              </TouchableHighlight>
 
-                <TouchableHighlight style={styles.button}>
-                  <Text style={styles.TagText}>{markerInfo.code}</Text>
-                </TouchableHighlight>
+              <TouchableHighlight style={styles.button}>
+                <Text style={styles.TagText}>{markerInfo.code}</Text>
+              </TouchableHighlight>
 
-                <TouchableHighlight style={styles.button}>
-                  <Text style={styles.TagText}>{markerInfo.code}</Text>
-                </TouchableHighlight>
+              <TouchableHighlight style={styles.button}>
+                <Text style={styles.TagText}>{markerInfo.code}</Text>
+              </TouchableHighlight>
 
+            </View>
+
+            {/*Show first 3 reviews, then a button to get next three reviews*/}
+            <View style={styles.reviewBox}>
+              <View style={{flexDirection:"row"}}> 
+              <Image source = {require('../assets/logo.jpg')}
+                style = {{ 
+                borderRadius: 60,
+                width: Dimensions.get("window").width/11, 
+                height: Dimensions.get("window").width/11, 
+                marginTop: Dimensions.get("window").height/50,
+                marginLeft: (Dimensions.get("window").height)/40,
+                }}/>
+                <Text style = {styles.UsernameText}>{this.state.reviews[0].username}</Text>
+                <Text style = {styles.StarsText}>{this.state.reviews[0].rating}/5</Text>
               </View>
-            }
+              <Text style = {styles.ReviewText}>{this.state.reviews[0].reviewText}</Text>
+            </View>
 
-              {/*Show first 3 reviews, then a button to get next three reviews*/}
-              <View style={styles.reviewBox}>
-               <View style={{flexDirection:"row"}}> 
-                <Image source = {require('../assets/logo.jpg')}
-                  style = {{ 
-                  borderRadius: 60,
-                  width: Dimensions.get("window").width/11, 
-                  height: Dimensions.get("window").width/11, 
-                  marginTop: Dimensions.get("window").height/50,
-                  marginLeft: (Dimensions.get("window").height)/40,
-                  }}/>
-                  <Text style = {styles.UsernameText}>{this.state.reviews[0].username}</Text>
-                  <Text style = {styles.StarsText}>{this.state.reviews[0].rating}/5</Text>
-                </View>
-                <Text style = {styles.ReviewText}>{this.state.reviews[0].reviewText}</Text>
+            <View style={styles.reviewBox}>
+              <View style={{flexDirection:"row"}}> 
+              <Image source = {require('../assets/logo.jpg')}
+                style = {{ 
+                borderRadius: 60,
+                width: Dimensions.get("window").width/11, 
+                height: Dimensions.get("window").width/11, 
+                marginTop: Dimensions.get("window").height/50,
+                marginLeft: (Dimensions.get("window").height)/40,
+                }}/>
+                <Text style = {styles.UsernameText}>{this.state.reviews[1].username}</Text>
+                <Text style = {styles.StarsText}>{this.state.reviews[1].rating}/5</Text>
               </View>
+              <Text style = {styles.ReviewText}>{this.state.reviews[1].reviewText}</Text>
+            </View>
 
-              <View style={styles.reviewBox}>
-               <View style={{flexDirection:"row"}}> 
-                <Image source = {require('../assets/logo.jpg')}
-                  style = {{ 
-                  borderRadius: 60,
-                  width: Dimensions.get("window").width/11, 
-                  height: Dimensions.get("window").width/11, 
-                  marginTop: Dimensions.get("window").height/50,
-                  marginLeft: (Dimensions.get("window").height)/40,
-                  }}/>
-                  <Text style = {styles.UsernameText}>{this.state.reviews[1].username}</Text>
-                  <Text style = {styles.StarsText}>{this.state.reviews[1].rating}/5</Text>
-                </View>
-                <Text style = {styles.ReviewText}>{this.state.reviews[1].reviewText}</Text>
+            <View style={styles.reviewBox}>
+              <View style={{flexDirection:"row"}}> 
+              <Image source = {require('../assets/logo.jpg')}
+                style = {{ 
+                borderRadius: 60,
+                width: Dimensions.get("window").width/11, 
+                height: Dimensions.get("window").width/11, 
+                marginTop: Dimensions.get("window").height/50,
+                marginLeft: (Dimensions.get("window").height)/40,
+                }}/>
+                <Text style = {styles.UsernameText}>{this.state.reviews[2].username}</Text>
+                <Text style = {styles.StarsText}>{this.state.reviews[2].rating}/5</Text>
               </View>
-
-              <View style={styles.reviewBox}>
-               <View style={{flexDirection:"row"}}> 
-                <Image source = {require('../assets/logo.jpg')}
-                  style = {{ 
-                  borderRadius: 60,
-                  width: Dimensions.get("window").width/11, 
-                  height: Dimensions.get("window").width/11, 
-                  marginTop: Dimensions.get("window").height/50,
-                  marginLeft: (Dimensions.get("window").height)/40,
-                  }}/>
-                  <Text style = {styles.UsernameText}>{this.state.reviews[2].username}</Text>
-                  <Text style = {styles.StarsText}>{this.state.reviews[2].rating}/5</Text>
-                </View>
-                <Text style = {styles.ReviewText}>{this.state.reviews[2].reviewText}</Text>
-              </View>
-
+              <Text style = {styles.ReviewText}>{this.state.reviews[2].reviewText}</Text>
+            </View>
 
             </View>
           </View>
 
         </SafeAreaView>
-
         </ScrollView>
       </View>
     );
@@ -299,6 +291,18 @@ const styles = StyleSheet.create({
     marginBottom: (Dimensions.get("window").height)/40,
     textAlign: 'left'
     //fontFamily: "BanglaSangamMN",
+  },
+  logButton: {
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: '#cbaf87',
+    borderRadius: 30,
+    shadowColor: '#000000',
+    shadowOpacity: 0.4,
+    marginHorizontal: 15,
+    paddingHorizontal: 15,
+    shadowOffset: {width: 0, height: 4},
+    shadowRadius: 4,
   },
 });
 
