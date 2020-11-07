@@ -1,6 +1,5 @@
 import React, { Component, useState} from 'react';
 import { TouchableOpacity, Image, Dimensions, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight } from 'react-native';
-import { Alert, Button,} from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { signIn, signUp } from '../components/UserAuth'
 
@@ -17,14 +16,13 @@ export default class LoginPage extends Component {
   }
 
   go = () => {
-           const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            if (reg.test(this.state.email) === true){
-               alert('valid');
-           }
-           else{
-               alert();
-           } 
- 
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(this.state.email) === true){
+        alert('valid');
+    }
+    else{
+        alert();
+    } 
   }
 
   render() {
@@ -34,10 +32,12 @@ export default class LoginPage extends Component {
         <View>
          <Image source = {require('../assets/logo.jpg')} 
               style = {{ width: (Dimensions.get("window").width/2.5) -25, height: (Dimensions.get("window").width/2.5)-21, borderRadius: 200 }}/>
-         </View>
-          <View style = {{flexDirection: 'row', padding: 10, alignContent: 'center'}}>
-            <Text style={styles1.inputext}>When Am I ?</Text>
-          </View>      
+        </View>
+
+        <View style = {{flexDirection: 'row', padding: 10, alignContent: 'center'}}>
+          <Text style={styles1.inputext}>When Am I ?</Text>
+        </View>   
+
         <TextInput
           value={this.state.username}
           onChangeText={(username) => this.setState({ username })}
@@ -55,35 +55,42 @@ export default class LoginPage extends Component {
           style={styles1.input}
           underlineColorAndroid={'transparent'}
         />
-        <View style = {{flexDirection: 'row', padding: 10, alignContent: 'center', justifyContent: 'space-evenly'}}>
-        <TouchableOpacity
-          title={'Login'}
-          style={styles1.logButton}
-          onPress={()=>signIn.bind(this)(this.state.username,this.state.password)(this.props.navigation.navigate('Map'))}
-        >
-        <Text style={styles1.buttonText}> Login </Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity
-          title={'Register'}
-          style={styles1.logButton}
-          onPress={()=>signUp.bind(this)(this.state.username,this.state.password)(this.props.navigation.navigate('Map')) }
-        >
-          <Text style={styles1.buttonText}> Register </Text>
-        </TouchableOpacity>
+        <View style = {{flexDirection: 'row', padding: 10, alignContent: 'center', justifyContent: 'space-evenly'}}>
+          <TouchableOpacity
+            title={'Login'}
+            style={styles1.logButton}
+            onPress={()=>{
+              signIn.bind(this)(this.state.username,this.state.password)
+              this.props.navigation.navigate('Map')
+            }}
+          >
+          <Text style={styles1.buttonText}> Login </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            title={'Register'}
+            style={styles1.logButton}
+            onPress={() => { 
+              signUp.bind(this)(this.state.username,this.state.password)
+              this.props.navigation.navigate('Map')
+            }}
+          >
+            <Text style={styles1.buttonText}> Register </Text>
+          </TouchableOpacity>
         </View>
+
         <View>
-        <TouchableOpacity
-          title={'Skip'}
-          style={styles1.logButton}
-          onPress={()=>
-            this.props.navigation.navigate('Map')
-          }>
-          <Text style={styles1.buttonText2}> Skip </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            title={'Skip'}
+            style={styles1.logButton}
+            onPress={()=>
+              this.props.navigation.navigate('Map')
+            }>
+            <Text style={styles1.buttonText2}> Skip </Text>
+          </TouchableOpacity>
         </View>
       </View>
-      
     );
   }
 }
