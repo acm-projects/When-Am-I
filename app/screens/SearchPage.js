@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { TouchableOpacity, Image, Dimensions, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight } from 'react-native';
+import { TouchableOpacity, Button, Image, Dimensions, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight } from 'react-native';
 import { SearchBar, ListItem, List } from 'react-native-elements';
 import {queryCoord} from '../components/firebase'
 import {queryKeyword} from '../components/firebase'
@@ -42,11 +42,6 @@ class SearchPage extends React.Component {
       selectedId: '',
       text: 'recents',
   };
-
-  componentDidMount() 
-  {
-    queryKeyword.bind(this)(this.state.search);
-  }
 
   updateSearch = (search) => {
     //if (queryKeyword.bind(this)(search, this).length()){
@@ -162,8 +157,7 @@ class SearchPage extends React.Component {
   render() {
     const { search } = this.state;
     const tags= ['Civil War', 'Texas Revolution', 'Presidents', 'Tags!', 'More History', 'ABC123'];
-    console.log(this.state.list);
-    if (!this.state.list === []){
+    if (!(this.state.list === undefined && this.state.list != [])){
       console.log(this.state.list[0])
     }
     
@@ -172,17 +166,16 @@ class SearchPage extends React.Component {
       <View style = {styles.back}>
       
       <SafeAreaView style={styles.container}>
-  
+      
       <SearchBar
         placeholder="Search"
         onChangeText={this.updateSearch}
-        onSubmitEditing={this.querySearch}
+        onSubmitEditing={() => queryKeyword.bind(this)(this.state.search)}
         onClear={this.resetSearch}
         value={search}
         containerStyle={{backgroundColor: '#F0ECE3', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
         inputContainerStyle={{backgroundColor: 'white', borderWidth: 4, borderRadius: 30, borderColor: '#30475E', borderBottomWidth: 4}}
       />
-  
       <Text style = {{
         color: '#30475E',
         fontSize: 30,

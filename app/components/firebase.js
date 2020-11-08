@@ -46,9 +46,9 @@ export function queryKeyword(indexName) {
         snapshot.forEach((snap) => {
             var obj = snap.val();
     //var indexname = snapsjot.child("indexname").val();
-            var indexName = obj.indexname;
+            // var indexName = obj.indexname;
     
-            if(indexName == obj) {
+            if(indexName == obj.indexname) {
                 newList = [...newList, obj];
             }
         });
