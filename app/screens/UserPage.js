@@ -44,15 +44,16 @@ class UserPage extends Component {
       <View style = {styles.base}>
         <ScrollView>
           <SafeAreaView>
-              <View style = {styles.ProfilePic}>
-                  <Image source = {require('../assets/logo.jpg')} 
-                  style = {{ width: Dimensions.get("window").width/6, height: Dimensions.get("window").width/6, borderRadius: (Dimensions.get("window").width/5)/2 }}/>
-              </View>
+            <View>
+                <View style = {styles.ProfilePic}>
+                    <Image source = {require('../assets/logo.jpg')} 
+                    style = {{ width: Dimensions.get("window").width/6, height: Dimensions.get("window").width/6, borderRadius: (Dimensions.get("window").width/5)/2 }}/>
+                </View>
 
-              <View style = {styles.ProfileName}>
-                <Text style = {styles.ProfileText}>{this.state.name}</Text>
+                <View style = {styles.ProfileName}>
+                  <Text style = {styles.ProfileText}>{this.state.name}</Text>
+                </View>
               </View>
-
               <View style= {{alignSelf: 'center'}}>
                 <TouchableOpacity style={styles.logButton} onPress={()=>signOut.bind(this)()}>
                   <Text>Sign Out</Text>  
@@ -78,7 +79,7 @@ class UserPage extends Component {
 
                 <Text style = {styles.BoxText}> Previously Visited </Text>
                 {this.state.visited==null || this.state.visited.length==0 ? 
-                  <PreviouslyVisited title="Visit some markers!" />
+                  <PreviouslyVisited title="Sign in and visit some markers!" />
                 : <ScrollView>
                   {this.state.visited.map((marker) => {
                     return(
@@ -117,6 +118,7 @@ const styles = StyleSheet.create({
   ProfileText: {
     color: '#fff',
     fontSize: (Dimensions.get("window").width/15),
+    alignSelf: 'center',
   },
   statBox: {
     flex: 4,
@@ -181,6 +183,7 @@ const styles = StyleSheet.create({
   },
   logButton: {
     padding: 10,
+    marginTop: 10,
     marginBottom: 10,
     backgroundColor: '#cbaf87',
     borderRadius: 30,

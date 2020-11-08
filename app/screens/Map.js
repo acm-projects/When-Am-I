@@ -63,7 +63,7 @@ constructor(props) {
     this.getLocationAsync();
   }
   componentDidMount() {
-    queryCoord.bind(this)(32.750323, -96.811523, 3, this);   // Search for markers around a lat/lng point, radius is in miles
+    queryCoord.bind(this)(32.750323, -96.811523, 10, this);   // Search for markers around a lat/lng point, radius is in miles
     this.getCurrentLocation();
   }
 
@@ -130,6 +130,7 @@ constructor(props) {
                   () => {
                     visit(marker)
                     this.props.navigation.navigate('Details', {markerInfo: marker})
+                    console.log(parseFloat(this.position.longitude))
                 }}>
                   <View style={{flex:1, padding:0}}>
                   </View>
