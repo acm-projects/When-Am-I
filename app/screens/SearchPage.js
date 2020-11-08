@@ -47,9 +47,8 @@ class SearchPage extends React.Component {
         
         search: search,
         selectedId: '',
-        text: 'press enter to search for "' + search + '"',
       });
-      
+
 
   };
 
@@ -93,6 +92,12 @@ class SearchPage extends React.Component {
     });
   };
 
+  querySearch = () => {
+    queryKeyword.bind(this)(this.state.search);
+    this.state.text = 'results for "' + this.state.search + '"';
+
+  }
+
   resetSearch = () => {
     this.setState({ 
       //set data to results from searched string here?
@@ -135,11 +140,12 @@ class SearchPage extends React.Component {
   render() {
     const { search } = this.state;
     const tags= ['Civil War', 'Texas Revolution', 'Presidents', 'Tags!', 'More History', 'ABC123'];
+    /*
     if (!(this.state.list === undefined && this.state.list != [])){
       console.log(this.state.list[0]);
       console.log(this.state.list[1]);
     }
-    
+    */
 
     return (
       <View style = {styles.back}>
@@ -149,7 +155,7 @@ class SearchPage extends React.Component {
       <SearchBar
         placeholder="Search"
         onChangeText={this.updateSearch}
-        onSubmitEditing={() => queryKeyword.bind(this)(this.state.search)}
+        onSubmitEditing={this.querySearch}
         onClear={this.resetSearch}
         value={search}
         containerStyle={{backgroundColor: '#F0ECE3', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
