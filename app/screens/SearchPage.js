@@ -5,18 +5,11 @@ import {queryCoord} from '../components/firebase'
 import {queryKeyword} from '../components/firebase'
 import {queryCode} from '../components/firebase'
 
-/*
-<FlatList
-data={this.state.data}
-renderItem={this.renderItem}
-keyExtractor={(item) => item.indexname}
-extraData={this.state.selectedId}
-/>
-*/
 
 const Item = ({ item, onPress, style }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
     <Text style={styles.title}>{item.indexname}</Text>
+    <Text style={styles.addr}>{item.address}</Text>
   </TouchableOpacity>
 );
 
@@ -24,18 +17,23 @@ class SearchPage extends React.Component {
   state = {
     search: '',
 
-    data: [
+    list: [
       {
         indexname: 'First Recent Location',
+        address: 'sample address 1005 North'
       },
       {
         indexname: 'Second Recent Location',
+        address: 'sample address 1006 North'
+        
       },
       {
         indexname: 'Third Recent Location. Making this really long to see what happens when I do',
+        address: 'sample address 1007 North'
       },
       {
         indexname: 'Fourth Recent Location',
+        address: 'sample address 1008 North'
       },
       
     ],
@@ -44,73 +42,49 @@ class SearchPage extends React.Component {
   };
 
   updateSearch = (search) => {
-    //if (queryKeyword.bind(this)(search, this).length()){
+
       this.setState({ 
-        //set data to results from searched string here?
+        
         search: search,
         selectedId: '',
         text: 'press enter to search for "' + search + '"',
       });
-    //}
-  };
+      
 
-  querySearch = (search) => {
-
-    this.setState({
-      search,
-      text: 'results for "' + this.state.search + '"',
-    });
-
-    // queryKeyword.bind(this)(search, this);
-
-    /*
-    console.log(this.state.list);
-    this.state.list.map(x => x.indexname);
-    console.log(this.state.list.join(' '));
-
-    
-    {this.state.list.map((listItem) => {
-      return(
-        <Text>{listItem.indexname}</Text>
-      )
-    })}
-
-   if (!(this.state.list === undefined)){
-    this.state.data = [{indexname: this.state.search + ' '}];
-    let result = this.state.list.map((ListItem) => {ListItem.indexname});
-    console.log(result[0]);
-  }else{
-    this.state.data = [{indexname: this.state.search + ' was not found'}]
-    
-  }
-  */
   };
 
   updateSearchFromTag = (tag) => {
     this.setState({ 
-      //set data to results from searched tag here?
+      
       search: tag,
-      data: [
+      list: [
       {
         indexname: 'First Location',
+        address: 'sample address 1005 North'
       },
       {
         indexname: 'Second Location',
+        address: 'sample address 1006 North'
       },
       {
         indexname: 'Third Location. Making this really long to see what happens when I do',
+        address: 'sample address 1007 North'
       },
       {
         indexname: 'Fourth Location',
+        address: 'sample address 1008 North'
       },
       {
         indexname: 'FFFFFFFFFFFFFifth Location',
+        address: 'sample address 1009 North'
       },
       {
         indexname: '6 Location',
+        address: 'sample address 1015 North'
       },
       {
         indexname: 'Seven Location',
+        address: 'sample address 1025 North'
       },
       
       ],
@@ -123,18 +97,22 @@ class SearchPage extends React.Component {
     this.setState({ 
       //set data to results from searched string here?
       search: '',
-      data: [
+      list: [
         {
           indexname: 'First Recent Location',
+          address: 'sample address 1005 North'
         },
         {
           indexname: 'Second Recent Location',
+          address: 'sample address 1006 North'
         },
         {
           indexname: 'Third Recent Location. Making this really long to see what happens when I do',
+          address: 'sample address 1007 North'
         },
         {
           indexname: 'Fourth Recent Location',
+          address: 'sample address 1008 North'
         },
         
       ],
@@ -158,7 +136,8 @@ class SearchPage extends React.Component {
     const { search } = this.state;
     const tags= ['Civil War', 'Texas Revolution', 'Presidents', 'Tags!', 'More History', 'ABC123'];
     if (!(this.state.list === undefined && this.state.list != [])){
-      console.log(this.state.list[0])
+      console.log(this.state.list[0]);
+      console.log(this.state.list[1]);
     }
     
 
@@ -241,9 +220,9 @@ class SearchPage extends React.Component {
 
 
 <FlatList
-data={this.state.data}
+data={this.state.list}
 renderItem={this.renderItem}
-keyExtractor={(item) => item.indexname}
+keyExtractor={(item) => item.address}
 extraData={this.state.selectedId}
 />
 
@@ -271,6 +250,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
+    color: '#30475E',
+  },
+  addr: {
+    fontSize: 28,
     color: '#30475E',
   },
   back:{
