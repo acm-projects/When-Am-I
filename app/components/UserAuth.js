@@ -40,4 +40,10 @@ function signOut()
       console.log(errorCode + " " + errorMessage)
     })
 }
-export { auth, signUp, signIn, signOut }
+
+function forgotPassword(email) 
+{
+  auth.sendPasswordResetEmail(String(email))
+}
+
+export { auth, signUp, signIn, signOut, forgotPassword }
