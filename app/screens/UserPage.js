@@ -9,29 +9,26 @@ import { firebase } from '../components/firebase'
 class UserPage extends Component {
 
   state = {
-    uid: 0,
     name: "Signed Out",
-    visited: []
+    visited: [],
   }
-
+    
   componentDidMount() {
     auth.onAuthStateChanged((userAuth) => {
       if(userAuth)  // If user is logged in
       {
-        this.setState({uid:userAuth.uid})
         firebase.firestore().collection("users").doc(userAuth.uid) // When the user's data updates, reset the state variables
         .onSnapshot((doc) => {
           let data = doc.data()
           this.setState({
             name: data.name,
-            visited:data.visited
+            visited: data.visited
           })
         });
       }
       else // If user logged out
       {
         this.setState({
-          uid: 0,
           name: "Signed Out",
           visited: []
         })
@@ -39,7 +36,25 @@ class UserPage extends Component {
     });
   }
 
+  getStatistics() 
+  {
+    if(this.state.visited != null)
+    {
+      var newChurches = 0
+
+      this.state.visited.forEach((marker)=>{
+        var code = marker.code
+        if(code.includes("churches")) newChurches++
+      })
+
+      return({
+        churches: newChurches,
+      })
+    }
+  }
+
   render() {
+    var statistics = this.getStatistics()
     return (
       <View style = {styles.base}>
         <ScrollView>
@@ -65,7 +80,7 @@ class UserPage extends Component {
                 <ScrollView>
                   
                     <Text style = {styles.numVisited}>Visited {this.state.visited==null ? 0 : this.state.visited.length} / 12941 Total</Text>
-                    <Text style = {styles.numVisited}>Visited 1 / 150  Civil War Locations</Text>
+                    <Text style = {styles.numVisited}>Visited {statistics==null ? 0 : statistics.churches} / 1903 Churches</Text>
                     <Text style = {styles.numVisited}>Visited 10 / 15 State Courts</Text>
                     <Text style = {styles.numVisited}>Visited 2 / 100 Confederate Memorials</Text>
                     <Text style = {styles.numVisited}>Visited 120 / 1300 Plantations</Text>

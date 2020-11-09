@@ -1,8 +1,7 @@
 import React, { Component, useState} from 'react';
 import { TouchableOpacity, Image, Dimensions, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight } from 'react-native';
-import { Alert, Button,} from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { signIn, signUp } from '../components/UserAuth'
+import { signIn, signUp, forgotPassword } from '../components/UserAuth'
 
 const {height , width} = Dimensions.get("window");
 
@@ -17,19 +16,17 @@ export default class LoginPage extends Component {
   }
 
   go = () => {
-           const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            if (reg.test(this.state.email) === true){
-               alert('valid');
-           }
-           else{
-               alert();
-           } 
- 
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(this.state.email) === true){
+        alert('valid');
+    }
+    else{
+        alert();
+    } 
   }
 
   render() {
     return (
-      
       <View style={styles1.container}>
         <View>
          <Image source = {require('../assets/logo.jpg')} 
@@ -38,6 +35,7 @@ export default class LoginPage extends Component {
           <View style = {{flexDirection: 'row', padding: 10, alignContent: 'center'}}>
             <Text style={styles1.inputext}>When Am I ?</Text>
           </View>      
+
         <TextInput
           value={this.state.username}
           onChangeText={(username) => this.setState({ username })}
@@ -46,6 +44,7 @@ export default class LoginPage extends Component {
           underlineColorAndroid={'transparent'}
           theme={{colors: '#30475E'}}
         />
+
         <TextInput
           value={this.state.password}
           onChangeText={(password) => this.setState({ password })}
@@ -55,39 +54,48 @@ export default class LoginPage extends Component {
           style={styles1.input}
           underlineColorAndroid={'transparent'}
         />
+
         <TouchableOpacity>
-          <Text style={(styles1.forgot)}>Forgot Password?</Text>
+          <Text style={(styles1.forgot)} onPress={()=>forgotPassword(this.state.username)}>Forgot Password?</Text>
         </TouchableOpacity>
+
         <View style = {{flexDirection: 'row', padding: 5, alignContent: 'center', justifyContent: 'space-evenly'}}>
-        <TouchableOpacity
-          title={'Login'}
-          style={styles1.logButton}
-          onPress={()=>signIn.bind(this)(this.state.username,this.state.password)(this.props.navigation.navigate('Map'))}
-        >
-        <Text style={styles1.buttonText}> Login </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            title={'Login'}
+            style={styles1.logButton}
+            onPress={()=>{
+              signIn.bind(this)(this.state.username,this.state.password)
+              this.props.navigation.navigate('Map')
+            }}
+          >
+          <Text style={styles1.buttonText}> Login </Text>
+          </TouchableOpacity>
         </View>
+
         <View style = {{flexDirection: 'row', padding: 5, alignContent: 'center', justifyContent: 'space-evenly'}}>
-        <TouchableOpacity
-          title={'Register'}
-          style={styles1.logButton}
-          onPress={()=>signUp.bind(this)(this.state.username,this.state.password)(this.props.navigation.navigate('Map')) }
-        >
-          <Text style={styles1.buttonText}> Register </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            title={'Register'}
+            style={styles1.logButton}
+            onPress={()=>{
+              signUp.bind(this)(this.state.username,this.state.password)
+              this.props.navigation.navigate('Map')
+            }}
+          >
+            <Text style={styles1.buttonText}> Register </Text>
+          </TouchableOpacity>
         </View>
+
         <View>
-        <TouchableOpacity
-          title={'Skip'}
-          style={styles1.skip}
-          onPress={()=>
-            this.props.navigation.navigate('Map')
-          }>
-          <Text style={styles1.skipText}> Skip </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            title={'Skip'}
+            style={styles1.skip}
+            onPress={()=>
+              this.props.navigation.navigate('Map')
+            }>
+            <Text style={styles1.skipText}> Skip </Text>
+          </TouchableOpacity>
         </View>
       </View>
-      
     );
   }
 }

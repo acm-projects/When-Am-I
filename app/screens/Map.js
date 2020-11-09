@@ -2,9 +2,10 @@ import React from "react";
 import { StyleSheet, View, Image, Dimensions } from "react-native";
 import MapView from "react-native-map-clustering";
 import { Marker, AnimatedRegion, PROVIDER_GOOGLE, Callout } from "react-native-maps";
-import {queryCoord} from '../components/firebase'
+import { queryCoord } from '../components/firebase'
 import * as Permissions from 'expo-permissions';
 import { visit } from '../components/UserData'
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const {height , width} = Dimensions.get("window");
 const pin = require('../assets/pin.png');
@@ -14,6 +15,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const LATITUDE = 31.000000;
 const LONGITUDE = -100.000000;
 const mapStyle = require('../components/mapStyle.json');
+
 
 class Map extends React.Component {
 
@@ -63,7 +65,7 @@ constructor(props) {
     this.getLocationAsync();
   }
   componentDidMount() {
-    queryCoord.bind(this)(32.750323, -96.811523, 10, this);   // Search for markers around a lat/lng point, radius is in miles
+    queryCoord.bind(this)(32.750323, -96.811523, 10);   // Search for markers around a lat/lng point, radius is in miles
     this.getCurrentLocation();
   }
 
@@ -79,7 +81,7 @@ constructor(props) {
        // set to false immediately after rendering with tracksViewChanges is true
         this.setState({tracksViewChanges: false})
     }
-}
+  }
 
 
   getMapRegion = () => ({
