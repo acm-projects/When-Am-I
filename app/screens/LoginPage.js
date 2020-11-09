@@ -31,13 +31,11 @@ export default class LoginPage extends Component {
       <View style={styles1.container}>
         <View>
          <Image source = {require('../assets/logo.jpg')} 
-              style = {{ width: (Dimensions.get("window").width/2.5) -25, height: (Dimensions.get("window").width/2.5)-21, borderRadius: 200 }}/>
-        </View>
-
-        <View style = {{flexDirection: 'row', padding: 10, alignContent: 'center'}}>
-          <Text style={styles1.inputext}>When Am I ?</Text>
-        </View>   
-
+              style = {{ width: (Dimensions.get("window").width/2.5) -25, height: (Dimensions.get("window").width/2.5)-21, borderRadius: 200, marginTop: 50}}/>
+         </View>
+          <View style = {{flexDirection: 'row', padding: 10, alignContent: 'center'}}>
+            <Text style={styles1.inputext}>When Am I ?</Text>
+          </View>      
         <TextInput
           value={this.state.username}
           onChangeText={(username) => this.setState({ username })}
@@ -55,40 +53,37 @@ export default class LoginPage extends Component {
           style={styles1.input}
           underlineColorAndroid={'transparent'}
         />
-
-        <View style = {{flexDirection: 'row', padding: 10, alignContent: 'center', justifyContent: 'space-evenly'}}>
-          <TouchableOpacity
-            title={'Login'}
-            style={styles1.logButton}
-            onPress={()=>{
-              signIn.bind(this)(this.state.username,this.state.password)
-              this.props.navigation.navigate('Map')
-            }}
-          >
-          <Text style={styles1.buttonText}> Login </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            title={'Register'}
-            style={styles1.logButton}
-            onPress={() => { 
-              signUp.bind(this)(this.state.username,this.state.password)
-              this.props.navigation.navigate('Map')
-            }}
-          >
-            <Text style={styles1.buttonText}> Register </Text>
-          </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={(styles1.forgot)}>Forgot Password?</Text>
+        </TouchableOpacity>
+        <View style = {{flexDirection: 'row', padding: 5, alignContent: 'center', justifyContent: 'space-evenly'}}>
+        <TouchableOpacity
+          title={'Login'}
+          style={styles1.logButton}
+          onPress={()=>signIn.bind(this)(this.state.username,this.state.password)(this.props.navigation.navigate('Map'))}
+        >
+        <Text style={styles1.buttonText}> Login </Text>
+        </TouchableOpacity>
+        </View>
+        <View style = {{flexDirection: 'row', padding: 5, alignContent: 'center', justifyContent: 'space-evenly'}}>
+        <TouchableOpacity
+          title={'Register'}
+          style={styles1.logButton}
+          onPress={()=>signUp.bind(this)(this.state.username,this.state.password)(this.props.navigation.navigate('Map')) }
+        >
+          <Text style={styles1.buttonText}> Register </Text>
+        </TouchableOpacity>
         </View>
 
         <View>
-          <TouchableOpacity
-            title={'Skip'}
-            style={styles1.logButton}
-            onPress={()=>
-              this.props.navigation.navigate('Map')
-            }>
-            <Text style={styles1.buttonText2}> Skip </Text>
-          </TouchableOpacity>
+        <TouchableOpacity
+          title={'Skip'}
+          style={styles1.skip}
+          onPress={()=>
+            this.props.navigation.navigate('Map')
+          }>
+          <Text style={styles1.skipText}> Skip </Text>
+        </TouchableOpacity>
         </View>
       </View>
     );
@@ -102,6 +97,11 @@ const styles1 = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#30475E',
   },
+  forgot:{
+    color:"white",
+    fontSize:11,
+    marginBottom: 50, 
+  },
   input: {
     width: 300,
     height: 50,
@@ -110,8 +110,7 @@ const styles1 = StyleSheet.create({
     marginBottom: 10,
   },
   logButton: {
-    padding: 10,
-    marginBottom: 10,
+    marginBottom: 5,
     backgroundColor: '#cbaf87',
     borderRadius: 30,
     shadowColor: '#000000',
@@ -120,6 +119,24 @@ const styles1 = StyleSheet.create({
     paddingHorizontal: 15,
     shadowOffset: {width: 0, height: 4},
     shadowRadius: 4,
+    width:"80%",
+    height:50,
+    alignItems:"center",
+    justifyContent:"center",
+  },
+  skip: {
+    marginTop: 10,
+    backgroundColor: '#30475E',
+    borderRadius: 30,
+    shadowColor: '#000000',
+    shadowOpacity: 0.4,
+    marginHorizontal: 15,
+    paddingHorizontal: 15,
+    shadowOffset: {width: 0, height: 4},
+    shadowRadius: 4,
+    width:"80%",
+    alignItems:"center",
+    justifyContent:"center",
   },
   buttonText: {
     color: '#30475E',
@@ -130,6 +147,11 @@ const styles1 = StyleSheet.create({
   buttonText2: {
     color: '#30475E',
     fontSize: 20,
+    alignSelf: 'center',
+  },
+  skipText: {
+    color: '#cbaf87',
+    fontSize: 15,
     alignSelf: 'center',
   },
   inputext: {

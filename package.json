@@ -17,6 +17,8 @@
     "@react-navigation/native": "^5.7.6",
     "@react-navigation/stack": "^5.9.3",
     "expo": "~39.0.2",
+    "expo-location": "~9.0.0",
+    "expo-permissions": "~9.3.0",
     "expo-status-bar": "~1.0.2",
     "firebase": "^7.9.0",
     "geojson": "^0.5.0",
@@ -37,14 +39,13 @@
     "react-native-screens": "^2.10.1",
     "react-native-search-box": "0.0.20",
     "react-native-splash-screen": "^3.2.0",
+    "react-native-starter-kit": "^0.2.2",
     "react-native-svg": "12.1.0",
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.13.12",
     "react-navigation": "^4.4.3",
     "react-scripts": "^3.4.4",
-    "utm-latlng": "^1.0.6",
-    "expo-location": "~9.0.0",
-    "expo-permissions": "~9.3.0"
+    "utm-latlng": "^1.0.6"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

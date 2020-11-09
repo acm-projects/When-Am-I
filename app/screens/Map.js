@@ -132,6 +132,7 @@ constructor(props) {
                   () => {
                     visit(marker)
                     this.props.navigation.navigate('Details', {markerInfo: marker})
+                    console.log(parseFloat(this.position.longitude))
                 }}>
                   <View style={{flex:1, padding:0}}>
                   </View>
