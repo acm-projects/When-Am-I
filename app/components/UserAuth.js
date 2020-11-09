@@ -9,9 +9,9 @@ function signUp(email, password)
       // successful creation
     })
     .catch(function(error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log(errorCode + " " + errorMessage)
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode + " " + errorMessage)
     })
 }
 

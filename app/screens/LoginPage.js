@@ -1,6 +1,5 @@
 import React, { Component, useState} from 'react';
 import { TouchableOpacity, Image, Dimensions, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight } from 'react-native';
-import { Alert, Button,} from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { signIn, signUp } from '../components/UserAuth'
 
@@ -17,14 +16,13 @@ export default class LoginPage extends Component {
   }
 
   go = () => {
-           const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            if (reg.test(this.state.email) === true){
-               alert('valid');
-           }
-           else{
-               alert();
-           } 
- 
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(this.state.email) === true){
+        alert('valid');
+    }
+    else{
+        alert();
+    } 
   }
 
   render() {
@@ -76,6 +74,7 @@ export default class LoginPage extends Component {
           <Text style={styles1.buttonText}> Register </Text>
         </TouchableOpacity>
         </View>
+
         <View>
         <TouchableOpacity
           title={'Skip'}
@@ -87,7 +86,6 @@ export default class LoginPage extends Component {
         </TouchableOpacity>
         </View>
       </View>
-      
     );
   }
 }

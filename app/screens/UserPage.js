@@ -24,7 +24,7 @@ class UserPage extends Component {
           let data = doc.data()
           this.setState({
             name: data.name,
-            visited:data.visited
+            visited: data.visited
           })
         });
       }
