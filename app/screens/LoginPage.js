@@ -111,7 +111,7 @@ const styles1 = StyleSheet.create({
   forgot:{
     color:"white",
     fontSize:11,
-    marginBottom: 50, 
+    marginBottom: (Dimensions.get("window").height/20), 
   },
   input: {
     width: 300,
