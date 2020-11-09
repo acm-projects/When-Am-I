@@ -36,7 +36,7 @@ export function queryCoord(latitudeSearch, longitudeSearch, radius) {
 
                 // If marker is in the search radius, add its name to the list, -1 to search all
                 if(radius==-1 || (Math.abs(latitudeSearch-lat) <= latRadius && Math.abs(longitudeSearch-lng) <= lngRadius)) { 
-                    newList = [...newList, obj];
+                    newList.push(obj)
                 }
             });
             this.setState({ list: newList });
