@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions, Image, ScrollView, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, ScrollView, TouchableOpacity } from 'react-native';
 import CheckBox from 'react-native-check-box'
-import { visit } from '../components/UserData'
+import { visit, unvisit } from '../components/UserData'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { showLocation } from 'react-native-map-link'
 
@@ -11,9 +11,6 @@ class LocationPage extends React.Component {
   }
   
   state = {
-    //array of location tags
-    tags:['Civil War', 'Family', '1800s',],
-      
       isChecked: false,
   }
 
@@ -38,8 +35,8 @@ class LocationPage extends React.Component {
           <View style={styles.outerBox}>
             <View style = {styles.outerBoxText}>
 
-              {/*Base screen, with title, address, distance, and description*/}
-              <Text style = {styles.HeaderText}>{markerInfo.title}</Text>
+            {/*Base screen, with title, address, distance, and description*/}
+            <Text style = {styles.HeaderText}>{markerInfo.title}</Text>
             <Text style = {styles.SubHeaderText}> {markerInfo.city} { ", Texas" }</Text>
             
             <View style = {{padding: 15}}>
@@ -56,20 +53,23 @@ class LocationPage extends React.Component {
             </View>
 
               <CheckBox
-              style={{flex: 1, padding: 10,}}
-              onClick={()=>{
-                this.setState({
-                    isChecked:!this.state.isChecked,
-                })
-                visit(markerInfo)
-              }}
-              isChecked={this.state.isChecked}
-              leftText={"Visited?"}
-              leftTextStyle={{
-              color: 'black',
-              fontSize: (Dimensions.get("window").width)/20,
-              fontWeight: "bold",
-              }}
+                style={{flex: 1, padding: 10,}}
+                onClick={()=>{
+                  this.setState({
+                      isChecked:!this.state.isChecked,
+                  })
+                  if(!this.state.isChecked)
+                    visit(markerInfo)
+                  else
+                    unvisit(markerInfo)
+                }}
+                isChecked={this.state.isChecked}
+                leftText={"Visited?"}
+                leftTextStyle={{
+                color: 'black',
+                fontSize: (Dimensions.get("window").width)/20,
+                fontWeight: "bold",
+                }}
               />
               <View style={styles.reviewBox}>
                 <Text style = {styles.DescriptionText}>{markerInfo.markertext}</Text>
