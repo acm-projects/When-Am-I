@@ -15,6 +15,12 @@ const LATITUDE = 31.000000;
 const LONGITUDE = -100.000000;
 const mapStyle = require('../components/mapStyle.json');
 
+const defaultPin = require('../assets/pin-default.png')
+const churchesPin = require('../assets/pin-churches.png')
+const graveyardsPin = require('../assets/pin-graveyards.png')
+const housesPin = require('../assets/pin-houses.png')
+const militaryPin = require('../assets/pin-military.png')
+
 
 class Map extends React.Component {
 
@@ -110,6 +116,14 @@ constructor(props) {
         > 
 
           {this.state.list.map((marker, index) => {
+            var code = marker.code
+            var pin = defaultPin 
+
+            if(code.includes("churches")) pin = churchesPin
+            else if(code.includes("graveyards")) pin = graveyardsPin
+            else if(code.includes("houses")) pin = housesPin
+            else if(code.includes("military")) pin = militaryPin
+            
             return(
               <Marker
                 key={index}
@@ -122,7 +136,7 @@ constructor(props) {
                   }}                
                 >
                 <Image
-                  source={require('../assets/pin.png')}
+                  source={pin}
                   style={{width: 30, height: 30}}
                   resizeMode="contain">
                 </Image>
