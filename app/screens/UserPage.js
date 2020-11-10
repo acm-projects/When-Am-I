@@ -11,6 +11,7 @@ class UserPage extends Component {
   state = {
     name: "Signed Out",
     visited: [],
+    statistics: {}
   }
     
   componentDidMount() {
@@ -20,9 +21,13 @@ class UserPage extends Component {
         firebase.firestore().collection("users").doc(userAuth.uid) // When the user's data updates, reset the state variables
         .onSnapshot((doc) => {
           let data = doc.data()
+
+          var stats = this.getStatistics(data.visited)
+
           this.setState({
             name: data.name,
-            visited: data.visited
+            visited: data.visited,
+            statistics: stats
           })
         });
       }
@@ -30,34 +35,48 @@ class UserPage extends Component {
       {
         this.setState({
           name: "Signed Out",
-          visited: []
+          visited: [],
+          statistics: {}
         })
       }
     });
   }
 
-  getStatistics() 
+  getStatistics(visited) 
   {
-    if(this.state.visited != null)
+    if(visited != null)
     {
-      var newChurches = 0
+      var churches=0,graveyards=0,revolution=0,civilwar=0,women=0,ghosttowns=0,outlaws=0
 
-      this.state.visited.forEach((marker)=>{
-        var code = marker.code
-        if(code.includes("churches")) newChurches++
-      })
+      for(var i in visited)
+      {
+        var code = visited[i].code
+        if(code.includes("churches")) churches++
+        if(code.includes("graveyards")) graveyards++
+        if(code.includes("Texas Revolution")) revolution++
+        if(code.includes("Civil War")) civilwar++
+        if(code.includes("women")) women++
+        if(code.includes("ghost towns")) ghosttowns++
+        if(code.includes("outlaws")) outlaws++
+      }
 
       return({
-        churches: newChurches,
+        churches: churches,
+        graveyards: graveyards,
+        revolution: revolution,
+        civilwar: civilwar,
+        women: women,
+        ghosttowns: ghosttowns,
+        outlaws: outlaws,
       })
     }
+    return {}
   }
 
   render()
   {
     if(this.state.name == "Signed Out")
     {
-      var statistics = this.getStatistics()
     return (
       <View style = {styles.base}>
         <ScrollView>
@@ -80,34 +99,9 @@ class UserPage extends Component {
                 </TouchableOpacity> 
 
               <View style = {styles.statBox}>
-                <Text style = {styles.BoxText}>User Statistics</Text>
-                <ScrollView>
-                  
-                    <Text style = {styles.numVisited}>Visited {this.state.visited==null ? 0 : this.state.visited.length} / 12941 Total</Text>
-                    <Text style = {styles.numVisited}>Visited {statistics==null ? 0 : statistics.churches} / 1903 Churches</Text>
-                    <Text style = {styles.numVisited}>Visited 10 / 15 State Courts</Text>
-                    <Text style = {styles.numVisited}>Visited 2 / 100 Confederate Memorials</Text>
-                    <Text style = {styles.numVisited}>Visited 120 / 1300 Plantations</Text>
-                    <Text style = {styles.numVisited}>Visited 120 / 1300 Rodeos</Text>
-                    <Text style = {styles.numVisited}>Visited 12 / 15000 Total</Text>
-                  
-                </ScrollView>
+                <Text style = {styles.BoxText}>Sign in to track your visits!</Text>
               </View>
               
-              <View style = {styles.preVisitedBox}>
-
-                <Text style = {styles.BoxText}> Previously Visited </Text>
-                {this.state.visited==null || this.state.visited.length==0 ? 
-                  <PreviouslyVisited title="Sign in and visit some markers!" />
-                : <ScrollView>
-                  {this.state.visited.map((marker) => {
-                    return(
-                      <PreviouslyVisited key={marker.firebaseid} title={marker.title} city={marker.city} />
-                    )}
-                  )}
-                  </ScrollView>}
-
-            </View>
           </SafeAreaView>
         </ScrollView>
       </View>
@@ -115,7 +109,7 @@ class UserPage extends Component {
   }
   else
   {
-    var statistics = this.getStatistics()
+    var stats = this.state.statistics
     return (
       <View style = {styles.base}>
         <ScrollView>
@@ -141,13 +135,14 @@ class UserPage extends Component {
                 <Text style = {styles.BoxText}>User Statistics</Text>
                 <ScrollView>
                   
-                    <Text style = {styles.numVisited}>Visited {this.state.visited==null ? 0 : this.state.visited.length} / 12941 Total</Text>
-                    <Text style = {styles.numVisited}>Visited {statistics==null ? 0 : statistics.churches} / 1903 Churches</Text>
-                    <Text style = {styles.numVisited}>Visited 10 / 15 State Courts</Text>
-                    <Text style = {styles.numVisited}>Visited 2 / 100 Confederate Memorials</Text>
-                    <Text style = {styles.numVisited}>Visited 120 / 1300 Plantations</Text>
-                    <Text style = {styles.numVisited}>Visited 120 / 1300 Rodeos</Text>
-                    <Text style = {styles.numVisited}>Visited 12 / 15000 Total</Text>
+                    <Text style = {styles.numVisited}>{this.state.visited==null ? 0 : this.state.visited.length} / 12941 Total</Text>
+                    <Text style = {styles.numVisited}>{stats.churches==null ? 0 : stats.churches} / 1903 Churches</Text>
+                    <Text style = {styles.numVisited}>{stats.graveyards==null ? 0 : stats.graveyards} / 1647 Graveyards</Text>
+                    <Text style = {styles.numVisited}>{stats.revolution==null ? 0 : stats.revolution} / 557 Texas Revolution</Text>
+                    <Text style = {styles.numVisited}>{stats.civilwar==null ? 0 : stats.civilwar} / 463 Civil War</Text>
+                    <Text style = {styles.numVisited}>{stats.women==null ? 0 : stats.women} / 341 Women's History</Text>
+                    <Text style = {styles.numVisited}>{stats.ghosttowns==null ? 0 : stats.ghosttowns} / 286 Ghost Towns</Text>
+                    <Text style = {styles.numVisited}>{stats.outlaws==null ? 0 : stats.outlaws} / 48 Outlaws</Text>
                   
                 </ScrollView>
               </View>
@@ -169,7 +164,8 @@ class UserPage extends Component {
                       </TouchableHighlight>
                     )}
                   )}
-                  </ScrollView>}
+                  </ScrollView>
+                }
 
             </View>
           </SafeAreaView>
