@@ -156,11 +156,17 @@ class UserPage extends Component {
 
                 <Text style = {styles.BoxText}> Previously Visited </Text>
                 {this.state.visited==null || this.state.visited.length==0 ? 
-                  <PreviouslyVisited title="Sign in and visit some markers!" />
+                  <PreviouslyVisited title="Visit some markers!" />
                 : <ScrollView>
                   {this.state.visited.map((marker) => {
                     return(
-                      <PreviouslyVisited key={marker.firebaseid} title={marker.title} city={marker.city} />
+                      <TouchableHighlight style={styles.buttonPV} 
+                      onPress={() => 
+                        this.props.navigation.navigate('Details', {markerInfo: marker})
+                        }>
+                          <PreviouslyVisited key={marker.firebaseid} title={marker.title} city={marker.city} 
+                      />
+                      </TouchableHighlight>
                     )}
                   )}
                   </ScrollView>}
@@ -256,6 +262,19 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     alignSelf: "stretch",
     backgroundColor: '#CBAF87',
+  },
+  buttonPV: {
+    flex:1,
+    margin: 10,
+    padding: 10,
+    borderRadius: 25,
+    alignSelf: "stretch",
+    alignContent: 'center',
+    backgroundColor: '#CBAF87',
+    shadowColor: '#000000',
+    shadowOpacity: 0.4,
+    shadowOffset: {width: 0, height: 4},
+    shadowRadius: 4,
   },
   logButton: {
     padding: 10,

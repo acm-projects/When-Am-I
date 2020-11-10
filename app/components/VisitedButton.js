@@ -4,12 +4,10 @@ import { StyleSheet, Text, View, Image, Dimensions, TouchableHighlight, ScrollVi
 
 const PreviouslyVisited = (props) => {
     return(
-        <TouchableHighlight style={styles.button} >
         <View style={styles.column}>
           <Text style={styles.buttonSiteText}>{props.title}</Text>
           <Text style={styles.buttonInfoText}>{props.city}</Text>
         </View>
-      </TouchableHighlight>
     );
 }
 
@@ -26,19 +24,7 @@ const styles = StyleSheet.create({
       fontStyle: 'italic',
       color: '#30475E',
     },
-    button: {
-      flex:1,
-      margin: 10,
-      padding: 10,
-      borderRadius: 25,
-      alignSelf: "stretch",
-      alignContent: 'center',
-      backgroundColor: '#CBAF87',
-      shadowColor: '#000000',
-    shadowOpacity: 0.4,
-    shadowOffset: {width: 0, height: 4},
-    shadowRadius: 4,
-    },
+    
   })
 
 export default PreviouslyVisited;
