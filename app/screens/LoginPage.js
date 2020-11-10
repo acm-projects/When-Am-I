@@ -30,12 +30,11 @@ export default class LoginPage extends Component {
       <View style={styles1.container}>
         <View>
          <Image source = {require('../assets/logo.jpg')} 
-              style = {{ width: (Dimensions.get("window").width/2.5) -25, height: (Dimensions.get("window").width/2.5)-21, borderRadius: 200, marginTop: 50}}/>
-        </View>
-
-        <View style = {{flexDirection: 'row', padding: 10, alignContent: 'center'}}>
-          <Text style={styles1.inputext}>When Am I ?</Text>
-        </View> 
+              style = {{ width: (Dimensions.get("window").width/2.5) -25, height: (Dimensions.get("window").width/2.5)-21, borderRadius: 200, marginTop: (Dimensions.get("window").height/20)}}/>
+         </View>
+          <View style = {{flexDirection: 'row', padding: 10, alignContent: 'center'}}>
+            <Text style={styles1.inputext}>When Am I ?</Text>
+          </View>      
 
         <TextInput
           value={this.state.username}
@@ -111,7 +110,7 @@ const styles1 = StyleSheet.create({
   forgot:{
     color:"white",
     fontSize:11,
-    marginBottom: 50, 
+    marginBottom: (Dimensions.get("window").height/20), 
   },
   input: {
     width: 300,

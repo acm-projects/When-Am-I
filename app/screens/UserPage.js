@@ -9,37 +9,107 @@ import { firebase } from '../components/firebase'
 class UserPage extends Component {
 
   state = {
-    uid: 0,
     name: "Signed Out",
-    visited: []
+    visited: [],
+    statistics: {}
   }
-
+    
   componentDidMount() {
     auth.onAuthStateChanged((userAuth) => {
       if(userAuth)  // If user is logged in
       {
-        this.setState({uid:userAuth.uid})
         firebase.firestore().collection("users").doc(userAuth.uid) // When the user's data updates, reset the state variables
         .onSnapshot((doc) => {
           let data = doc.data()
+
+          var stats = this.getStatistics(data.visited)
+
           this.setState({
             name: data.name,
-            visited: data.visited
+            visited: data.visited,
+            statistics: stats
           })
         });
       }
       else // If user logged out
       {
         this.setState({
-          uid: 0,
           name: "Signed Out",
-          visited: []
+          visited: [],
+          statistics: {}
         })
       }
     });
   }
 
-  render() {
+  getStatistics(visited) 
+  {
+    if(visited != null)
+    {
+      var churches=0,graveyards=0,revolution=0,civilwar=0,women=0,ghosttowns=0,outlaws=0
+
+      for(var i in visited)
+      {
+        var code = visited[i].code
+        if(code.includes("churches")) churches++
+        if(code.includes("graveyards")) graveyards++
+        if(code.includes("Texas Revolution")) revolution++
+        if(code.includes("Civil War")) civilwar++
+        if(code.includes("women")) women++
+        if(code.includes("ghost towns")) ghosttowns++
+        if(code.includes("outlaws")) outlaws++
+      }
+
+      return({
+        churches: churches,
+        graveyards: graveyards,
+        revolution: revolution,
+        civilwar: civilwar,
+        women: women,
+        ghosttowns: ghosttowns,
+        outlaws: outlaws,
+      })
+    }
+    return {}
+  }
+
+  render()
+  {
+    if(this.state.name == "Signed Out")
+    {
+    return (
+      <View style = {styles.base}>
+        <ScrollView>
+          <SafeAreaView>
+            <View>
+                <View style = {styles.ProfilePic}>
+                    <Image source = {require('../assets/logo.jpg')} 
+                    style = {{ width: Dimensions.get("window").width/6, height: Dimensions.get("window").width/6, borderRadius: (Dimensions.get("window").width/5)/2 }}/>
+                </View>
+              </View>
+
+              <View style = {styles.ProfileName}>
+                  <Text style = {styles.ProfileText}>{this.state.name}</Text>
+              </View>
+
+              <TouchableOpacity style={styles.logButton} onPress={()=>
+                    this.props.navigation.navigate('Login')
+                    }>
+                      <Text style = {{alignSelf: 'center'}}>Sign In</Text>  
+                </TouchableOpacity> 
+
+              <View style = {styles.statBox}>
+                <Text style = {styles.BoxText}>Sign in to track your visits!</Text>
+              </View>
+              
+          </SafeAreaView>
+        </ScrollView>
+      </View>
+    )
+  }
+  else
+  {
+    var stats = this.state.statistics
     return (
       <View style = {styles.base}>
         <ScrollView>
@@ -54,6 +124,7 @@ class UserPage extends Component {
                   <Text style = {styles.ProfileText}>{this.state.name}</Text>
                 </View>
               </View>
+              
               <View style= {{alignSelf: 'center'}}>
                 <TouchableOpacity style={styles.logButton} onPress={()=>signOut.bind(this)()}>
                   <Text>Sign Out</Text>  
@@ -64,13 +135,14 @@ class UserPage extends Component {
                 <Text style = {styles.BoxText}>User Statistics</Text>
                 <ScrollView>
                   
-                    <Text style = {styles.numVisited}>Visited {this.state.visited==null ? 0 : this.state.visited.length} / 12941 Total</Text>
-                    <Text style = {styles.numVisited}>Visited 1 / 150  Civil War Locations</Text>
-                    <Text style = {styles.numVisited}>Visited 10 / 15 State Courts</Text>
-                    <Text style = {styles.numVisited}>Visited 2 / 100 Confederate Memorials</Text>
-                    <Text style = {styles.numVisited}>Visited 120 / 1300 Plantations</Text>
-                    <Text style = {styles.numVisited}>Visited 120 / 1300 Rodeos</Text>
-                    <Text style = {styles.numVisited}>Visited 12 / 15000 Total</Text>
+                    <Text style = {styles.numVisited}>{this.state.visited==null ? 0 : this.state.visited.length} / 12941 Total</Text>
+                    <Text style = {styles.numVisited}>{stats.churches==null ? 0 : stats.churches} / 1903 Churches</Text>
+                    <Text style = {styles.numVisited}>{stats.graveyards==null ? 0 : stats.graveyards} / 1647 Graveyards</Text>
+                    <Text style = {styles.numVisited}>{stats.revolution==null ? 0 : stats.revolution} / 557 Texas Revolution</Text>
+                    <Text style = {styles.numVisited}>{stats.civilwar==null ? 0 : stats.civilwar} / 463 Civil War</Text>
+                    <Text style = {styles.numVisited}>{stats.women==null ? 0 : stats.women} / 341 Women's History</Text>
+                    <Text style = {styles.numVisited}>{stats.ghosttowns==null ? 0 : stats.ghosttowns} / 286 Ghost Towns</Text>
+                    <Text style = {styles.numVisited}>{stats.outlaws==null ? 0 : stats.outlaws} / 48 Outlaws</Text>
                   
                 </ScrollView>
               </View>
@@ -79,20 +151,28 @@ class UserPage extends Component {
 
                 <Text style = {styles.BoxText}> Previously Visited </Text>
                 {this.state.visited==null || this.state.visited.length==0 ? 
-                  <PreviouslyVisited title="Sign in and visit some markers!" />
+                  <PreviouslyVisited title="Visit some markers!" />
                 : <ScrollView>
                   {this.state.visited.map((marker) => {
                     return(
-                      <PreviouslyVisited key={marker.firebaseid} title={marker.title} city={marker.city} />
+                      <TouchableHighlight style={styles.buttonPV} 
+                      onPress={() => 
+                        this.props.navigation.navigate('Details', {markerInfo: marker})
+                        }>
+                          <PreviouslyVisited key={marker.firebaseid} title={marker.title} city={marker.city} 
+                      />
+                      </TouchableHighlight>
                     )}
                   )}
-                  </ScrollView>}
+                  </ScrollView>
+                }
 
             </View>
           </SafeAreaView>
         </ScrollView>
       </View>
     )
+  }
   }
 }
 
@@ -109,16 +189,14 @@ const styles = StyleSheet.create({
     marginLeft: (Dimensions.get("window").width/5)/4,
   },
   ProfileName: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    justifyContent: 'center',
     marginLeft: (Dimensions.get("window").width/5),
     marginTop: -Dimensions.get("window").width/9,
   },
   ProfileText: {
     color: '#fff',
     fontSize: (Dimensions.get("window").width/15),
-    alignSelf: 'center',
+    alignSelf: 'stretch',
   },
   statBox: {
     flex: 4,
@@ -181,18 +259,26 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     backgroundColor: '#CBAF87',
   },
+  buttonPV: {
+    flex:1,
+    margin: 10,
+    padding: 10,
+    borderRadius: 25,
+    alignSelf: "stretch",
+    alignContent: 'center',
+    backgroundColor: '#CBAF87',
+    shadowColor: '#000000',
+    shadowOpacity: 0.4,
+    shadowOffset: {width: 0, height: 4},
+    shadowRadius: 4,
+  },
   logButton: {
     padding: 10,
     marginTop: 10,
     marginBottom: 10,
     backgroundColor: '#cbaf87',
     borderRadius: 30,
-    shadowColor: '#000000',
-    shadowOpacity: 0.4,
-    marginHorizontal: 15,
-    paddingHorizontal: 15,
-    shadowOffset: {width: 0, height: 4},
-    shadowRadius: 4,
+    alignSelf: 'stretch',
   },
 })
 

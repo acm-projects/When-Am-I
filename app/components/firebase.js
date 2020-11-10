@@ -3,14 +3,14 @@ export { firebase }
 
 try {
     firebase.initializeApp({
-        apiKey: "AIzaSyAyLXoloras4WyizpQY_ldCYoj452wqdPo",
-        authDomain: "when-am-i-89851.firebaseapp.com",
-        databaseURL: "https://when-am-i-89851.firebaseio.com",
-        projectId: "when-am-i-89851",
-        storageBucket: "when-am-i-89851.appspot.com",
-        messagingSenderId: "1071509202117",
-        appId: "1:1071509202117:web:ff52b7cb118da6a927fcac",
-        measurementId: "G-D752GTYPN7"
+        apiKey: "AIzaSyAIxpID-rPSi6Xf37VPCr7_oOx2yr3b2n8",
+        authDomain: "when-am-i-updated.firebaseapp.com",
+        databaseURL: "https://when-am-i-updated.firebaseio.com",
+        projectId: "when-am-i-updated",
+        storageBucket: "when-am-i-updated.appspot.com",
+        messagingSenderId: "308151431645",
+        appId: "1:308151431645:web:ccb3db44f3ba6068044634",
+        measurementId: "G-SSR5LVW39N"
     });
 } catch (err) {
     // we skip the "already exists" message which is not an actual error when we're hot-reloading
@@ -36,7 +36,7 @@ export function queryCoord(latitudeSearch, longitudeSearch, radius) {
 
                 // If marker is in the search radius, add its name to the list, -1 to search all
                 if(radius==-1 || (Math.abs(latitudeSearch-lat) <= latRadius && Math.abs(longitudeSearch-lng) <= lngRadius)) { 
-                    newList = [...newList, obj];
+                    newList.push(obj)
                 }
             });
             this.setState({ list: newList });
@@ -60,3 +60,42 @@ export function queryCoord(latitudeSearch, longitudeSearch, radius) {
         });
     }
 }
+
+//Keyword in indexname query
+export function queryKeyword(indexName) {
+    db.ref('/').once('value').then((snapshot) => {
+        let newList = [];
+        snapshot.forEach((snap) => {
+            var obj = snap.val();
+    //var indexname = snapsjot.child("indexname").val();
+            // var indexName = obj.indexname;
+    
+            if(indexName == obj.indexname) {
+                newList = [...newList, obj];
+            }
+        });
+        this.setState({ list: newList });
+        });
+        
+    }
+    
+    //search for keyword
+    //var index = queryKeyword.bind(this)(indexname, this);
+    //console.log(index);
+
+    export function queryCode(code) {
+        db.ref('/').once('value').then((snapshot) => {
+            let newList = [];
+            snapshot.forEach((snap) => {
+                var obj = snap.val();
+        //var indexname = snapsjot.child("indexname").val();
+                var code = obj.code;
+        
+                if(code == obj) {
+                    newList = [...newList, obj];
+                }
+            });
+            this.setState({ list: newList });
+            });
+            
+        }

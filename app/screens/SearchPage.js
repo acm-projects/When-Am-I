@@ -1,32 +1,39 @@
 import React, {useState} from 'react';
-import { TouchableOpacity, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight } from 'react-native';
+import { TouchableOpacity, Button, Image, Dimensions, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight } from 'react-native';
 import { SearchBar, ListItem, List } from 'react-native-elements';
+import {queryCoord} from '../components/firebase'
+import {queryKeyword} from '../components/firebase'
+import {queryCode} from '../components/firebase'
+
 
 const Item = ({ item, onPress, style }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
-    <Text style={styles.title}>{item.title}</Text>
+    <Text style={styles.title}>{item.indexname}</Text>
+    <Text style={styles.addr}>{item.address}</Text>
   </TouchableOpacity>
 );
 
 class SearchPage extends React.Component {
   state = {
     search: '',
-    data: [
+
+    list: [
       {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Recent Location',
+        indexname: 'First Recent Location',
+        address: 'sample address 1005 North'
       },
       {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Recent Location',
+        indexname: 'Second Recent Location',
+        address: 'sample address 1006 North'
+        
       },
       {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Third Recent Location. Making this really long to see what happens when I do',
+        indexname: 'Third Recent Location. Making this really long to see what happens when I do',
+        address: 'sample address 1007 North'
       },
       {
-        id: '3ac68afc-c605-48d3-a4f8-fbdasdfsdaf',
-        title: 'Fourth Recent Location',
+        indexname: 'Fourth Recent Location',
+        address: 'sample address 1008 North'
       },
       
     ],
@@ -35,77 +42,48 @@ class SearchPage extends React.Component {
   };
 
   updateSearch = (search) => {
-    this.setState({ 
-      //set data to results from searched string here?
-      search,
-      data: [
-      {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Location',
-      },
-      {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Location',
-      },
-      {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Third Location. Making this really long to see what happens when I do',
-      },
-      {
-        id: '3ac68afc-c605-48d3-a4f8-fbdasdfsdaf',
-        title: 'Fourth Location',
-      },
-      {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aadaqwe',
-        title: 'FFFFFFFFFFFFFifth Location',
-      },
-      {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91qwqqqq',
-        title: '6 Location',
-      },
-      {
-        id: '3ac68afc-c605-48d3-a4f8-fbd9njkkj',
-        title: 'Seven Location',
-      },
-      
-      ],
-      selectedId: '',
-      text: 'results for "' + search + '"',
-    });
+
+      this.setState({ 
+        
+        search: search,
+        selectedId: '',
+      });
+
+
   };
 
   updateSearchFromTag = (tag) => {
     this.setState({ 
-      //set data to results from searched tag here?
+      
       search: tag,
-      data: [
+      list: [
       {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Location',
+        indexname: 'First Location',
+        address: 'sample address 1005 North'
       },
       {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Location',
+        indexname: 'Second Location',
+        address: 'sample address 1006 North'
       },
       {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Third Location. Making this really long to see what happens when I do',
+        indexname: 'Third Location. Making this really long to see what happens when I do',
+        address: 'sample address 1007 North'
       },
       {
-        id: '3ac68afc-c605-48d3-a4f8-fbdasdfsdaf',
-        title: 'Fourth Location',
+        indexname: 'Fourth Location',
+        address: 'sample address 1008 North'
       },
       {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aadaqwe',
-        title: 'FFFFFFFFFFFFFifth Location',
+        indexname: 'FFFFFFFFFFFFFifth Location',
+        address: 'sample address 1009 North'
       },
       {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91qwqqqq',
-        title: '6 Location',
+        indexname: '6 Location',
+        address: 'sample address 1015 North'
       },
       {
-        id: '3ac68afc-c605-48d3-a4f8-fbd9njkkj',
-        title: 'Seven Location',
+        indexname: 'Seven Location',
+        address: 'sample address 1025 North'
       },
       
       ],
@@ -114,26 +92,32 @@ class SearchPage extends React.Component {
     });
   };
 
+  querySearch = () => {
+    queryKeyword.bind(this)(this.state.search);
+    this.state.text = 'results for "' + this.state.search + '"';
+
+  }
+
   resetSearch = () => {
     this.setState({ 
       //set data to results from searched string here?
       search: '',
-      data: [
+      list: [
         {
-          id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-          title: 'First Recent Location',
+          indexname: 'First Recent Location',
+          address: 'sample address 1005 North'
         },
         {
-          id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-          title: 'Second Recent Location',
+          indexname: 'Second Recent Location',
+          address: 'sample address 1006 North'
         },
         {
-          id: '58694a0f-3da1-471f-bd96-145571e29d72',
-          title: 'Third Recent Location. Making this really long to see what happens when I do',
+          indexname: 'Third Recent Location. Making this really long to see what happens when I do',
+          address: 'sample address 1007 North'
         },
         {
-          id: '3ac68afc-c605-48d3-a4f8-fbdasdfsdaf',
-          title: 'Fourth Recent Location',
+          indexname: 'Fourth Recent Location',
+          address: 'sample address 1008 North'
         },
         
       ],
@@ -146,7 +130,14 @@ class SearchPage extends React.Component {
     return (
       <Item
         item={item}
-        onPress={() => this.state.selectedId = item.id }
+        onPress={() => 
+          this.state.selectedId = item.indexname
+         }
+         onPress={() => 
+          this.props.navigation.navigate('Details', {markerInfo: item})
+          }
+
+        
       />
     );
   };
@@ -154,21 +145,27 @@ class SearchPage extends React.Component {
   render() {
     const { search } = this.state;
     const tags= ['Civil War', 'Texas Revolution', 'Presidents', 'Tags!', 'More History', 'ABC123'];
+    /*
+    if (!(this.state.list === undefined && this.state.list != [])){
+      console.log(this.state.list[0]);
+      console.log(this.state.list[1]);
+    }
+    */
 
     return (
       <View style = {styles.back}>
       
       <SafeAreaView style={styles.container}>
-  
+      
       <SearchBar
         placeholder="Search"
         onChangeText={this.updateSearch}
+        onSubmitEditing={this.querySearch}
         onClear={this.resetSearch}
         value={search}
         containerStyle={{backgroundColor: '#F0ECE3', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
         inputContainerStyle={{backgroundColor: 'white', borderWidth: 4, borderRadius: 30, borderColor: '#30475E', borderBottomWidth: 4}}
       />
-  
       <Text style = {{
         color: '#30475E',
         fontSize: 30,
@@ -231,19 +228,20 @@ class SearchPage extends React.Component {
         textAlign: 'left',
         marginHorizontal: 15
       }}>{this.state.text}</Text>
-        
-        <FlatList
-          data={this.state.data}
-          renderItem={this.renderItem}
-          keyExtractor={(item) => item.id}
-          extraData={this.state.selectedId}
-        />
 
-      </SafeAreaView>
-      </View>
-    );
-  }
-}
+
+      <FlatList
+      data={this.state.list}
+      renderItem={this.renderItem}
+      keyExtractor={(item) => item.address}
+      extraData={this.state.selectedId}
+      />
+
+            </SafeAreaView>
+            </View>
+          );
+        }
+      }
 
 const styles = StyleSheet.create({
   container: {
@@ -263,6 +261,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
+    color: '#30475E',
+  },
+  addr: {
+    fontSize: 28,
     color: '#30475E',
   },
   back:{
