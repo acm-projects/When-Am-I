@@ -130,7 +130,12 @@ class SearchPage extends React.Component {
     return (
       <Item
         item={item}
-        onPress={() => this.state.selectedId = item.indexname }
+        onPress={() => 
+          this.state.selectedId = item.indexname
+         }
+         onPress={() => 
+          this.props.navigation.navigate('Details', {markerInfo: item})
+          }
 
         
       />
@@ -225,18 +230,18 @@ class SearchPage extends React.Component {
       }}>{this.state.text}</Text>
 
 
-<FlatList
-data={this.state.list}
-renderItem={this.renderItem}
-keyExtractor={(item) => item.address}
-extraData={this.state.selectedId}
-/>
+      <FlatList
+      data={this.state.list}
+      renderItem={this.renderItem}
+      keyExtractor={(item) => item.address}
+      extraData={this.state.selectedId}
+      />
 
-      </SafeAreaView>
-      </View>
-    );
-  }
-}
+            </SafeAreaView>
+            </View>
+          );
+        }
+      }
 
 const styles = StyleSheet.create({
   container: {
