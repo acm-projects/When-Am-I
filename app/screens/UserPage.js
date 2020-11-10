@@ -153,17 +153,17 @@ class UserPage extends Component {
                 {this.state.visited==null || this.state.visited.length==0 ? 
                   <PreviouslyVisited title="Visit some markers!" />
                 : <ScrollView>
-                  {this.state.visited.map((marker) => {
-                    return(
-                      <TouchableHighlight style={styles.buttonPV} 
-                      onPress={() => 
-                        this.props.navigation.navigate('Details', {markerInfo: marker})
-                        }>
-                          <PreviouslyVisited key={marker.firebaseid} title={marker.title} city={marker.city} 
-                      />
-                      </TouchableHighlight>
+                    {this.state.visited.map((marker) => {
+                      return(
+                        <TouchableHighlight 
+                          key={marker.firebaseid} 
+                          style={styles.buttonPV} 
+                          onPress={() => this.props.navigation.navigate('Details', {markerInfo: marker})}
+                        >
+                          <PreviouslyVisited title={marker.title} city={marker.city} />
+                        </TouchableHighlight>
+                      )}
                     )}
-                  )}
                   </ScrollView>
                 }
 

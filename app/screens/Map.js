@@ -16,7 +16,10 @@ const LONGITUDE = -100.000000;
 const mapStyle = require('../components/mapStyle.json');
 
 const defaultPin = require('../assets/pin-default.png')
+const churchesPin = require('../assets/pin-churches.png')
 const graveyardsPin = require('../assets/pin-graveyards.png')
+const housesPin = require('../assets/pin-houses.png')
+const militaryPin = require('../assets/pin-military.png')
 
 
 class Map extends React.Component {
@@ -116,8 +119,10 @@ constructor(props) {
             var code = marker.code
             var pin = defaultPin 
 
-            if(code.includes("graveyards")) pin = graveyardsPin
-              
+            if(code.includes("churches")) pin = churchesPin
+            else if(code.includes("graveyards")) pin = graveyardsPin
+            else if(code.includes("houses")) pin = housesPin
+            else if(code.includes("military")) pin = militaryPin
             
             return(
               <Marker
