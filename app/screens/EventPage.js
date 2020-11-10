@@ -1,13 +1,24 @@
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions, Image, ScrollView, TouchableOpacity } from 'react-native';
 import CheckBox from 'react-native-check-box'
-import { visit, unvisit } from '../components/UserData'
+import { visit, unvisit, checkVisit } from '../components/UserData'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { showLocation } from 'react-native-map-link'
 
 class LocationPage extends React.Component {
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
+  }
+
+  componentDidMount()
+  {
+    if(this.props.route.params) // Check if the marker is visited 
+    {
+      const { markerInfo } = this.props.route.params;
+      this.setState({
+        isChecked: checkVisit.bind(this)(markerInfo)
+      })
+    }
   }
   
   state = {

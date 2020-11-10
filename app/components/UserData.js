@@ -10,7 +10,7 @@ function visit(marker)
         var docRef = userDB.collection("users").doc(uid);
         
         docRef.get().then(function(doc) {
-            if (doc.exists) { // Add the new markerId onto the list of visited sites
+            if (doc.exists) { // Add the new marker onto the list of visited sites
                 var visited = doc.data().visited == null ? [] : doc.data().visited
                 
                 let duplicate = false
@@ -41,11 +41,11 @@ function unvisit(marker)
         var docRef = userDB.collection("users").doc(uid);
         
         docRef.get().then(function(doc) {
-            if (doc.exists) { // Add the new markerId onto the list of visited sites
+            if (doc.exists) { // Remove the new marker from the list of visited sites
                 var visited = doc.data().visited == null ? [] : doc.data().visited
                 var newVisited = []
 
-                visited.forEach(element => {    // Test if marker already exists in the user's list
+                visited.forEach(element => {    // Search for the marker and add all non matches
                     if(element.firebaseid != marker.firebaseid)
                         newVisited.unshift(element)
                 })
@@ -54,6 +54,32 @@ function unvisit(marker)
                     visited: newVisited
                 },{merge:true})
             }
+        })
+    }
+}
+
+function checkVisit(marker)
+{
+    var user = firebase.auth().currentUser
+    if(user)
+    {
+        var docRef = userDB.collection("users").doc(user.uid);
+        
+        docRef.get().then((doc) => {
+            var found = false
+            if (doc.exists) { // Add the new markerId onto the list of visited sites
+                var visited = doc.data().visited == null ? [] : doc.data().visited
+
+                visited.forEach(element => {    // Test if marker already exists in the user's list
+                    if(element.firebaseid == marker.firebaseid)
+                    {
+                        this.setState({isChecked: true})
+                        found = true
+                    }    
+                })
+            }
+            if(!found)
+                this.setState({isChecked: false})
         })
     }
 }
@@ -75,4 +101,4 @@ function createUser(user)
     },{merge:true})
 }
 
-export { createUser, visit, unvisit }
+export { createUser, visit, unvisit, checkVisit }
