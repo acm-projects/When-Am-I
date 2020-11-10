@@ -4,7 +4,6 @@ import MapView from "react-native-map-clustering";
 import { Marker, AnimatedRegion, PROVIDER_GOOGLE, Callout } from "react-native-maps";
 import { queryCoord } from '../components/firebase'
 import * as Permissions from 'expo-permissions';
-import { visit } from '../components/UserData'
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const {height , width} = Dimensions.get("window");
@@ -130,7 +129,6 @@ constructor(props) {
 
                 <Callout style={{flex:1, position:'relative'}} onPress={
                   () => {
-                    visit(marker)
                     this.props.navigation.navigate('Details', {markerInfo: marker})
                 }}>
                   <View style={{flex:1, padding:0}}>
