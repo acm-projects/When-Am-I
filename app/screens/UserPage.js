@@ -53,7 +53,68 @@ class UserPage extends Component {
     }
   }
 
-  render() {
+  render()
+  {
+    if(this.state.name == "Signed Out")
+    {
+      var statistics = this.getStatistics()
+    return (
+      <View style = {styles.base}>
+        <ScrollView>
+          <SafeAreaView>
+            <View>
+                <View style = {styles.ProfilePic}>
+                    <Image source = {require('../assets/logo.jpg')} 
+                    style = {{ width: Dimensions.get("window").width/6, height: Dimensions.get("window").width/6, borderRadius: (Dimensions.get("window").width/5)/2 }}/>
+                </View>
+              </View>
+
+              <View style = {styles.ProfileName}>
+                  <Text style = {styles.ProfileText}>{this.state.name}</Text>
+              </View>
+
+              <TouchableOpacity style={styles.logButton} onPress={()=>
+                    this.props.navigation.navigate('Login')
+                    }>
+                      <Text style = {{alignSelf: 'center'}}>Sign In</Text>  
+                </TouchableOpacity> 
+
+              <View style = {styles.statBox}>
+                <Text style = {styles.BoxText}>User Statistics</Text>
+                <ScrollView>
+                  
+                    <Text style = {styles.numVisited}>Visited {this.state.visited==null ? 0 : this.state.visited.length} / 12941 Total</Text>
+                    <Text style = {styles.numVisited}>Visited {statistics==null ? 0 : statistics.churches} / 1903 Churches</Text>
+                    <Text style = {styles.numVisited}>Visited 10 / 15 State Courts</Text>
+                    <Text style = {styles.numVisited}>Visited 2 / 100 Confederate Memorials</Text>
+                    <Text style = {styles.numVisited}>Visited 120 / 1300 Plantations</Text>
+                    <Text style = {styles.numVisited}>Visited 120 / 1300 Rodeos</Text>
+                    <Text style = {styles.numVisited}>Visited 12 / 15000 Total</Text>
+                  
+                </ScrollView>
+              </View>
+              
+              <View style = {styles.preVisitedBox}>
+
+                <Text style = {styles.BoxText}> Previously Visited </Text>
+                {this.state.visited==null || this.state.visited.length==0 ? 
+                  <PreviouslyVisited title="Sign in and visit some markers!" />
+                : <ScrollView>
+                  {this.state.visited.map((marker) => {
+                    return(
+                      <PreviouslyVisited key={marker.firebaseid} title={marker.title} city={marker.city} />
+                    )}
+                  )}
+                  </ScrollView>}
+
+            </View>
+          </SafeAreaView>
+        </ScrollView>
+      </View>
+    )
+  }
+  else
+  {
     var statistics = this.getStatistics()
     return (
       <View style = {styles.base}>
@@ -69,6 +130,7 @@ class UserPage extends Component {
                   <Text style = {styles.ProfileText}>{this.state.name}</Text>
                 </View>
               </View>
+              
               <View style= {{alignSelf: 'center'}}>
                 <TouchableOpacity style={styles.logButton} onPress={()=>signOut.bind(this)()}>
                   <Text>Sign Out</Text>  
@@ -109,6 +171,7 @@ class UserPage extends Component {
       </View>
     )
   }
+  }
 }
 
 const styles = StyleSheet.create({ 
@@ -124,16 +187,14 @@ const styles = StyleSheet.create({
     marginLeft: (Dimensions.get("window").width/5)/4,
   },
   ProfileName: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    justifyContent: 'center',
     marginLeft: (Dimensions.get("window").width/5),
     marginTop: -Dimensions.get("window").width/9,
   },
   ProfileText: {
     color: '#fff',
     fontSize: (Dimensions.get("window").width/15),
-    alignSelf: 'center',
+    alignSelf: 'stretch',
   },
   statBox: {
     flex: 4,
@@ -202,12 +263,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: '#cbaf87',
     borderRadius: 30,
-    shadowColor: '#000000',
-    shadowOpacity: 0.4,
-    marginHorizontal: 15,
-    paddingHorizontal: 15,
-    shadowOffset: {width: 0, height: 4},
-    shadowRadius: 4,
+    alignSelf: 'stretch',
   },
 })
 

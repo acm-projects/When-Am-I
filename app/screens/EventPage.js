@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions, Image, ScrollView, TouchableHighlight, TouchableOpacity } from 'react-native';
+import CheckBox from 'react-native-check-box'
+import { visit } from '../components/UserData'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { showLocation } from 'react-native-map-link'
 
@@ -11,13 +13,8 @@ class LocationPage extends React.Component {
   state = {
     //array of location tags
     tags:['Civil War', 'Family', '1800s',],
-    
-    //array of location reviews
-    reviews:[
-      {username: 'username1', rating: 4, reviewText: "Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt."},
-      {username: 'username2', rating: 3, reviewText: "Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt.Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel. sed aliquam vulputate ligula, non tincidunt sem euismod at. quisque dictum, sapien pulvinar gravida tincidunt."},
-      {username: 'username3', rating: 4.5, reviewText: "Review Contents. lorem ipsum dolor sit amet, consectetur adipiscing elit. curabitur aliquam rutrum quam, non varius magna molestie vel."}],
       
+      isChecked: false,
   }
 
   render (){
@@ -57,74 +54,26 @@ class LocationPage extends React.Component {
                 <Text>GO THERE!</Text>  
               </TouchableOpacity> 
             </View>
-              
-            <Text style = {styles.DescriptionText}>{markerInfo.markertext}</Text>
 
-            {/*Rendering the tags, currently set to only display 3 tags */}
-            <View style={styles.tagsBox}>
-
-              <TouchableHighlight style={styles.button}>
-                <Text style={styles.TagText}>{markerInfo.code}</Text>
-              </TouchableHighlight>
-
-              <TouchableHighlight style={styles.button}>
-                <Text style={styles.TagText}>{markerInfo.code}</Text>
-              </TouchableHighlight>
-
-              <TouchableHighlight style={styles.button}>
-                <Text style={styles.TagText}>{markerInfo.code}</Text>
-              </TouchableHighlight>
-
-            </View>
-
-            {/*Show first 3 reviews, then a button to get next three reviews*/}
-            <View style={styles.reviewBox}>
-              <View style={{flexDirection:"row"}}> 
-              <Image source = {require('../assets/logo.jpg')}
-                style = {{ 
-                borderRadius: 60,
-                width: Dimensions.get("window").width/11, 
-                height: Dimensions.get("window").width/11, 
-                marginTop: Dimensions.get("window").height/50,
-                marginLeft: (Dimensions.get("window").height)/40,
-                }}/>
-                <Text style = {styles.UsernameText}>{this.state.reviews[0].username}</Text>
-                <Text style = {styles.StarsText}>{this.state.reviews[0].rating}/5</Text>
-              </View>
-              <Text style = {styles.ReviewText}>{this.state.reviews[0].reviewText}</Text>
-            </View>
-
-            <View style={styles.reviewBox}>
-              <View style={{flexDirection:"row"}}> 
-              <Image source = {require('../assets/logo.jpg')}
-                style = {{ 
-                borderRadius: 60,
-                width: Dimensions.get("window").width/11, 
-                height: Dimensions.get("window").width/11, 
-                marginTop: Dimensions.get("window").height/50,
-                marginLeft: (Dimensions.get("window").height)/40,
-                }}/>
-                <Text style = {styles.UsernameText}>{this.state.reviews[1].username}</Text>
-                <Text style = {styles.StarsText}>{this.state.reviews[1].rating}/5</Text>
-              </View>
-              <Text style = {styles.ReviewText}>{this.state.reviews[1].reviewText}</Text>
-            </View>
-
-            <View style={styles.reviewBox}>
-              <View style={{flexDirection:"row"}}> 
-              <Image source = {require('../assets/logo.jpg')}
-                style = {{ 
-                borderRadius: 60,
-                width: Dimensions.get("window").width/11, 
-                height: Dimensions.get("window").width/11, 
-                marginTop: Dimensions.get("window").height/50,
-                marginLeft: (Dimensions.get("window").height)/40,
-                }}/>
-                <Text style = {styles.UsernameText}>{this.state.reviews[2].username}</Text>
-                <Text style = {styles.StarsText}>{this.state.reviews[2].rating}/5</Text>
-              </View>
-              <Text style = {styles.ReviewText}>{this.state.reviews[2].reviewText}</Text>
-            </View>
+              <CheckBox
+              style={{flex: 1, padding: 10,}}
+              onClick={()=>{
+                this.setState({
+                    isChecked:!this.state.isChecked,
+                })
+                visit(markerInfo)
+              }}
+              isChecked={this.state.isChecked}
+              leftText={"Visited?"}
+              leftTextStyle={{
+              color: 'black',
+              fontSize: (Dimensions.get("window").width)/20,
+              fontWeight: "bold",
+              }}
+              />
+              <View style={styles.reviewBox}>
+                <Text style = {styles.DescriptionText}>{markerInfo.markertext}</Text>
+             </View>
 
             </View>
           </View>
@@ -191,19 +140,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   reviewBox: {
-    //flex: 4,
-    borderRadius: 45,
+    borderRadius: 30,
     width: (Dimensions.get("window").width)*(10.8/13),
-    //height: (Dimensions.get("window").height)/80,
     marginTop: (Dimensions.get("window").height)/30,
-    //marginBottom: (Dimensions.get("window").height)/60,
     backgroundColor: '#cbaf87',
-    shadowColor: '#000000',
-    shadowOpacity: 0.4,
-    shadowOffset: {width: 0, height: 4},
-    shadowRadius: 4,
-    //alignItems: 'center',
-    //justifyContent: 'center',
   },
   button: {
     //flex:1,
@@ -256,7 +196,9 @@ const styles = StyleSheet.create({
     color: '#30475E',
     fontSize: (Dimensions.get("window").width)/22,
     marginTop: (Dimensions.get("window").height)/35,
-    textAlign: 'center'
+    textAlign: 'center',
+    padding: 2.5,
+    marginBottom: (Dimensions.get("window").height)/35,
     //fontFamily: "BanglaSangamMN",
   },
   TagText: {
