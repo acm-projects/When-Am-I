@@ -1,7 +1,7 @@
 import { firebase } from './firebase'
 var userDB = firebase.firestore();
 
-function visit(markerId)
+function visit(marker)
 {
     var user = firebase.auth().currentUser
     if(user)
@@ -12,8 +12,14 @@ function visit(markerId)
         docRef.get().then(function(doc) {
             if (doc.exists) { // Add the new markerId onto the list of visited sites
                 var oldVisited = doc.data().visited == null ? [] : doc.data().visited
-                var newVisited = [...oldVisited, markerId]
                 
+                let duplicate = false
+                oldVisited.forEach(element => {
+                    if(element.firebaseid == marker.firebaseid)
+                        duplicate = true
+                })
+                var newVisited = duplicate ? oldVisited : [marker, ...oldVisited] // If the marker is a duplciate, don't add it to the list
+
                 userDB.collection("users").doc(uid).set({    
                     visited: newVisited
                 },{merge:true})

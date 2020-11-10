@@ -1,21 +1,12 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Image,
-  Dimensions,
-  Alert,
-} from "react-native";
+import { StyleSheet, View, Image, Dimensions } from "react-native";
 import MapView from "react-native-map-clustering";
-import { showLocation } from 'react-native-map-link'
-import  {
-  Marker,
-  AnimatedRegion,
-  PROVIDER_GOOGLE,
-  Callout,
-} from "react-native-maps";
-import {queryCoord} from '../components/firebase'
+import { Marker, AnimatedRegion, PROVIDER_GOOGLE, Callout } from "react-native-maps";
+import { queryCoord } from '../components/firebase'
 import * as Permissions from 'expo-permissions';
+import { visit } from '../components/UserData'
+import { TouchableOpacity } from "react-native-gesture-handler";
+
 const {height , width} = Dimensions.get("window");
 const pin = require('../assets/pin.png');
 const ASPECT_RATIO = width / height
@@ -24,8 +15,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const LATITUDE = 31.000000;
 const LONGITUDE = -100.000000;
 const mapStyle = require('../components/mapStyle.json');
-var utmObj = require('utm-latlng');
-var utm = new utmObj(); 
+
 
 class Map extends React.Component {
 
@@ -59,6 +49,7 @@ constructor(props) {
     longitude: LONGITUDE,
     routeCoordinates: [],
     prevLatLng: {},
+    tracksViewChanges: false,
     coordinate: new AnimatedRegion({
       latitude: LATITUDE,
       longitude: LONGITUDE,
@@ -74,13 +65,24 @@ constructor(props) {
     this.getLocationAsync();
   }
   componentDidMount() {
-    queryCoord.bind(this)(336646, 3423501, -1, this);   // utm east/north coord to search and radius from that coord
+    queryCoord.bind(this)(32.750323, -96.811523, 10);   // Search for markers around a lat/lng point, radius is in miles
     this.getCurrentLocation();
   }
 
   getLocationAsync = async () => {
     await Permissions.askAsync(Permissions.LOCATION);
   }
+  componentDidUpdate(prevProps) {
+    if (prevProps.coordinate !== this.props.coordinate // set true only when props changed
+        || prevProps.value !== this.props.value 
+        || prevProps.level !== this.props.level) {
+        this.setState({tracksViewChanges: true})
+    } else if (this.state.tracksViewChanges) {
+       // set to false immediately after rendering with tracksViewChanges is true
+        this.setState({tracksViewChanges: false})
+    }
+  }
+
 
   getMapRegion = () => ({
     latitude: this.state.latitude,
@@ -104,6 +106,7 @@ constructor(props) {
           customMapStyle={mapStyle}
           style={styles.map}
           provider={PROVIDER_GOOGLE}
+          tracksViewChanges={this.state.tracksViewChanges}
           onPress={this.props.handlePress}
         > 
 
@@ -121,37 +124,14 @@ constructor(props) {
                 >
                 <Image
                   source={require('../assets/pin.png')}
-                  style={{width: 25, height: 25}}
+                  style={{width: 30, height: 30}}
                   resizeMode="contain">
                 </Image>
 
                 <Callout style={{flex:1, position:'relative'}} onPress={
                   () => {
-                  Alert.alert(
-                    marker.title,
-                    marker.address,
-                    [
-                      { text: "Details",
-                        onPress: () => {
-                          this.props.navigation.navigate('EventPage', {markerInfo: marker})
-                        }
-                      },
-                      { text: "Directions", onPress: () => {
-                        showLocation({
-                          latitude: coord.lat,
-                          longitude: coord.lng,
-                          googleForceLatLon: true,
-                          title: (marker.title),
-                      })
-                      } 
-                    },
-                      {
-                        text: "Cancel",
-                        style: "cancel"
-                      },
-                    ],
-                    { cancelable: false }
-                  )
+                    visit(marker)
+                    this.props.navigation.navigate('Details', {markerInfo: marker})
                 }}>
                   <View style={{flex:1, padding:0}}>
                   </View>

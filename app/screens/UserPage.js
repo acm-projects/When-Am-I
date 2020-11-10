@@ -1,35 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { StyleSheet, Text, Button, View, Image, Dimensions, TouchableHighlight, ScrollView, Platform } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Image, Dimensions, TouchableHighlight, ScrollView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PreviouslyVisited from '../components/VisitedButton';
 import { auth, signOut } from '../components/UserAuth'
 import { firebase } from '../components/firebase'
 
-const {height , width} = Dimensions.get("window");
 
 class UserPage extends Component {
 
   state = {
-    uid: 0,
     name: "Signed Out",
-    visited: []
+    visited: [],
   }
-
+    
   componentDidMount() {
     auth.onAuthStateChanged((userAuth) => {
       if(userAuth)  // If user is logged in
       {
-        this.setState({uid:userAuth.uid})
         firebase.firestore().collection("users").doc(userAuth.uid) // When the user's data updates, reset the state variables
         .onSnapshot((doc) => {
-          this.setState({visited:doc.data().visited})
+          let data = doc.data()
+          this.setState({
+            name: data.name,
+            visited: data.visited
+          })
         });
       }
       else // If user logged out
       {
         this.setState({
-          uid: 0,
           name: "Signed Out",
           visited: []
         })
@@ -37,25 +36,51 @@ class UserPage extends Component {
     });
   }
 
+  getStatistics() 
+  {
+    if(this.state.visited != null)
+    {
+      var newChurches = 0
+
+      this.state.visited.forEach((marker)=>{
+        var code = marker.code
+        if(code.includes("churches")) newChurches++
+      })
+
+      return({
+        churches: newChurches,
+      })
+    }
+  }
+
   render() {
+    var statistics = this.getStatistics()
     return (
       <View style = {styles.base}>
         <ScrollView>
           <SafeAreaView>
-              <View style = {styles.ProfilePic}>
-                  <Image source = {require('../assets/logo.jpg')} 
-                  style = {{ width: Dimensions.get("window").width/6, height: Dimensions.get("window").width/6, borderRadius: (Dimensions.get("window").width/5)/2 }}/>
+            <View>
+                <View style = {styles.ProfilePic}>
+                    <Image source = {require('../assets/logo.jpg')} 
+                    style = {{ width: Dimensions.get("window").width/6, height: Dimensions.get("window").width/6, borderRadius: (Dimensions.get("window").width/5)/2 }}/>
+                </View>
+
+                <View style = {styles.ProfileName}>
+                  <Text style = {styles.ProfileText}>{this.state.name}</Text>
+                </View>
               </View>
-              <View style = {styles.ProfileName}>
-                <Text style = {styles.ProfileText}> FirstName LastName </Text>
-                <Button title="Sign Out" onPress={()=>signOut.bind(this)()} />
+              <View style= {{alignSelf: 'center'}}>
+                <TouchableOpacity style={styles.logButton} onPress={()=>signOut.bind(this)()}>
+                  <Text>Sign Out</Text>  
+                </TouchableOpacity> 
               </View>
+
               <View style = {styles.statBox}>
                 <Text style = {styles.BoxText}>User Statistics</Text>
                 <ScrollView>
                   
                     <Text style = {styles.numVisited}>Visited {this.state.visited==null ? 0 : this.state.visited.length} / 12941 Total</Text>
-                    <Text style = {styles.numVisited}>Visited 1 / 150  Civil War Locations</Text>
+                    <Text style = {styles.numVisited}>Visited {statistics==null ? 0 : statistics.churches} / 1903 Churches</Text>
                     <Text style = {styles.numVisited}>Visited 10 / 15 State Courts</Text>
                     <Text style = {styles.numVisited}>Visited 2 / 100 Confederate Memorials</Text>
                     <Text style = {styles.numVisited}>Visited 120 / 1300 Plantations</Text>
@@ -64,17 +89,20 @@ class UserPage extends Component {
                   
                 </ScrollView>
               </View>
+              
               <View style = {styles.preVisitedBox}>
+
                 <Text style = {styles.BoxText}> Previously Visited </Text>
-                {this.state.visited==null ? 
-                  <PreviouslyVisited title="Visit some markers!" />
+                {this.state.visited==null || this.state.visited.length==0 ? 
+                  <PreviouslyVisited title="Sign in and visit some markers!" />
                 : <ScrollView>
                   {this.state.visited.map((marker) => {
                     return(
-                      <PreviouslyVisited title={marker.title} city={marker.city} />
+                      <PreviouslyVisited key={marker.firebaseid} title={marker.title} city={marker.city} />
                     )}
                   )}
                   </ScrollView>}
+
             </View>
           </SafeAreaView>
         </ScrollView>
@@ -104,7 +132,8 @@ const styles = StyleSheet.create({
   },
   ProfileText: {
     color: '#fff',
-    fontSize: (Dimensions.get("window").width/13),
+    fontSize: (Dimensions.get("window").width/15),
+    alignSelf: 'center',
   },
   statBox: {
     flex: 4,
@@ -166,6 +195,19 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     alignSelf: "stretch",
     backgroundColor: '#CBAF87',
+  },
+  logButton: {
+    padding: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: '#cbaf87',
+    borderRadius: 30,
+    shadowColor: '#000000',
+    shadowOpacity: 0.4,
+    marginHorizontal: 15,
+    paddingHorizontal: 15,
+    shadowOffset: {width: 0, height: 4},
+    shadowRadius: 4,
   },
 })
 

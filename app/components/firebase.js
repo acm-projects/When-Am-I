@@ -18,25 +18,47 @@ try {
         console.error('Firebase initialization error', err.stack)
     }
 }
-
   
 var db = firebase.database();
 
-export function queryCoord(eastCoord, northCoord, radius) {
-    db.ref('/').once('value').then((snapshot) => {
-        let newList = [];
-        snapshot.forEach((snap) => {
-            var obj = snap.val();
-            var east = obj.utm_east;    // Marker's coordinates
-            var north = obj.utm_north;  
+export function queryCoord(latitudeSearch, longitudeSearch, radius) {
+    let latRadius = 0.01449275362*radius // Convert radius in miles to decimal degrees
+    let lngRadius = 0.01694915254*radius
 
-            // If marker is in the search radius, add its name to the list, -1 to search all
-            if(radius==-1 || (Math.abs(eastCoord-east) <= radius && Math.abs(northCoord-north) <= radius)) { 
-                newList = [...newList, obj];
-            }
+    if(radius == -1 || radius > 70)    // If radius is -1 or >70 miles search the whole database
+    {
+        db.ref('/').once('value').then((snapshot) => {
+            let newList = [];
+            snapshot.forEach((snap) => {
+                var obj = snap.val();
+                var lat = obj.latitude;    // Marker's coordinates
+                var lng = obj.longitude;  
+
+                // If marker is in the search radius, add its name to the list, -1 to search all
+                if(radius==-1 || (Math.abs(latitudeSearch-lat) <= latRadius && Math.abs(longitudeSearch-lng) <= lngRadius)) { 
+                    newList.push(obj)
+                }
+            });
+            this.setState({ list: newList });
         });
-        this.setState({ list: newList });
-    });
+    }
+    else    // Limit query by the latitude radius, faster for <70 mile radius
+    {
+        db.ref('/').orderByChild("latitude").startAt(latitudeSearch-latRadius).endAt(latitudeSearch+latRadius).once('value').then((snapshot) => {
+            let newList = [];
+
+            snapshot.forEach((snap) => {
+                var obj = snap.val();
+                var lng = obj.longitude;  
+
+                // Latitude guaranteed to be in radius, if longitude is then add to the new list
+                if(Math.abs(longitudeSearch-lng) <= lngRadius) { 
+                    newList.push(obj)
+                }
+            });
+            this.setState({ list: newList });
+        });
+    }
 }
 
 //Keyword in indexname query
@@ -77,4 +99,3 @@ export function queryKeyword(indexName) {
             });
             
         }
-
