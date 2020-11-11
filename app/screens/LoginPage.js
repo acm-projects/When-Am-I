@@ -2,6 +2,9 @@ import React, { Component, useState} from 'react';
 import { TouchableOpacity, Image, Dimensions, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { signIn, signUp, forgotPassword } from '../components/UserAuth'
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 const {height , width} = Dimensions.get("window");
 

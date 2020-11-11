@@ -4,6 +4,9 @@ import { SearchBar, ListItem, List } from 'react-native-elements';
 import {queryCoord} from '../components/firebase'
 import {queryKeyword} from '../components/firebase'
 import {queryCode} from '../components/firebase'
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 
 const Item = ({ item, onPress, style }) => (

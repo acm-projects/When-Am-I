@@ -4,6 +4,9 @@ import CheckBox from 'react-native-check-box'
 import { visit, unvisit, checkVisit } from '../components/UserData'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { showLocation } from 'react-native-map-link'
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 class LocationPage extends React.Component {
   componentWillUnmount() {

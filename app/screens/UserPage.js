@@ -4,6 +4,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import PreviouslyVisited from '../components/VisitedButton';
 import { auth, signOut } from '../components/UserAuth'
 import { firebase } from '../components/firebase'
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 
 class UserPage extends Component {

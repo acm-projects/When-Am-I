@@ -5,6 +5,9 @@ import { Marker, AnimatedRegion, PROVIDER_GOOGLE, Callout } from "react-native-m
 import { queryCoord } from '../components/firebase'
 import * as Permissions from 'expo-permissions';
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 const {height , width} = Dimensions.get("window");
 const pin = require('../assets/pin.png');

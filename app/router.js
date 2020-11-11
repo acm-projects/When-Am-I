@@ -14,6 +14,9 @@ import SearchPage from './screens/SearchPage';
 import LoginPage from './screens/LoginPage';
 import SplashScreen from 'react-native-splash-screen';
 import {createStackNavigator} from '@react-navigation/stack'
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
