@@ -1,93 +1,44 @@
-import React, {useState} from 'react';
-import { TouchableOpacity, Button, Image, Dimensions, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight } from 'react-native';
-import { SearchBar, ListItem, List } from 'react-native-elements';
-import {queryCoord} from '../components/firebase'
-import {queryKeyword} from '../components/firebase'
-import {queryCode} from '../components/firebase'
+import React from 'react';
+import { TouchableOpacity, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight } from 'react-native';
+import { SearchBar } from 'react-native-elements';
+import { queryKeyword, queryCode} from '../components/firebase'
 
+const tags= [
+  {tag:'Civil War',search:"Civil War"},
+  {tag:'Texas Revolution',search:"Texas Revolution"},
+  {tag:'Churches',search:"churches"},
+  {tag:'Graveyards',search:"graveyards"},
+  {tag:'Military',search:"military"}
+ ]
 
-const Item = ({ item, onPress, style }) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
+const Item = ({ key, item, onPress, style }) => (
+  <TouchableOpacity key={key} onPress={onPress} style={[styles.item, style]}>
     <Text style={styles.title}>{item.indexname}</Text>
     <Text style={styles.addr}>{item.address}</Text>
   </TouchableOpacity>
 );
 
 class SearchPage extends React.Component {
+  
   state = {
     search: '',
-
+    selectedId: '',
+    text: 'recents',
     list: [
-      {
-        indexname: 'First Recent Location',
-        address: 'sample address 1005 North'
-      },
-      {
-        indexname: 'Second Recent Location',
-        address: 'sample address 1006 North'
-        
-      },
-      {
-        indexname: 'Third Recent Location. Making this really long to see what happens when I do',
-        address: 'sample address 1007 North'
-      },
-      {
-        indexname: 'Fourth Recent Location',
-        address: 'sample address 1008 North'
-      },
-      
+      { indexname: 'First Recent Location', address: 'sample address 1005 North' },
     ],
-      selectedId: '',
-      text: 'recents',
   };
 
   updateSearch = (search) => {
-
       this.setState({ 
-        
         search: search,
         selectedId: '',
       });
-
-
   };
 
   updateSearchFromTag = (tag) => {
+    queryCode.bind(this)(tag)
     this.setState({ 
-      
-      search: tag,
-      list: [
-      {
-        indexname: 'First Location',
-        address: 'sample address 1005 North'
-      },
-      {
-        indexname: 'Second Location',
-        address: 'sample address 1006 North'
-      },
-      {
-        indexname: 'Third Location. Making this really long to see what happens when I do',
-        address: 'sample address 1007 North'
-      },
-      {
-        indexname: 'Fourth Location',
-        address: 'sample address 1008 North'
-      },
-      {
-        indexname: 'FFFFFFFFFFFFFifth Location',
-        address: 'sample address 1009 North'
-      },
-      {
-        indexname: '6 Location',
-        address: 'sample address 1015 North'
-      },
-      {
-        indexname: 'Seven Location',
-        address: 'sample address 1025 North'
-      },
-      
-      ],
-      selectedId: '',
       text: 'results for ' + tag,
     });
   };
@@ -95,77 +46,37 @@ class SearchPage extends React.Component {
   querySearch = () => {
     queryKeyword.bind(this)(this.state.search);
     this.state.text = 'results for "' + this.state.search + '"';
-
   }
-
-  resetSearch = () => {
-    this.setState({ 
-      //set data to results from searched string here?
-      search: '',
-      list: [
-        {
-          indexname: 'First Recent Location',
-          address: 'sample address 1005 North'
-        },
-        {
-          indexname: 'Second Recent Location',
-          address: 'sample address 1006 North'
-        },
-        {
-          indexname: 'Third Recent Location. Making this really long to see what happens when I do',
-          address: 'sample address 1007 North'
-        },
-        {
-          indexname: 'Fourth Recent Location',
-          address: 'sample address 1008 North'
-        },
-        
-      ],
-      selectedId: '',
-      text: 'recents'
-    });
-  };
 
   renderItem = ({ item }) => {
     return (
       <Item
+        key={item.firebaseid}
         item={item}
-        onPress={() => 
+        onPress={() => {
           this.state.selectedId = item.indexname
-         }
-         onPress={() => 
           this.props.navigation.navigate('Details', {markerInfo: item})
-          }
-
-        
+        }}
       />
     );
   };
 
   render() {
     const { search } = this.state;
-    const tags= ['Civil War', 'Texas Revolution', 'Presidents', 'Tags!', 'More History', 'ABC123'];
-    /*
-    if (!(this.state.list === undefined && this.state.list != [])){
-      console.log(this.state.list[0]);
-      console.log(this.state.list[1]);
-    }
-    */
 
     return (
       <View style = {styles.back}>
-      
       <SafeAreaView style={styles.container}>
       
       <SearchBar
         placeholder="Search"
         onChangeText={this.updateSearch}
         onSubmitEditing={this.querySearch}
-        onClear={this.resetSearch}
         value={search}
         containerStyle={{backgroundColor: '#F0ECE3', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
         inputContainerStyle={{backgroundColor: 'white', borderWidth: 4, borderRadius: 30, borderColor: '#30475E', borderBottomWidth: 4}}
       />
+
       <Text style = {{
         color: '#30475E',
         fontSize: 30,
@@ -174,52 +85,25 @@ class SearchPage extends React.Component {
       }}>search by tag</Text>
   
       <View>
-        <ScrollView 
-        horizontal= {true}
-        decelerationRate={0}
-        snapToInterval={200}
-        showsHorizontalScrollIndicator={false}>
+      <ScrollView 
+      horizontal= {true}
+      decelerationRate={0}
+      snapToInterval={200}
+      showsHorizontalScrollIndicator={false}
+      >
 
-          <View style={styles.tagsBox}>
-
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[0])}> 
-                  <View style={styles.button}>
-                  <Text style={styles.TagText}>{tags[0]}</Text>
-                  </View>
-                </TouchableHighlight>
-                
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[1])}> 
-                  <View style={styles.button}>
-                  <Text style={styles.TagText}>{tags[1]}</Text>
-                  </View>
-                </TouchableHighlight>
-
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[2])}> 
-                  <View style={styles.button}>
-                  <Text style={styles.TagText}>{tags[2]}</Text>
-                  </View>
-                </TouchableHighlight>
-
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[3])}> 
-                  <View style={styles.button}>
-                  <Text style={styles.TagText}>{tags[3]}</Text>
-                  </View>
-                </TouchableHighlight>
-
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[4])}> 
-                  <View style={styles.button}>
-                  <Text style={styles.TagText}>{tags[4]}</Text>
-                  </View>
-                </TouchableHighlight>
-
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[5])}> 
-                  <View style={styles.button}>
-                  <Text style={styles.TagText}>{tags[5]}</Text>
-                  </View>
-                </TouchableHighlight>
-
-          </View>
-       </ScrollView>
+        <View style={styles.tagsBox}>
+          {tags.map((tag) => {
+            return ( 
+              <TouchableHighlight key={tag.tag} underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tag.search)}> 
+                <View style={styles.button}>
+                  <Text style={styles.TagText}>{tag.tag}</Text>
+                </View>
+              </TouchableHighlight>
+            )
+          })}
+        </View>
+      </ScrollView>
       </View>
 
       <Text style = {{
@@ -233,15 +117,15 @@ class SearchPage extends React.Component {
       <FlatList
       data={this.state.list}
       renderItem={this.renderItem}
-      keyExtractor={(item) => item.address}
+      keyExtractor={(item) => item.firebaseid}
       extraData={this.state.selectedId}
       />
 
-            </SafeAreaView>
-            </View>
-          );
-        }
-      }
+      </SafeAreaView>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
