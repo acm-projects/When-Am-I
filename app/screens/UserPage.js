@@ -10,7 +10,7 @@ LogBox.ignoreAllLogs();//Ignore all log notifications
 
 
 class UserPage extends Component {
-
+ 
   state = {
     name: "Signed Out",
     visited: [],
@@ -49,18 +49,19 @@ class UserPage extends Component {
   {
     if(visited != null)
     {
-      var churches=0,graveyards=0,revolution=0,civilwar=0,women=0,ghosttowns=0,outlaws=0
+      var churches=0,graveyards=0,revolution=0,civilwar=0,women=0,ghosttowns=0,outlaws=0,misc=0
 
       for(var i in visited)
       {
         var code = visited[i].code
         if(code.includes("churches")) churches++
-        if(code.includes("graveyards")) graveyards++
-        if(code.includes("Texas Revolution")) revolution++
-        if(code.includes("Civil War")) civilwar++
-        if(code.includes("women")) women++
-        if(code.includes("ghost towns")) ghosttowns++
-        if(code.includes("outlaws")) outlaws++
+        else if(code.includes("graveyards")) graveyards++
+        else if(code.includes("Texas Revolution")) revolution++
+        else if(code.includes("Civil War")) civilwar++
+        else if(code.includes("women")) women++
+        else if(code.includes("ghost towns")) ghosttowns++
+        else if(code.includes("outlaws")) outlaws++
+        else misc++
       }
 
       return({
@@ -71,6 +72,7 @@ class UserPage extends Component {
         women: women,
         ghosttowns: ghosttowns,
         outlaws: outlaws,
+        misc: misc,
       })
     }
     return {}
@@ -138,7 +140,6 @@ class UserPage extends Component {
                 <Text style = {styles.BoxText}>User Statistics</Text>
                 <ScrollView>
                   
-                    <Text style = {styles.numVisited}>{this.state.visited==null ? 0 : this.state.visited.length} / 12941 Total</Text>
                     <Text style = {styles.numVisited}>{stats.churches==null ? 0 : stats.churches} / 1903 Churches</Text>
                     <Text style = {styles.numVisited}>{stats.graveyards==null ? 0 : stats.graveyards} / 1647 Graveyards</Text>
                     <Text style = {styles.numVisited}>{stats.revolution==null ? 0 : stats.revolution} / 557 Texas Revolution</Text>
@@ -146,7 +147,15 @@ class UserPage extends Component {
                     <Text style = {styles.numVisited}>{stats.women==null ? 0 : stats.women} / 341 Women's History</Text>
                     <Text style = {styles.numVisited}>{stats.ghosttowns==null ? 0 : stats.ghosttowns} / 286 Ghost Towns</Text>
                     <Text style = {styles.numVisited}>{stats.outlaws==null ? 0 : stats.outlaws} / 48 Outlaws</Text>
-                  
+                    <Text style = {styles.numVisited}>{stats.misc==null ? 0 : stats.misc} / 7696 Miscellaneous </Text>
+                    <View
+                      style={{
+                        borderBottomColor: 'black',
+                        borderBottomWidth: 1,
+                      }}
+                    />
+                    <Text style = {styles.numVisitedT}>{this.state.visited==null ? 0 : this.state.visited.length} / 12941 Total</Text>
+
                 </ScrollView>
               </View>
               
@@ -215,6 +224,14 @@ const styles = StyleSheet.create({
   statBoxStats: {
     alignItems: 'flex-start',
     backgroundColor: '#F0ECE3',
+  },
+  numVisitedT: {
+    padding: 5,
+    fontSize: 22.5,
+    fontWeight: 'bold',
+    color: '#30475E',
+    textAlign: 'center',
+    
   },
   numVisited: {
     padding: 5,
