@@ -24,59 +24,37 @@ const militaryPin = require('../assets/pin-military.png')
 
 class Map extends React.Component {
 
-  async getCurrentLocation() {
-    navigator.geolocation.getCurrentPosition(
-        position => {
-        let region = {
-                latitude: parseFloat(position.coords.latitude),
-                longitude: parseFloat(position.coords.longitude),
-                latitudeDelta: 5,
-                longitudeDelta: 5
-            };
-            this.setState({
-                initialRegion: region
-            });
-        },
-        error => console.log(error),
-        {
-            enableHighAccuracy: true,
-            timeout: 20000,
-            maximumAge: 1000
-        }
-    );
-}
-constructor(props) {
-  super(props);
+  constructor(props) {
+    super(props);
 
-  this.state = {
-    list: [],
-    latitude: LATITUDE,
-    longitude: LONGITUDE,
-    routeCoordinates: [],
-    prevLatLng: {},
-    tracksViewChanges: false,
-    coordinate: new AnimatedRegion({
+    this.state = {
+      list: [],
+      searchRadius: 10,
       latitude: LATITUDE,
       longitude: LONGITUDE,
-      latitudeDelta: 0,
-      longitudeDelta: 0
-    })
-  };
-}
-
+      tracksViewChanges: false,
+    };
+  }
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
     this.getLocationAsync();
   }
   componentDidMount() {
-    queryCoord.bind(this)(32.750323, -96.811523, 10);   // Search for markers around a lat/lng point, radius is in miles
-    this.getCurrentLocation();
+    this.watchID = navigator.geolocation.getCurrentPosition((position) => 
+    {
+      queryCoord.bind(this)(position.coords.latitude, position.coords.longitude, this.state.searchRadius);   // Search for markers around user, radius is 10 miles
+      this.setState({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      })
+    }, (error)=>console.log(error));
   }
 
   getLocationAsync = async () => {
     await Permissions.askAsync(Permissions.LOCATION);
   }
+
   componentDidUpdate(prevProps) {
     if (prevProps.coordinate !== this.props.coordinate // set true only when props changed
         || prevProps.value !== this.props.value 
@@ -87,7 +65,6 @@ constructor(props) {
         this.setState({tracksViewChanges: false})
     }
   }
-
 
   getMapRegion = () => ({
     latitude: this.state.latitude,
@@ -106,7 +83,6 @@ constructor(props) {
           showsUserLocation={true}
           showsMyLocationButton={true}
           clusterColor={"#CBAF87"}
-          followUserLocation={false}
           initialRegion={this.getMapRegion()}
           customMapStyle={mapStyle}
           style={styles.map}
@@ -133,7 +109,7 @@ constructor(props) {
                   flex: 1,
                   justifyContent: 'center',
                   alignItems: 'center'
-                  }}                
+                }}                
                 >
                 <Image
                   source={pin}
@@ -141,12 +117,8 @@ constructor(props) {
                   resizeMode="contain">
                 </Image>
 
-                <Callout style={{flex:1, position:'relative'}} onPress={
-                  () => {
-                    this.props.navigation.navigate('Details', {markerInfo: marker})
-                }}>
-                  <View style={{flex:1, padding:0}}>
-                  </View>
+                <Callout style={{flex:1, position:'relative'}} onPress={() => { this.props.navigation.navigate('Details', {markerInfo: marker}) }}>
+                  <View style={{flex:1, padding:0}} />
                 </Callout>
               </Marker>
             )}
