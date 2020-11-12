@@ -5,6 +5,22 @@ import {queryCoord} from '../components/firebase'
 import {queryKeyword} from '../components/firebase'
 import {queryCode} from '../components/firebase'
 
+/*
+<Text style = {{
+        color: '#30475E',
+        fontSize: 20,
+        textAlign: 'left',
+        marginHorizontal: 15
+      }}>search by tag</Text>
+  
+      <Text style = {{
+        color: '#F0ECE3',
+        fontSize: 20,
+        textAlign: 'center',
+        marginHorizontal: 15
+      }}>{this.state.text}</Text>
+
+*/
 
 const Item = ({ item, onPress, style }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
@@ -28,7 +44,7 @@ class SearchPage extends React.Component {
         
       },
       {
-        indexname: 'Third Recent Location. Making this really long to see what happens when I do',
+        indexname: 'Third Recent Location.',
         address: 'sample address 1007 North'
       },
       {
@@ -66,7 +82,7 @@ class SearchPage extends React.Component {
         address: 'sample address 1006 North'
       },
       {
-        indexname: 'Third Location. Making this really long to see what happens when I do',
+        indexname: 'Third Location.',
         address: 'sample address 1007 North'
       },
       {
@@ -112,7 +128,7 @@ class SearchPage extends React.Component {
           address: 'sample address 1006 North'
         },
         {
-          indexname: 'Third Recent Location. Making this really long to see what happens when I do',
+          indexname: 'Third Recent Location.',
           address: 'sample address 1007 North'
         },
         {
@@ -163,16 +179,10 @@ class SearchPage extends React.Component {
         onSubmitEditing={this.querySearch}
         onClear={this.resetSearch}
         value={search}
-        containerStyle={{backgroundColor: '#F0ECE3', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
-        inputContainerStyle={{backgroundColor: 'white', borderWidth: 4, borderRadius: 30, borderColor: '#30475E', borderBottomWidth: 4}}
+        containerStyle={{backgroundColor: '#30475E', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
+        inputContainerStyle={{backgroundColor: 'white', borderWidth: 4, borderRadius: 30, borderColor: '#7E8A97', borderBottomWidth: 4}}
       />
-      <Text style = {{
-        color: '#30475E',
-        fontSize: 30,
-        textAlign: 'left',
-        marginHorizontal: 15
-      }}>search by tag</Text>
-  
+      
       <View>
         <ScrollView 
         horizontal= {true}
@@ -182,37 +192,37 @@ class SearchPage extends React.Component {
 
           <View style={styles.tagsBox}>
 
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[0])}> 
+                <TouchableHighlight underlayColor= '#30475E' onPress={() => this.updateSearchFromTag(tags[0])}> 
                   <View style={styles.button}>
                   <Text style={styles.TagText}>{tags[0]}</Text>
                   </View>
                 </TouchableHighlight>
                 
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[1])}> 
+                <TouchableHighlight underlayColor= '#30475E' onPress={() => this.updateSearchFromTag(tags[1])}> 
                   <View style={styles.button}>
                   <Text style={styles.TagText}>{tags[1]}</Text>
                   </View>
                 </TouchableHighlight>
 
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[2])}> 
+                <TouchableHighlight underlayColor= '#30475E' onPress={() => this.updateSearchFromTag(tags[2])}> 
                   <View style={styles.button}>
                   <Text style={styles.TagText}>{tags[2]}</Text>
                   </View>
                 </TouchableHighlight>
 
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[3])}> 
+                <TouchableHighlight underlayColor= '#30475E' onPress={() => this.updateSearchFromTag(tags[3])}> 
                   <View style={styles.button}>
                   <Text style={styles.TagText}>{tags[3]}</Text>
                   </View>
                 </TouchableHighlight>
 
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[4])}> 
+                <TouchableHighlight underlayColor= '#30475E' onPress={() => this.updateSearchFromTag(tags[4])}> 
                   <View style={styles.button}>
                   <Text style={styles.TagText}>{tags[4]}</Text>
                   </View>
                 </TouchableHighlight>
 
-                <TouchableHighlight underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tags[5])}> 
+                <TouchableHighlight underlayColor= '#30475E' onPress={() => this.updateSearchFromTag(tags[5])}> 
                   <View style={styles.button}>
                   <Text style={styles.TagText}>{tags[5]}</Text>
                   </View>
@@ -222,13 +232,7 @@ class SearchPage extends React.Component {
        </ScrollView>
       </View>
 
-      <Text style = {{
-        color: '#30475E',
-        fontSize: 30,
-        textAlign: 'left',
-        marginHorizontal: 15
-      }}>{this.state.text}</Text>
-
+      
 
       <FlatList
       data={this.state.list}
@@ -260,16 +264,16 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   title: {
-    fontSize: 32,
+    fontSize: 25,
     color: '#30475E',
   },
   addr: {
-    fontSize: 28,
+    fontSize: 20,
     color: '#30475E',
   },
   back:{
     flex: 1,
-    backgroundColor: '#F0ECE3',
+    backgroundColor: '#30475E',
   },
   button: {
     borderRadius: 20,
