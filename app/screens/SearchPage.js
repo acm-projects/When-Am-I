@@ -24,9 +24,7 @@ class SearchPage extends React.Component {
     search: '',
     selectedId: '',
     text: 'recents',
-    list: [
-      { indexname: 'First Recent Location', address: 'sample address 1005 North' },
-    ],
+    list: [],
   };
 
   updateSearch = (search) => {
@@ -84,7 +82,6 @@ class SearchPage extends React.Component {
       snapToInterval={200}
       showsHorizontalScrollIndicator={false}
       >
-
         <View style={styles.tagsBox}>
           {tags.map((tag) => {
             return ( 

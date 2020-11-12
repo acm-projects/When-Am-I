@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image, Dimensions, TouchableHighlight, ScrollView, Platform } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Dimensions, TouchableHighlight, ScrollView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PreviouslyVisited from '../components/VisitedButton';
 import { auth, signOut } from '../components/UserAuth'
+import { changeName } from '../components/UserData'
 import { firebase } from '../components/firebase'
 
 
@@ -21,7 +22,6 @@ class UserPage extends Component {
         firebase.firestore().collection("users").doc(userAuth.uid) // When the user's data updates, reset the state variables
         .onSnapshot((doc) => {
           let data = doc.data()
-
           var stats = this.getStatistics(data.visited)
 
           this.setState({
@@ -46,27 +46,27 @@ class UserPage extends Component {
   {
     if(visited != null)
     {
-      var churches=0,graveyards=0,revolution=0,civilwar=0,women=0,ghosttowns=0,outlaws=0
+      var revolution=0,africanamerican=0,civilwar=0,women=0,ghosttowns=0,forts=0,outlaws=0
 
       for(var i in visited)
       {
         var code = visited[i].code
-        if(code.includes("churches")) churches++
-        if(code.includes("graveyards")) graveyards++
         if(code.includes("Texas Revolution")) revolution++
         if(code.includes("Civil War")) civilwar++
+        if(code.includes("African American")) africanamerican++
         if(code.includes("women")) women++
         if(code.includes("ghost towns")) ghosttowns++
+        if(code.includes("forts")) forts++
         if(code.includes("outlaws")) outlaws++
       }
 
       return({
-        churches: churches,
-        graveyards: graveyards,
         revolution: revolution,
+        africanamerican: africanamerican,
         civilwar: civilwar,
         women: women,
         ghosttowns: ghosttowns,
+        forts: forts,
         outlaws: outlaws,
       })
     }
@@ -89,7 +89,7 @@ class UserPage extends Component {
               </View>
 
               <View style = {styles.ProfileName}>
-                  <Text style = {styles.ProfileText}>{this.state.name}</Text>
+                  <Text style = {styles.ProfileText}>Signed Out</Text>
               </View>
 
               <TouchableOpacity style={styles.logButton} onPress={()=>
@@ -121,14 +121,17 @@ class UserPage extends Component {
                 </View>
 
                 <View style = {styles.ProfileName}>
-                  <Text style = {styles.ProfileText}>{this.state.name}</Text>
+                  <TextInput 
+                    style = {styles.ProfileText}
+                    maxLength = {20}
+                    onChangeText = {text => {this.setState({name:text})}}
+                    onSubmitEditing = {() => changeName(this.state.name)}
+                    defaultValue = {this.state.name}
+                  />
+                  <TouchableOpacity style={styles.logButton} onPress={()=>signOut.bind(this)()}>
+                    <Text>Sign Out</Text>  
+                  </TouchableOpacity> 
                 </View>
-              </View>
-              
-              <View style= {{alignSelf: 'center'}}>
-                <TouchableOpacity style={styles.logButton} onPress={()=>signOut.bind(this)()}>
-                  <Text>Sign Out</Text>  
-                </TouchableOpacity> 
               </View>
 
               <View style = {styles.statBox}>
@@ -136,12 +139,12 @@ class UserPage extends Component {
                 <ScrollView>
                   
                     <Text style = {styles.numVisited}>{this.state.visited==null ? 0 : this.state.visited.length} / 12941 Total</Text>
-                    <Text style = {styles.numVisited}>{stats.churches==null ? 0 : stats.churches} / 1903 Churches</Text>
-                    <Text style = {styles.numVisited}>{stats.graveyards==null ? 0 : stats.graveyards} / 1647 Graveyards</Text>
                     <Text style = {styles.numVisited}>{stats.revolution==null ? 0 : stats.revolution} / 557 Texas Revolution</Text>
+                    <Text style = {styles.numVisited}>{stats.africanamerican==null ? 0 : stats.africanamerican} / 464 African American History</Text>
                     <Text style = {styles.numVisited}>{stats.civilwar==null ? 0 : stats.civilwar} / 463 Civil War</Text>
                     <Text style = {styles.numVisited}>{stats.women==null ? 0 : stats.women} / 341 Women's History</Text>
                     <Text style = {styles.numVisited}>{stats.ghosttowns==null ? 0 : stats.ghosttowns} / 286 Ghost Towns</Text>
+                    <Text style = {styles.numVisited}>{stats.forts==null ? 0 : stats.forts} / 286 Forts</Text>
                     <Text style = {styles.numVisited}>{stats.outlaws==null ? 0 : stats.outlaws} / 48 Outlaws</Text>
                   
                 </ScrollView>
@@ -189,9 +192,10 @@ const styles = StyleSheet.create({
     marginLeft: (Dimensions.get("window").width/5)/4,
   },
   ProfileName: {
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
     marginLeft: (Dimensions.get("window").width/5),
-    marginTop: -Dimensions.get("window").width/9,
+    marginTop: -Dimensions.get("window").width/7,
   },
   ProfileText: {
     color: '#fff',
