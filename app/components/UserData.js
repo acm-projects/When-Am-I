@@ -84,21 +84,15 @@ function checkVisit(marker)
     }
 }
 
-firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      // User is signed in.
-      createUser(user)
-    } else {
-        // No user is signed in.
-    }
-});
-  
-
-function createUser(user)
+function changeName(name)
 {
-    userDB.collection("users").doc(user.uid).set({
-        name: user.email,
-    },{merge:true})
+    var user = firebase.auth().currentUser
+    if(user)
+    {
+        userDB.collection("users").doc(user.uid).set({    
+            name: name
+        },{merge:true})
+    }
 }
 
-export { createUser, visit, unvisit, checkVisit }
+export { visit, unvisit, checkVisit, changeName }

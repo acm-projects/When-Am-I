@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image, Dimensions, TouchableHighlight, ScrollView, Platform } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image, Dimensions, TouchableHighlight, ScrollView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PreviouslyVisited from '../components/VisitedButton';
 import { auth, signOut } from '../components/UserAuth'
+import { changeName } from '../components/UserData'
 import { firebase } from '../components/firebase'
 
 
@@ -21,7 +22,6 @@ class UserPage extends Component {
         firebase.firestore().collection("users").doc(userAuth.uid) // When the user's data updates, reset the state variables
         .onSnapshot((doc) => {
           let data = doc.data()
-
           var stats = this.getStatistics(data.visited)
 
           this.setState({
@@ -89,7 +89,7 @@ class UserPage extends Component {
               </View>
 
               <View style = {styles.ProfileName}>
-                  <Text style = {styles.ProfileText}>{this.state.name}</Text>
+                  <Text style = {styles.ProfileText}>Signed Out</Text>
               </View>
 
               <TouchableOpacity style={styles.logButton} onPress={()=>
@@ -121,14 +121,17 @@ class UserPage extends Component {
                 </View>
 
                 <View style = {styles.ProfileName}>
-                  <Text style = {styles.ProfileText}>{this.state.name}</Text>
+                  <TextInput 
+                    style = {styles.ProfileText}
+                    maxLength = {20}
+                    onChangeText = {text => {this.setState({name:text})}}
+                    onSubmitEditing = {() => changeName(this.state.name)}
+                    defaultValue = {this.state.name}
+                  />
+                  <TouchableOpacity style={styles.logButton} onPress={()=>signOut.bind(this)()}>
+                    <Text>Sign Out</Text>  
+                  </TouchableOpacity> 
                 </View>
-              </View>
-              
-              <View style= {{alignSelf: 'center'}}>
-                <TouchableOpacity style={styles.logButton} onPress={()=>signOut.bind(this)()}>
-                  <Text>Sign Out</Text>  
-                </TouchableOpacity> 
               </View>
 
               <View style = {styles.statBox}>
@@ -189,9 +192,10 @@ const styles = StyleSheet.create({
     marginLeft: (Dimensions.get("window").width/5)/4,
   },
   ProfileName: {
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
     marginLeft: (Dimensions.get("window").width/5),
-    marginTop: -Dimensions.get("window").width/9,
+    marginTop: -Dimensions.get("window").width/7,
   },
   ProfileText: {
     color: '#fff',
