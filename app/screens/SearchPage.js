@@ -73,8 +73,8 @@ class SearchPage extends React.Component {
         onChangeText={this.updateSearch}
         onSubmitEditing={this.querySearch}
         value={search}
-        containerStyle={{backgroundColor: '#F0ECE3', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
-        inputContainerStyle={{backgroundColor: 'white', borderWidth: 4, borderRadius: 30, borderColor: '#30475E', borderBottomWidth: 4}}
+        containerStyle={{backgroundColor: '#30475E', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
+        inputContainerStyle={{backgroundColor: 'white', borderWidth: 4, borderRadius: 30, borderColor: '#7E8A97', borderBottomWidth: 4}}
       />
 
       <Text style = {{
@@ -106,13 +106,7 @@ class SearchPage extends React.Component {
       </ScrollView>
       </View>
 
-      <Text style = {{
-        color: '#30475E',
-        fontSize: 30,
-        textAlign: 'left',
-        marginHorizontal: 15
-      }}>{this.state.text}</Text>
-
+      
 
       <FlatList
       data={this.state.list}
@@ -144,16 +138,16 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   title: {
-    fontSize: 32,
+    fontSize: 25,
     color: '#30475E',
   },
   addr: {
-    fontSize: 28,
+    fontSize: 20,
     color: '#30475E',
   },
   back:{
     flex: 1,
-    backgroundColor: '#F0ECE3',
+    backgroundColor: '#30475E',
   },
   button: {
     borderRadius: 20,
