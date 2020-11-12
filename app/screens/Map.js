@@ -1,10 +1,11 @@
 import React from "react";
-import { StyleSheet, View, Image, Dimensions } from "react-native";
+import { StyleSheet, View, Image, Dimensions, Text } from "react-native";
 import MapView from "react-native-map-clustering";
 import { Marker, AnimatedRegion, PROVIDER_GOOGLE, Callout } from "react-native-maps";
 import { queryCoord } from '../components/firebase'
 import * as Permissions from 'expo-permissions';
 import { TouchableOpacity } from "react-native-gesture-handler";
+import Slider from '@react-native-community/slider';
 
 const {height , width} = Dimensions.get("window");
 const pin = require('../assets/pin.png');
@@ -29,10 +30,10 @@ class Map extends React.Component {
 
     this.state = {
       list: [],
-      searchRadius: 10,
       latitude: LATITUDE,
       longitude: LONGITUDE,
       tracksViewChanges: false,
+      slideValue: 5,
     };
   }
 
@@ -43,7 +44,7 @@ class Map extends React.Component {
   componentDidMount() {
     this.watchID = navigator.geolocation.getCurrentPosition((position) => 
     {
-      queryCoord.bind(this)(position.coords.latitude, position.coords.longitude, this.state.searchRadius);   // Search for markers around user, radius is 10 miles
+      queryCoord.bind(this)(position.coords.latitude, position.coords.longitude, 5);   // Search for markers around user, radius is 10 miles
       this.setState({
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
@@ -90,7 +91,6 @@ class Map extends React.Component {
           tracksViewChanges={this.state.tracksViewChanges}
           onPress={this.props.handlePress}
         > 
-
           {this.state.list.map((marker, index) => {
             var code = marker.code
             var pin = defaultPin 
@@ -124,6 +124,23 @@ class Map extends React.Component {
             )}
           )}  
         </MapView>
+        <Text style={{alignSelf: 'center', color: '#F0ECE3', fontSize: (Dimensions.get("window").width/20), marginTop: 5}}>
+              Radius = {this.state.slideValue}
+            </Text>
+        <Slider
+            style={{width: '85%', height: 40, marginBottom: 5}}
+            value={this.state.slideValue}
+            minimumValue={5}
+            maximumValue={50}
+            step={5}
+            thumbImage={'../assets/pin.png'}
+            onValueChange={(slideValue) => this.setState({slideValue})}
+            onSlidingComplete={queryCoord.bind(this)(this.state.latitude, this.state.longitude, this.state.slideValue)}   // Search for markers around user, radius is 10 miles
+
+            minimumTrackTintColor={'white'}
+            maximumTrackTintColor={'white'}
+            thumbImage={{height: 10, width: 10}, require('../assets/sliderPin.png')}
+            />
       </View>
     );
   }
@@ -132,10 +149,12 @@ const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: "flex-end",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: '#30475E'
   },
   map: {
-    ...StyleSheet.absoluteFillObject
+    width: '100%',
+    height: '90%',
   },
   bubble: {
     flex: 1,
