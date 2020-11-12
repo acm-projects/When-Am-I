@@ -16,8 +16,6 @@ const LATITUDE = 31.000000;
 const LONGITUDE = -100.000000;
 const mapStyle = require('../components/mapStyle.json');
 
-
-
 const defaultPin = require('../assets/pin-default.png')
 const churchesPin = require('../assets/pin-churches.png')
 const graveyardsPin = require('../assets/pin-graveyards.png')
@@ -127,7 +125,7 @@ class Map extends React.Component {
           )}  
         </MapView>
         <Text style={{alignSelf: 'center', color: '#F0ECE3', fontSize: (Dimensions.get("window").width/20), marginTop: 5}}>
-              Radius (Max. 50 mi.)
+              Radius = {this.state.slideValue}
             </Text>
         <Slider
             style={{width: '85%', height: 40, marginBottom: 5}}
@@ -137,6 +135,8 @@ class Map extends React.Component {
             step={5}
             thumbImage={'../assets/pin.png'}
             onValueChange={(slideValue) => this.setState({slideValue})}
+            onSlidingComplete={queryCoord.bind(this)(this.state.latitude, this.state.longitude, this.state.slideValue)}   // Search for markers around user, radius is 10 miles
+
             minimumTrackTintColor={'white'}
             maximumTrackTintColor={'white'}
             thumbImage={{height: 10, width: 10}, require('../assets/sliderPin.png')}
