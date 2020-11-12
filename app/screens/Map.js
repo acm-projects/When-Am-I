@@ -33,7 +33,7 @@ class Map extends React.Component {
       latitude: LATITUDE,
       longitude: LONGITUDE,
       tracksViewChanges: false,
-      slideValue: 0,
+      slideValue: 5,
     };
   }
 

@@ -1,7 +1,10 @@
 import React from 'react';
-import { TouchableOpacity, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight } from 'react-native';
+import { TouchableOpacity, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight, ImageBackground } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { queryKeyword, queryCode} from '../components/firebase'
+
+const backPin = require('../assets/pin-search.png')
+
 
 const tags= [
   {tag:'Civil War',search:"Civil War"},
@@ -65,47 +68,50 @@ class SearchPage extends React.Component {
     return (
       <View style = {styles.back}>
       <SafeAreaView style={styles.container}>
-      
-      <SearchBar
-        placeholder="Search"
-        onChangeText={this.updateSearch}
-        onSubmitEditing={this.querySearch}
-        value={search}
-        containerStyle={{backgroundColor: '#30475E', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
-        inputContainerStyle={{backgroundColor: 'white', borderWidth: 4, borderRadius: 30, borderColor: '#7E8A97', borderBottomWidth: 4}}
-      />
-  
-      <View>
-      <ScrollView 
-      horizontal= {true}
-      decelerationRate={0}
-      snapToInterval={200}
-      showsHorizontalScrollIndicator={false}
-      >
-        <View style={styles.tagsBox}>
-          {tags.map((tag) => {
-            return ( 
-              <TouchableHighlight key={tag.tag} underlayColor= '#30475E' onPress={() => this.updateSearchFromTag(tag.search)}> 
-                <View style={styles.button}>
-                  <Text style={styles.TagText}>{tag.tag}</Text>
-                </View>
-              </TouchableHighlight>
-            )
-          })}
+          <SearchBar
+            placeholder="Search"
+            onChangeText={this.updateSearch}
+            onSubmitEditing={this.querySearch}
+            value={search}
+            containerStyle={{backgroundColor: '#30475E', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
+            inputContainerStyle={{backgroundColor: 'white', borderWidth: 4, borderRadius: 30, borderColor: '#7E8A97', borderBottomWidth: 4}}
+          />
+    <ImageBackground source={backPin} 
+      style={{
+        flex: 1,
+        resizeMode: "center",
+        justifyContent: "center",
+        }}>
+        <View>
+        <ScrollView 
+        horizontal= {true}
+        decelerationRate={0}
+        snapToInterval={200}
+        showsHorizontalScrollIndicator={false}
+        >
+          <View style={styles.tagsBox}>
+            {tags.map((tag) => {
+              return ( 
+                <TouchableHighlight key={tag.tag} underlayColor= '#30475E' onPress={() => this.updateSearchFromTag(tag.search)}> 
+                  <View style={styles.button}>
+                    <Text style={styles.TagText}>{tag.tag}</Text>
+                  </View>
+                </TouchableHighlight>
+              )
+            })}
+          </View>
+        </ScrollView>
         </View>
-      </ScrollView>
-      </View>
 
-      
-
-      <FlatList
-      data={this.state.list}
-      renderItem={this.renderItem}
-      keyExtractor={(item) => item.firebaseid}
-      extraData={this.state.selectedId}
-      />
-
+        <FlatList
+        data={this.state.list}
+        renderItem={this.renderItem}
+        keyExtractor={(item) => item.firebaseid}
+        extraData={this.state.selectedId}
+        />
+      </ImageBackground>
       </SafeAreaView>
+      
       </View>
     );
   }
@@ -130,11 +136,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     color: '#30475E',
+    alignSelf: 'center',
+    alignContent: 'center'
   },
   addr: {
     fontSize: 20,
     color: '#30475E',
     fontStyle: 'italic',
+    alignSelf: "center",
   },
   back:{
     flex: 1,
