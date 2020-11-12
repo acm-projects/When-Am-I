@@ -67,35 +67,25 @@ export function queryKeyword(indexName) {
         let newList = [];
         snapshot.forEach((snap) => {
             var obj = snap.val();
-    //var indexname = snapsjot.child("indexname").val();
-            // var indexName = obj.indexname;
     
-            if(indexName == obj.indexname) {
-                newList = [...newList, obj];
+            if(obj.indexname.toUpperCase().includes(indexName.toUpperCase())) {
+                newList.push(obj)
             }
         });
         this.setState({ list: newList });
-        });
-        
-    }
-    
-    //search for keyword
-    //var index = queryKeyword.bind(this)(indexname, this);
-    //console.log(index);
+    });
+}
 
-    export function queryCode(code) {
-        db.ref('/').once('value').then((snapshot) => {
-            let newList = [];
-            snapshot.forEach((snap) => {
-                var obj = snap.val();
-        //var indexname = snapsjot.child("indexname").val();
-                var code = obj.code;
-        
-                if(code == obj) {
-                    newList = [...newList, obj];
-                }
-            });
-            this.setState({ list: newList });
-            });
-            
-        }
+export function queryCode(code) {
+    db.ref('/').once('value').then((snapshot) => {
+        let newList = [];
+        snapshot.forEach((snap) => {
+            var obj = snap.val();
+    
+            if(obj.code.includes(code)) {
+                newList.push(obj)
+            }
+        });
+        this.setState({ list: newList });
+    });
+}
