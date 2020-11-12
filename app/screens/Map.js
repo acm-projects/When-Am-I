@@ -33,7 +33,7 @@ class Map extends React.Component {
       latitude: LATITUDE,
       longitude: LONGITUDE,
       tracksViewChanges: false,
-      slideValue: 5,
+      slideValue: 10,
     };
   }
 
@@ -131,12 +131,13 @@ class Map extends React.Component {
             style={{width: '85%', height: 40, marginBottom: 5}}
             value={this.state.slideValue}
             minimumValue={5}
-            maximumValue={50}
+            maximumValue={100}
             step={5}
             thumbImage={'../assets/pin.png'}
-            onValueChange={(slideValue) => this.setState({slideValue})}
-            onSlidingComplete={queryCoord.bind(this)(this.state.latitude, this.state.longitude, this.state.slideValue)}   // Search for markers around user, radius is 10 miles
-
+            onSlidingComplete={val => {
+              this.setState({slideValue:val})
+              queryCoord.bind(this)(this.state.latitude, this.state.longitude, val)}   // Search for markers around user, radius is 10 miles
+            }
             minimumTrackTintColor={'white'}
             maximumTrackTintColor={'white'}
             thumbImage={{height: 10, width: 10}, require('../assets/sliderPin.png')}
