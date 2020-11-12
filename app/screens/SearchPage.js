@@ -11,8 +11,8 @@ const tags= [
   {tag:'Military',search:"military"}
  ]
 
-const Item = ({ key, item, onPress, style }) => (
-  <TouchableOpacity key={key} onPress={onPress} style={[styles.item, style]}>
+const Item = ({  item, onPress, style }) => (
+  <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
     <Text style={styles.title}>{item.indexname}</Text>
     <Text style={styles.addr}>{item.address}</Text>
   </TouchableOpacity>
@@ -76,13 +76,6 @@ class SearchPage extends React.Component {
         containerStyle={{backgroundColor: '#30475E', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
         inputContainerStyle={{backgroundColor: 'white', borderWidth: 4, borderRadius: 30, borderColor: '#7E8A97', borderBottomWidth: 4}}
       />
-
-      <Text style = {{
-        color: '#30475E',
-        fontSize: 30,
-        textAlign: 'left',
-        marginHorizontal: 15
-      }}>search by tag</Text>
   
       <View>
       <ScrollView 
