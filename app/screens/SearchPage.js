@@ -14,7 +14,7 @@ const tags= [
 const Item = ({  item, onPress, style }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
     <Text style={styles.title}>{item.indexname}</Text>
-    <Text style={styles.addr}>{item.address}</Text>
+    <Text style={styles.addr}>{item.city}</Text>
   </TouchableOpacity>
 );
 
@@ -24,9 +24,7 @@ class SearchPage extends React.Component {
     search: '',
     selectedId: '',
     text: 'recents',
-    list: [
-      { indexname: 'First Recent Location', address: 'sample address 1005 North' },
-    ],
+    list: [],
   };
 
   updateSearch = (search) => {
@@ -84,11 +82,10 @@ class SearchPage extends React.Component {
       snapToInterval={200}
       showsHorizontalScrollIndicator={false}
       >
-
         <View style={styles.tagsBox}>
           {tags.map((tag) => {
             return ( 
-              <TouchableHighlight key={tag.tag} underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tag.search)}> 
+              <TouchableHighlight key={tag.tag} underlayColor= '#30475E' onPress={() => this.updateSearchFromTag(tag.search)}> 
                 <View style={styles.button}>
                   <Text style={styles.TagText}>{tag.tag}</Text>
                 </View>
@@ -137,6 +134,7 @@ const styles = StyleSheet.create({
   addr: {
     fontSize: 20,
     color: '#30475E',
+    fontStyle: 'italic',
   },
   back:{
     flex: 1,
