@@ -88,7 +88,7 @@ class SearchPage extends React.Component {
         <View style={styles.tagsBox}>
           {tags.map((tag) => {
             return ( 
-              <TouchableHighlight key={tag.tag} underlayColor= '#F0ECE3' onPress={() => this.updateSearchFromTag(tag.search)}> 
+              <TouchableHighlight key={tag.tag} underlayColor= '#30475E' onPress={() => this.updateSearchFromTag(tag.search)}> 
                 <View style={styles.button}>
                   <Text style={styles.TagText}>{tag.tag}</Text>
                 </View>
