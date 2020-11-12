@@ -46,14 +46,14 @@ class UserPage extends Component {
   {
     if(visited != null)
     {
-      var revolution=0,africanamerican=0,civilwar=0,women=0,ghosttowns=0,forts=0,outlaws=0
+      var revolution=0,civilwar=0,africanamerican=0,women=0,ghosttowns=0,forts=0,outlaws=0
 
       for(var i in visited)
       {
         var code = visited[i].code
         if(code.includes("Texas Revolution")) revolution++
-        if(code.includes("Civil War")) civilwar++
         if(code.includes("African American")) africanamerican++
+        if(code.includes("Civil War")) civilwar++
         if(code.includes("women")) women++
         if(code.includes("ghost towns")) ghosttowns++
         if(code.includes("forts")) forts++
@@ -62,8 +62,8 @@ class UserPage extends Component {
 
       return({
         revolution: revolution,
-        africanamerican: africanamerican,
         civilwar: civilwar,
+        africanamerican: africanamerican,
         women: women,
         ghosttowns: ghosttowns,
         forts: forts,
@@ -138,13 +138,13 @@ class UserPage extends Component {
                 <Text style = {styles.BoxText}>User Statistics</Text>
                 <ScrollView>
                   
-                    <Text style = {styles.numVisited}>{this.state.visited==null ? 0 : this.state.visited.length} / 12941 Total</Text>
-                    <Text style = {styles.numVisited}>{stats.revolution==null ? 0 : stats.revolution} / 557 Texas Revolution</Text>
-                    <Text style = {styles.numVisited}>{stats.africanamerican==null ? 0 : stats.africanamerican} / 464 African American History</Text>
-                    <Text style = {styles.numVisited}>{stats.civilwar==null ? 0 : stats.civilwar} / 463 Civil War</Text>
-                    <Text style = {styles.numVisited}>{stats.women==null ? 0 : stats.women} / 341 Women's History</Text>
-                    <Text style = {styles.numVisited}>{stats.ghosttowns==null ? 0 : stats.ghosttowns} / 286 Ghost Towns</Text>
-                    <Text style = {styles.numVisited}>{stats.forts==null ? 0 : stats.forts} / 286 Forts</Text>
+                    <Text style = {styles.numVisited}>{this.state.visited==null ? 0 : this.state.visited.length} / 12790 Total</Text>
+                    <Text style = {styles.numVisited}>{stats.revolution==null ? 0 : stats.revolution} / 555 Texas Revolution</Text>
+                    <Text style = {styles.numVisited}>{stats.civilwar==null ? 0 : stats.civilwar} / 461 Civil War</Text>
+                    <Text style = {styles.numVisited}>{stats.africanamerican==null ? 0 : stats.africanamerican} / 459 African American History</Text>
+                    <Text style = {styles.numVisited}>{stats.women==null ? 0 : stats.women} / 338 Women's History</Text>
+                    <Text style = {styles.numVisited}>{stats.ghosttowns==null ? 0 : stats.ghosttowns} / 285 Ghost Towns</Text>
+                    <Text style = {styles.numVisited}>{stats.forts==null ? 0 : stats.forts} / 175 Forts</Text>
                     <Text style = {styles.numVisited}>{stats.outlaws==null ? 0 : stats.outlaws} / 48 Outlaws</Text>
                   
                 </ScrollView>
