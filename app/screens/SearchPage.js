@@ -101,6 +101,7 @@ class SearchPage extends React.Component {
             })}
           </View>
         </ScrollView>
+
         </View>
 
         <FlatList
