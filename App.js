@@ -8,6 +8,9 @@ import Map from './app/screens/Map';
 import MyTabs from './app/router';
 import SplashScreen from 'react-native-splash-screen'
 import { SafeAreaView } from 'react-native-safe-area-context';
+ import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 
 export default function App() {

@@ -25,6 +25,9 @@
         ]
       }
     },
+    "android": {
+      "package": "com.acm.where_am_i"
+    },
     "web": {
       "favicon": "./assets/favicon.png"
     }

@@ -140,7 +140,7 @@ class Map extends React.Component {
             }
             minimumTrackTintColor={'white'}
             maximumTrackTintColor={'white'}
-            thumbImage={{height: 10, width: 10}, require('../assets/dart.png')}
+            thumbImage={{height: 10, width: 10}, require('../assets/sliderPin.png')}
             />
       </View>
     );

@@ -2,6 +2,7 @@ import React, { Component, useState} from 'react';
 import { TouchableOpacity, Image, Dimensions, ScrollView, SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { signIn, signUp, forgotPassword } from '../components/UserAuth'
+import Map from './Map';
 
 const {height , width} = Dimensions.get("window");
 
