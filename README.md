@@ -24,7 +24,7 @@ Navigate the streets with your cyber historian and discover areas near you that 
 
 - [React Native](https://facebook.github.io/react-native/) - We used React Native to create the frontend with the help of the Expo framework.
 - [Firebase](https://firebase.google.com/) - We used Realtime Database to hold the data from all the historical markers. For users, we used Firebase Authentication and to hold user data we used Firestore.
-- [Google Maps API](https://codelabs.developers.google.com/codelabs/google-maps-in-flutter/#0) - We used Google Maps as our map for displaying markers around the user.
+- [react-native-maps](https://github.com/react-native-community/react-native-maps) - We used react-native-maps for displaying markers around the user.
 
 ### The Team
 
@@ -32,5 +32,5 @@ Navigate the streets with your cyber historian and discover areas near you that 
 - **Annika Hendrickson** - *Frontend* - [GitHub](https://github.com/annikahendrickson), [LinkedIn](https://www.linkedin.com/in/annika-hendrickson-07a128194/)
 - **Dhruv Thoutireddy** - *Backend* - [GitHub](https://github.com/dhruv0219), [LinkedIn](https://www.linkedin.com/in/dhruv-thoutireddy-a85327160/)
 - **Jaden Dick** - *Full Stack* - [GitHub](https://github.com/jadendick), [LinkedIn](https://www.linkedin.com/in/jadendick/)
-- **Swarita Kelwada** - *Backend* - [GitHub](), [LinkedIn](https://www.linkedin.com/in/swarita-kelwada-2278a4172/)
+- **Swarita Kelwada** - *Backend* - [GitHub](https://github.com/Swarita), [LinkedIn](https://www.linkedin.com/in/swarita-kelwada-2278a4172/)
 - **Cady Baltz** - *Project Manager* - [GitHub](https://github.com/cadybaltz), [LinkedIn](https://www.linkedin.com/in/cadybaltz/)
